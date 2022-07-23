@@ -1,7 +1,7 @@
 # React Native Toast
 [![runs with expo](https://img.shields.io/badge/Runs%20with%20Expo-4630EB.svg?style=flat-square&logo=EXPO&labelColor=f3f3f3&logoColor=000)](https://expo.io/) [![GitHub license](https://img.shields.io/github/license/backpackapp-io/react-native-toast)](https://github.com/backpackapp-io/react-native-toast/blob/master/LICENSE) [![npm](https://img.shields.io/badge/types-included-blue?style=flat-square)](https://www.npmjs.com/package/@backpackapp-io/react-native-toast)
 
-A toast library for react-native, built on [react-hot-toast](https://react-hot-toast.com/docs). It supports features such as multiple toasts, keyboard handling, swipe to dismiss, positional toasts, and JS promises.
+A toast library for react-native, built on [react-hot-toast](https://react-hot-toast.com/docs). It supports features such as multiple toasts, keyboard handling, swipe to dismiss, positional toasts, and JS promises. It runs on iOS and android.
 
 <br />
 
