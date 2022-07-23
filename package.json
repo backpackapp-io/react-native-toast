@@ -35,13 +35,13 @@
     "ios",
     "android"
   ],
-  "repository": "https://github.com/nickdebaise/react-native-toast",
+  "repository": "https://github.com/backpackapp-io/react-native-toast.git",
   "author": "Nick DeBaise <nickdebaise@gmail.com> (https://github.com/nickdebaise)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/nickdebaise/react-native-toast/issues"
+    "url": "https://github.com/backpackapp-io/react-native-toast.git/issues"
   },
-  "homepage": "https://github.com/nickdebaise/react-native-toast#readme",
+  "homepage": "https://github.com/backpackapp-io/react-native-toast.git#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
