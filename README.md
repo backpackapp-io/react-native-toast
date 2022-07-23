@@ -3,7 +3,7 @@
 
 A toasting library for react-native, built on [react-hot-toast](https://react-hot-toast.com/docs). Supports features such as multiple toasts, keyboard handling, swipe to dismiss, positional toasts, and JS promises.
 
-*video*
+![video](./Github.mp4)
 
 ### Why?
 I found the lack of support for some features in a toast library to be quite painful. I was better off developing my own package that I could customize for my app [Backpack](https://backpackapp.io). I decided to open source this library because I felt it worked very well and met *all of my needs*.
