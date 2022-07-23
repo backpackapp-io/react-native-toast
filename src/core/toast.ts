@@ -1,14 +1,15 @@
 import {
+  DefaultToastOptions,
   Element,
+  resolveValue,
   Toast,
   ToastOptions,
+  ToastPosition,
   ToastType,
-  DefaultToastOptions,
   ValueOrFunction,
-  resolveValue,
 } from './types';
 import { genId } from './utils';
-import { dispatch, ActionType } from './store';
+import { ActionType, dispatch } from './store';
 
 type Message = ValueOrFunction<Element, Toast>;
 
@@ -24,6 +25,7 @@ const createToast = (
   type,
   message,
   pauseDuration: 0,
+  position: ToastPosition.TOP,
   ...opts,
   id: opts?.id || genId(),
 });

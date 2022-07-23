@@ -7,7 +7,6 @@ export type {
   Toast,
   ToasterProps,
   ToastOptions,
-  ToastPosition,
   ToastType,
   ValueFunction,
   ValueOrFunction,
