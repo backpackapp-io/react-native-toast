@@ -7,9 +7,18 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type Props = {
   overrideDarkMode?: boolean;
+  extraInsets?: {
+    top?: number;
+    bottom?: number;
+    right?: number;
+    left?: number;
+  };
 };
 
-export const Toasts: FunctionComponent<Props> = ({ overrideDarkMode }) => {
+export const Toasts: FunctionComponent<Props> = ({
+  overrideDarkMode,
+  extraInsets,
+}) => {
   const { toasts, handlers } = useToaster();
   const { startPause, endPause } = handlers;
   const insets = useSafeAreaInsets();
@@ -18,10 +27,10 @@ export const Toasts: FunctionComponent<Props> = ({ overrideDarkMode }) => {
     <View
       style={{
         position: 'absolute',
-        top: insets.top,
-        left: insets.left,
-        right: insets.right,
-        bottom: insets.bottom,
+        top: insets.top + (extraInsets?.top ?? 0) + 16,
+        left: insets.left + (extraInsets?.left ?? 0),
+        right: insets.right + (extraInsets?.right ?? 0),
+        bottom: insets.bottom + (extraInsets?.bottom ?? 0) + 16,
       }}
       pointerEvents={'box-none'}
     >
