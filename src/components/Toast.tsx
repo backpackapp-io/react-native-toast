@@ -1,5 +1,6 @@
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import {
+  Platform,
   Pressable,
   Text,
   useColorScheme,
@@ -54,7 +55,10 @@ export const Toast: FC<Props> = ({
   );
 
   const startingY = useMemo(
-    () => (toast.position === ToastPosition.TOP ? -50 : height - insets.bottom),
+    () =>
+      toast.position === ToastPosition.TOP
+        ? -50
+        : height - insets.bottom - Platform.select({ ios: 0, default: 32 }),
     [height, toast.position, insets.bottom]
   );
 
