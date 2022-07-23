@@ -1,12 +1,16 @@
 # React Native Toast
 [![runs with expo](https://img.shields.io/badge/Runs%20with%20Expo-4630EB.svg?style=flat-square&logo=EXPO&labelColor=f3f3f3&logoColor=000)](https://expo.io/) [![GitHub license](https://img.shields.io/github/license/backpackapp-io/react-native-toast)](https://github.com/backpackapp-io/react-native-toast/blob/master/LICENSE) [![npm](https://img.shields.io/badge/types-included-blue?style=flat-square)](https://www.npmjs.com/package/@backpackapp-io/react-native-toast)
 
-A toasting library for react-native, built on [react-hot-toast](https://react-hot-toast.com/docs). It supports features such as multiple toasts, keyboard handling, swipe to dismiss, positional toasts, and JS promises.
+A toast library for react-native, built on [react-hot-toast](https://react-hot-toast.com/docs). It supports features such as multiple toasts, keyboard handling, swipe to dismiss, positional toasts, and JS promises.
+
+<br />
 
 ![video](https://user-images.githubusercontent.com/27066041/180588807-1ca73f29-56d7-4e44-ac0c-9f2e2cdeb94c.mp4)
 
-[//]: # (### Why?)
-[//]: # (I found the lack of support for some features in a toast library to be quite painful. I was better off developing my own package that I could customize for my app [Backpack]&#40;https://backpackapp.io&#41;. I decided to open source this library because I felt it worked very well and met *all of my needs*.)
+<br />
+
+### Why?
+I know what you might be thinking (*jeez, another toast library?*). Trust me here, this is the last toast library you will need. I built this library to meet my specific app needs and decided to open-source it after realizing that it truly is a top-notch toast library. Just give it a try.
 
 # Features
 - **Multiple toasts, multiple options**. Want a toast on the top, bottom, different colors, or different types at the same time? Got it.
