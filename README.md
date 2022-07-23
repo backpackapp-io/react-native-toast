@@ -197,6 +197,29 @@ toast("", {
 ```
 Creates a custom notification with JSX. Have complete control over your toast.
 
+#### Full example
+```js
+toast(Math.floor(Math.random() * 1000).toString(), {
+  width: screenWidth,
+  disableShadow: true,
+  customToast: (toast) => {
+    return (
+      <View
+        style={{
+          height: toast.height,
+          width: toast.width,
+          backgroundColor: 'yellow',
+          borderRadius: 8,
+        }}
+      >
+        <Text>{toast.message}</Text>
+      </View>
+    );
+  },
+});
+```
+
+
 ### Loading
 
 ```js
@@ -327,18 +350,18 @@ toast.success('Copied to clipboard!', {
 <br />
 
 ### ToastOptions *all optional*
-| Option Name   | Type                                              | Possible Values                                                                                                                                                |
-|---------------|---------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| *id*          | `string`                                          | Given an id, update the toast with the following options                                                                                                       |
-| *icon*        | `JSX.Element, string`                             | Render an icon to the left of the message                                                                                                                      |
-| *message*     | `string`                                          | The message to render in the toast                                                                                                                             |
-| *duration*    | `number`                                          | the duration (in ms) to show the toast for                                                                                                                     |
-| *position*    | `ToastPosition.TOP, ToastPosition.BOTTOM, number` | The position of the toast. Use the ToastPosition enum to effectively set it                                                                                    |
-| *styles*      | `object`                                          | the styles to apply to the toast                                                                                                                               |
-| *height*      | `number`                                          | the height of the toast **Must set here even if you are using a custom toast or applying it in the styles.view/pressable to ensure calculations are accurate** |
-| *width*       | `number`                                          | the width of the toast                                                                                                                                         |
-| *customToast* | `function`                                        | override the toast body and apply a custom toast. Receives the toast as a parameter I.e. `(toast: Toast) => JSX.Element`                                       |
-
+| Option Name     | Type                                              | Possible Values                                                                                                                                                     |
+|-----------------|---------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| *id*            | `string`                                          | Given an id, update the toast with the following options                                                                                                            |
+| *icon*          | `JSX.Element, string`                             | Render an icon to the left of the message                                                                                                                           |
+| *message*       | `string`                                          | The message to render in the toast                                                                                                                                  |
+| *duration*      | `number`                                          | the duration (in ms) to show the toast for                                                                                                                          |
+| *position*      | `ToastPosition.TOP, ToastPosition.BOTTOM, number` | The position of the toast. Use the ToastPosition enum to effectively set it                                                                                         |
+| *styles*        | `object`                                          | the styles to apply to the toast                                                                                                                                    |
+| *height*        | `number`                                          | the height of the toast **Must set here even if you are using a custom toast or applying it in the styles.view/pressable to ensure calculations are accurate**      |
+| *width*         | `number`                                          | the width of the toast                                                                                                                                              |
+| *customToast*   | `function`                                        | override the toast body and apply a custom toast. Receives the toast as a parameter I.e. `(toast: Toast) => JSX.Element`                                            |
+| *disableShadow* | `boolean`                                         | Disable the shadow underneath the toast                                                                                                                             |
 
 **Styles object**
 ```js{

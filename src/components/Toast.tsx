@@ -161,7 +161,7 @@ export const Toast: FC<Props> = ({
             justifyContent: 'center',
           },
           style,
-          ConstructShadow('#181821', 0.15, false),
+          !toast.disableShadow && ConstructShadow('#181821', 0.15, false),
           toast.styles?.pressable,
         ]}
       >

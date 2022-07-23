@@ -36,7 +36,7 @@ export interface Toast {
   duration?: number;
   pauseDuration: number;
   position?: ToastPosition;
-
+  disableShadow?: boolean;
   createdAt: number;
   visible: boolean;
   height?: number;
@@ -61,6 +61,7 @@ export type ToastOptions = Partial<
     | 'height'
     | 'width'
     | 'customToast'
+    | 'disableShadow'
   >
 >;
 
