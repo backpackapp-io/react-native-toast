@@ -25,7 +25,9 @@ export default function App() {
   const [isUserDarkMode, setIsUserDarkMode] = useState(true);
   const [position, setPosition] = useState(ToastPosition.TOP);
   const [height, setHeight] = useState(50);
-  const [width, setWidth] = useState(screenWidth - 32);
+  const [width, setWidth] = useState(
+    screenWidth - 32 > 360 ? 360 : screenWidth - 32
+  );
   const [duration, setDuration] = useState(4000);
 
   const isDarkMode = useMemo(
@@ -120,10 +122,10 @@ export default function App() {
               });
 
               setTimeout(() => {
-                toast.success('new success', {
+                toast.success('Updated success!', {
                   id,
                 });
-              }, 600);
+              }, 1500);
             }}
           >
             <Text
@@ -245,23 +247,28 @@ const NumericInput: FunctionComponent<NumericInputProps> = ({
         justifyContent: 'space-between',
       }}
     >
-      <Text
-        style={{
-          fontSize: 14,
-          fontWeight: 'normal',
-          color: isDarkMode ? colors.textDark : colors.textLight,
-        }}
-      >
-        {text}
-      </Text>
-      <TextInput
-        style={{
-          color: isDarkMode ? colors.textDark : colors.textLight,
-        }}
-        value={value}
-        keyboardType={'numeric'}
-        onChangeText={setValue}
-      />
+      <View style={{ flex: 1 }}>
+        <Text
+          style={{
+            fontSize: 14,
+            fontWeight: 'normal',
+            color: isDarkMode ? colors.textDark : colors.textLight,
+          }}
+        >
+          {text}
+        </Text>
+      </View>
+      <View style={{ flex: 1 }}>
+        <TextInput
+          style={{
+            color: isDarkMode ? colors.textDark : colors.textLight,
+            textAlign: 'right',
+          }}
+          value={value}
+          keyboardType={'numeric'}
+          onChangeText={setValue}
+        />
+      </View>
     </View>
   );
 };

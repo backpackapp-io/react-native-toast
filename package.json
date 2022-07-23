@@ -33,7 +33,9 @@
   "keywords": [
     "react-native",
     "ios",
-    "android"
+    "android",
+    "web",
+    "toast"
   ],
   "repository": "https://github.com/backpackapp-io/react-native-toast.git",
   "author": "Nick DeBaise <nickdebaise@gmail.com> (https://github.com/nickdebaise)",

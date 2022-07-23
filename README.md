@@ -1,7 +1,7 @@
 # React Native Toast
 [![runs with expo](https://img.shields.io/badge/Runs%20with%20Expo-4630EB.svg?style=flat-square&logo=EXPO&labelColor=f3f3f3&logoColor=000)](https://expo.io/) [![GitHub license](https://img.shields.io/github/license/backpackapp-io/react-native-toast)](https://github.com/backpackapp-io/react-native-toast/blob/master/LICENSE) [![npm](https://img.shields.io/badge/types-included-blue?style=flat-square)](https://www.npmjs.com/package/@backpackapp-io/react-native-toast)
 
-A toast library for react-native, built on [react-hot-toast](https://react-hot-toast.com/docs). It supports features such as multiple toasts, keyboard handling, swipe to dismiss, positional toasts, and JS promises. It runs on iOS and android.
+A toast library for react-native, built on [react-hot-toast](https://react-hot-toast.com/docs). It supports features such as multiple toasts, keyboard handling, swipe to dismiss, positional toasts, and JS promises. It runs on iOS, android, and web.
 
 <br />
 
@@ -19,6 +19,7 @@ I know what you might be thinking (*jeez, another toast library?*). Trust me her
 - **Positional toasts** (top & bottom)
 - **Customizable** (custom styles, dimensions, duration, and even create your own component to be used in the toast)
 - Add support for **promises** <-- Really! Call `toast.promise(my_promise)` and watch react-native-toast work its magic, automatically updating the toast with a custom message on success -- or an error message on reject.
+- Runs on **web**
 
 # Getting Started
 
@@ -364,7 +365,8 @@ toast.success('Copied to clipboard!', {
 | *disableShadow* | `boolean`                                         | Disable the shadow underneath the toast                                                                                                                             |
 
 **Styles object**
-```js{
+```
+{
   pressable?: ViewStyle;
   view?: ViewStyle;
   text?: TextStyle;
@@ -394,3 +396,7 @@ See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the 
 [MIT](./LICENSE)
 
 Made with [create-react-native-library](https://github.com/callstack/react-native-builder-bob)
+
+### Todos
+
+- Add support for multiline toasts

@@ -51,7 +51,7 @@ export const Toast: FC<Props> = ({
     toast?.height ? toast.height : DEFAULT_TOAST_HEIGHT
   );
   const [toastWidth, setToastWidth] = useState<number>(
-    toast?.width ? toast.width : width - 32
+    toast?.width ? toast.width : width - 32 > 360 ? 360 : width - 32
   );
 
   const startingY = useMemo(
@@ -227,6 +227,7 @@ export const Toast: FC<Props> = ({
               toast.icon
             )}
             <Text
+              numberOfLines={1}
               style={[
                 {
                   color: isDarkMode ? colors.textLight : colors.textDark,
