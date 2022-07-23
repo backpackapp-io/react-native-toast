@@ -1,7 +1,7 @@
 # React Native Toast
 [![runs with expo](https://img.shields.io/badge/Runs%20with%20Expo-4630EB.svg?style=flat-square&logo=EXPO&labelColor=f3f3f3&logoColor=000)](https://expo.io/) [![GitHub license](https://img.shields.io/github/license/backpackapp-io/react-native-toast)](https://github.com/backpackapp-io/react-native-toast/blob/master/LICENSE) [![npm](https://img.shields.io/badge/types-included-blue?style=flat-square)](https://www.npmjs.com/package/@backpackapp-io/react-native-toast)
 
-A toasting library for react-native, built on [react-hot-toast](https://react-hot-toast.com/docs). Supports features such as multiple toasts, keyboard handling, swipe to dismiss, positional toasts, and JS promises.
+A toasting library for react-native, built on [react-hot-toast](https://react-hot-toast.com/docs). It supports features such as multiple toasts, keyboard handling, swipe to dismiss, positional toasts, and JS promises.
 
 ![video](https://user-images.githubusercontent.com/27066041/180588807-1ca73f29-56d7-4e44-ac0c-9f2e2cdeb94c.mp4)
 
@@ -44,33 +44,29 @@ expo install react-native-reanimated react-native-safe-area-context react-native
 Add the ``<Toasts />`` component into the root of your app. Whenever you are ready, call `toast("My Toast Message")` from *anywhere* in your app.
 
 ```js
-import { StyleSheet, Text } from "react-native";
-import {
-  toast, Toasts,
-} from "@backpackapp-io/react-native-toast";
-import { useEffect } from "react";
+import { StyleSheet, Text } from 'react-native';
+import { toast, Toasts } from '@backpackapp-io/react-native-toast';
+import { useEffect } from 'react';
 
 export default function App() {
   useEffect(() => {
-	toast("Hello");
+    toast('Hello');
   }, []);
 
- return (
-  <View style={styles.container}>
-	<View>
-	  {/*The rest of your app*/}
-	</View>
-	<Toasts /> {/* <---- Add Here */}
-  </View>
+  return (
+    <View style={styles.container}>
+      <View>{/*The rest of your app*/}</View>
+      <Toasts /> {/* <---- Add Here */}
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  }
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
 ```
 
@@ -89,13 +85,13 @@ toast("This is my first toast", {
 ```js
 const sleep = new Promise((resolve, reject) => {
   setTimeout(() => {
-	if (Math.random() > 0.5) {
+    if (Math.random() > 0.5) {
       resolve({
         username: 'Nick',
-	  });
-	} else {
-	  reject('Username is undefined');
-	}
+      });
+    } else {
+      reject('Username is undefined');
+    }
   }, 2500);
 });
 
@@ -107,7 +103,7 @@ toast.promise(
     error: (err) => err.toString(),
   },
   {
-    position: ToastPositions.Bottom
+    position: ToastPositions.Bottom,
   }
 );
 ```
@@ -249,10 +245,10 @@ toast.promise(
 
 ## Default durations
 
-Every type has its own duration. You can overwrite them `duration` with the toast options. This can be done per toast options or globally by the [`<Toaster/>`](/docs/toaster).
+Every type has its own duration. You can overwrite them `duration` with the toast options.
 
 | type      | duration |
-| --------- | -------- |
+|-----------|----------|
 | `blank`   | 4000     |
 | `error`   | 4000     |
 | `success` | 2000     |
@@ -328,17 +324,17 @@ toast.success('Copied to clipboard!', {
 <br />
 
 ### ToastOptions *all optional*
-| Option Name | Type |Possible Values |
-|-----|-----|-----|
-| *id* | `string` | Given an id, update the toast with the following options |
-| *icon* | `JSX.Element, string` | Render an icon to the left of the message |
-| *message* | `string` | The message to render in the toast |
-| *duration* | `number` | the duration (in ms) to show the toast for |
-| *position* | `ToastPositions.TOP, ToastPositions.BOTTOM, number` | The position of the toast. Use the ToastPositions enum to effectively set it |
-| *styles* | `object` | the styles to apply to the toast |
-| *height* | `number` | the height of the toast **Must set here even if you are using a custom toast or applying it in the styles.view/pressable to ensure calculations are acurrate** |
-| *width* | `number` | the width of the toast |
-| *customToast* | `function` | override the toast body and apply a custom toast. Receives the toast as a parameter I.e. `(toast: Toast) => JSX.Element` |
+| Option Name   | Type                                                | Possible Values                                                                                                                                                |
+|---------------|-----------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| *id*          | `string`                                            | Given an id, update the toast with the following options                                                                                                       |
+| *icon*        | `JSX.Element, string`                               | Render an icon to the left of the message                                                                                                                      |
+| *message*     | `string`                                            | The message to render in the toast                                                                                                                             |
+| *duration*    | `number`                                            | the duration (in ms) to show the toast for                                                                                                                     |
+| *position*    | `ToastPositions.TOP, ToastPositions.BOTTOM, number` | The position of the toast. Use the ToastPositions enum to effectively set it                                                                                   |
+| *styles*      | `object`                                            | the styles to apply to the toast                                                                                                                               |
+| *height*      | `number`                                            | the height of the toast **Must set here even if you are using a custom toast or applying it in the styles.view/pressable to ensure calculations are accurate** |
+| *width*       | `number`                                            | the width of the toast                                                                                                                                         |
+| *customToast* | `function`                                          | override the toast body and apply a custom toast. Receives the toast as a parameter I.e. `(toast: Toast) => JSX.Element`                                       |
 
 
 **Styles object**
