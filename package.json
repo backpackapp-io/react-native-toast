@@ -1,7 +1,7 @@
 {
-  "name": "react-native-toast",
+  "name": "@backpackapp-io/react-native-toast",
   "version": "0.1.0",
-  "description": "test",
+  "description": "A toasting library for React Native. Built in features such as swipe to dismiss, multiple toasts, & no context power this library.",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
   "types": "lib/typescript/index.d.ts",
