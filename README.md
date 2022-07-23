@@ -400,3 +400,4 @@ Made with [create-react-native-library](https://github.com/callstack/react-nativ
 ### Todos
 
 - Add support for multiline toasts
+- Add unit tests for Components and hooks
