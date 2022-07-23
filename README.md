@@ -32,14 +32,14 @@ npm i @backpackapp-io/react-native-toast
 Install and link [react-native-reanimated](https://docs.swmansion.com/react-native-reanimated/docs/fundamentals/installation/), [react-native-safe-area-context](https://github.com/th3rdwave/react-native-safe-area-context), and [react-native-gesture-handler](https://docs.swmansion.com/react-native-gesture-handler/docs/installation)
 
 ```sh
-yarn add react-native-reanimated react-native-safe-area-context react-native-gesture
+yarn add react-native-reanimated react-native-safe-area-context react-native-gesture-handler
 ```
 *Ensure you follow the installation of each package*
 
 
 *Using expo?*
 ```sh
-expo install react-native-reanimated react-native-safe-area-context react-native-gesture
+expo install react-native-reanimated react-native-safe-area-context react-native-gesture-handler
 ```
 <br />
 
@@ -106,7 +106,7 @@ toast.promise(
     error: (err) => err.toString(),
   },
   {
-    position: ToastPositions.Bottom,
+    position: ToastPosition.BOTTOM,
   }
 );
 ```
@@ -147,7 +147,7 @@ You can provide `ToastOptions` as the second argument. *All arguments are option
 ```js
 toast('Hello World', {
   duration: 4000,
-  position: ToastPositions.TOP,
+  position: ToastPosition.TOP,
   icon: '👏',
   styles: {
     view: ViewStyle,
@@ -327,17 +327,17 @@ toast.success('Copied to clipboard!', {
 <br />
 
 ### ToastOptions *all optional*
-| Option Name   | Type                                                | Possible Values                                                                                                                                                |
-|---------------|-----------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| *id*          | `string`                                            | Given an id, update the toast with the following options                                                                                                       |
-| *icon*        | `JSX.Element, string`                               | Render an icon to the left of the message                                                                                                                      |
-| *message*     | `string`                                            | The message to render in the toast                                                                                                                             |
-| *duration*    | `number`                                            | the duration (in ms) to show the toast for                                                                                                                     |
-| *position*    | `ToastPositions.TOP, ToastPositions.BOTTOM, number` | The position of the toast. Use the ToastPositions enum to effectively set it                                                                                   |
-| *styles*      | `object`                                            | the styles to apply to the toast                                                                                                                               |
-| *height*      | `number`                                            | the height of the toast **Must set here even if you are using a custom toast or applying it in the styles.view/pressable to ensure calculations are accurate** |
-| *width*       | `number`                                            | the width of the toast                                                                                                                                         |
-| *customToast* | `function`                                          | override the toast body and apply a custom toast. Receives the toast as a parameter I.e. `(toast: Toast) => JSX.Element`                                       |
+| Option Name   | Type                                              | Possible Values                                                                                                                                                |
+|---------------|---------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| *id*          | `string`                                          | Given an id, update the toast with the following options                                                                                                       |
+| *icon*        | `JSX.Element, string`                             | Render an icon to the left of the message                                                                                                                      |
+| *message*     | `string`                                          | The message to render in the toast                                                                                                                             |
+| *duration*    | `number`                                          | the duration (in ms) to show the toast for                                                                                                                     |
+| *position*    | `ToastPosition.TOP, ToastPosition.BOTTOM, number` | The position of the toast. Use the ToastPosition enum to effectively set it                                                                                    |
+| *styles*      | `object`                                          | the styles to apply to the toast                                                                                                                               |
+| *height*      | `number`                                          | the height of the toast **Must set here even if you are using a custom toast or applying it in the styles.view/pressable to ensure calculations are accurate** |
+| *width*       | `number`                                          | the width of the toast                                                                                                                                         |
+| *customToast* | `function`                                        | override the toast body and apply a custom toast. Receives the toast as a parameter I.e. `(toast: Toast) => JSX.Element`                                       |
 
 
 **Styles object**

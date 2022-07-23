@@ -166,7 +166,18 @@ export const Toast: FC<Props> = ({
         ]}
       >
         {toast.customToast ? (
-          toast.customToast(toast)
+          <View
+            onLayout={(event) =>
+              updateHeight(toast.id, event.nativeEvent.layout.height)
+            }
+            key={toast.id}
+          >
+            {toast.customToast({
+              ...toast,
+              height: toastHeight,
+              width: toastWidth,
+            })}
+          </View>
         ) : (
           <View
             onLayout={(event) =>
@@ -189,25 +200,27 @@ export const Toast: FC<Props> = ({
             ]}
             key={toast.id}
           >
-            <View
-              style={[
-                {
-                  backgroundColor:
-                    toast.type === 'error'
-                      ? colors.error
-                      : toast.type === 'success'
-                      ? colors.success
-                      : isDarkMode
-                      ? colors.backgroundDark
-                      : colors.backgroundLight,
-                  width: 3,
-                  height: '100%',
-                  borderRadius: 12,
-                  marginRight: 12,
-                },
-                toast?.styles?.indicator,
-              ]}
-            />
+            {(toast.type === 'error' || toast.type === 'success') && (
+              <View
+                style={[
+                  {
+                    backgroundColor:
+                      toast.type === 'error'
+                        ? colors.error
+                        : toast.type === 'success'
+                        ? colors.success
+                        : isDarkMode
+                        ? colors.backgroundDark
+                        : colors.backgroundLight,
+                    width: 3,
+                    height: '100%',
+                    borderRadius: 12,
+                    marginRight: 12,
+                  },
+                  toast?.styles?.indicator,
+                ]}
+              />
+            )}
             {typeof toast.icon === 'string' ? (
               <Text>{toast.icon}</Text>
             ) : (
