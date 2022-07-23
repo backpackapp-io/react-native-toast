@@ -112,12 +112,18 @@ export default function App() {
           <Pressable
             style={{ marginTop: 16 }}
             onPress={() => {
-              toast.success('Success!', {
+              const id = toast.success('Success!', {
                 position,
                 duration,
                 height,
                 width,
               });
+
+              setTimeout(() => {
+                toast.success('new success', {
+                  id,
+                });
+              }, 600);
             }}
           >
             <Text

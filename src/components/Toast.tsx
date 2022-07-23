@@ -190,20 +190,23 @@ export const Toast: FC<Props> = ({
             key={toast.id}
           >
             <View
-              style={{
-                backgroundColor:
-                  toast.type === 'error'
-                    ? colors.error
-                    : toast.type === 'success'
-                    ? colors.success
-                    : isDarkMode
-                    ? colors.backgroundDark
-                    : colors.backgroundLight,
-                width: 3,
-                height: '100%',
-                borderRadius: 12,
-                marginRight: 12,
-              }}
+              style={[
+                {
+                  backgroundColor:
+                    toast.type === 'error'
+                      ? colors.error
+                      : toast.type === 'success'
+                      ? colors.success
+                      : isDarkMode
+                      ? colors.backgroundDark
+                      : colors.backgroundLight,
+                  width: 3,
+                  height: '100%',
+                  borderRadius: 12,
+                  marginRight: 12,
+                },
+                toast?.styles?.indicator,
+              ]}
             />
             {typeof toast.icon === 'string' ? (
               <Text>{toast.icon}</Text>
@@ -211,11 +214,14 @@ export const Toast: FC<Props> = ({
               toast.icon
             )}
             <Text
-              style={{
-                color: isDarkMode ? colors.textLight : colors.textDark,
-                padding: 4,
-                flex: 1,
-              }}
+              style={[
+                {
+                  color: isDarkMode ? colors.textLight : colors.textDark,
+                  padding: 4,
+                  flex: 1,
+                },
+                toast?.styles?.text,
+              ]}
             >
               {toast.message}
             </Text>

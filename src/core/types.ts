@@ -1,4 +1,4 @@
-import type { ViewStyle } from 'react-native';
+import type { TextStyle, ViewStyle } from 'react-native';
 
 export type ToastType = 'success' | 'error' | 'loading' | 'blank';
 export enum ToastPosition {
@@ -44,6 +44,8 @@ export interface Toast {
   styles?: {
     pressable?: ViewStyle;
     view?: ViewStyle;
+    text?: TextStyle;
+    indicator?: ViewStyle;
   };
   customToast?: (toast: Toast) => JSX.Element;
 }
