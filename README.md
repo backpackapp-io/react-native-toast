@@ -32,10 +32,12 @@ yarn add react-native-reanimated react-native-safe-area-context react-native-ges
 ```
 *Ensure you follow the installation of each package*
 
+
 *Using expo?*
 ```sh
 expo install react-native-reanimated react-native-safe-area-context react-native-gesture
 ```
+<br />
 
 ### Cool, now what?
 Add the ``<Toasts />`` component into the root of your app. Whenever you are ready, call `toast("My Toast Message")` from *anywhere* in your app.
@@ -70,6 +72,8 @@ const styles = StyleSheet.create({
   }
 });
 ```
+
+<br />
 
 ## Example
 
@@ -127,6 +131,9 @@ toast.success('Success!', {
 toast.error('Wow. That Sucked!');
 ```
 
+<br />
+
+
 # Documentation
 
 ## `toast()` API
@@ -145,7 +152,7 @@ toast('Hello World', {
   styles: {
     view: ViewStyle,
     pressable: ViewStyle,
-    text: TextStyle
+    text: TextStyle,
     indicator: ViewStyle
   },
 });
@@ -236,6 +243,9 @@ toast.promise(
 );
 ```
 
+<br />
+
+
 ## Default durations
 
 Every type has its own duration. You can overwrite them `duration` with the toast options. This can be done per toast options or globally by the [`<Toaster/>`](/docs/toaster).
@@ -247,6 +257,9 @@ Every type has its own duration. You can overwrite them `duration` with the toas
 | `success` | 2000     |
 | `custom`  | 4000     |
 | `loading` | Infinity |
+
+<br />
+
 
 ### Dismiss toast programmatically
 
@@ -282,6 +295,9 @@ toast.remove(toastId);
 toast.remove();
 ```
 
+<br />
+
+
 ### Update an existing toast
 
 Each toast call returns a unique id. Use in the toast options to update the existing toast.
@@ -296,6 +312,8 @@ toast.success('This worked', {
 });
 ```
 
+<br />
+
 ### Prevent duplicate toasts
 
 To prevent duplicates of the same kind, you can provide a unique permanent id.
@@ -306,14 +324,16 @@ toast.success('Copied to clipboard!', {
 });
 ```
 
+<br />
+
 ### ToastOptions *all optional*
 | Option Name | Type |Possible Values |
 |-----|-----|-----|
 | *id* | `string` | Given an id, update the toast with the following options |
-| *icon* | `JSX.Element | string` | Render an icon to the left of the message |
+| *icon* | `JSX.Element, string` | Render an icon to the left of the message |
 | *message* | `string` | The message to render in the toast |
 | *duration* | `number` | the duration (in ms) to show the toast for |
-| *position* | `ToastPositions.TOP | ToastPositions.BOTTOM | number` | The position of the toast. Use the ToastPositions enum to effectively set it |
+| *position* | `ToastPositions.TOP, ToastPositions.BOTTOM, number` | The position of the toast. Use the ToastPositions enum to effectively set it |
 | *styles* | `object` | the styles to apply to the toast |
 | *height* | `number` | the height of the toast **Must set here even if you are using a custom toast or applying it in the styles.view/pressable to ensure calculations are acurrate** |
 | *width* | `number` | the width of the toast |
@@ -329,14 +349,20 @@ toast.success('Copied to clipboard!', {
 };
 ```
 
+<br />
+
 ### Thank you [react-hot-toast](https://react-hot-toast.com)
 
 react-native-toast is built with modified react-hot-toast internals? Why? Well, react-native doesn't really need all the unnecessary web fluff (aria what?). So, I trimmed it down and made it *perfect* for mobile development by battle testing it on mobile devices and creating react-native components built specifically for iOS and Android development.
+
+<br />
 
 # Author
 **[Nick DeBaise on LinkedIn](https://www.linkedin.com/in/nick-debaise/)**
 
 *Email me directly*: nickdebaise@gmail.com
+
+<br />
 
 # Contributing
 See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
