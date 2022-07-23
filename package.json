@@ -43,7 +43,8 @@
   },
   "homepage": "https://github.com/nickdebaise/react-native-toast#readme",
   "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
   },
   "devDependencies": {
     "@arkweid/lefthook": "^0.7.7",
