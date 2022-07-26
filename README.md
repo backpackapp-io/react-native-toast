@@ -404,3 +404,4 @@ Made with [create-react-native-library](https://github.com/callstack/react-nativ
 - Allow theming in `<Toasts />`
 - Queue manager
 - Explore native modal fixes
+- Add callbacks for onOpen, onTap, onClose
