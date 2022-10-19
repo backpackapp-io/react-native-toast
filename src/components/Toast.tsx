@@ -123,6 +123,7 @@ export const Toast: FC<Props> = ({
 
   const style = useAnimatedStyle(() => {
     //Control opacity and translation of toast
+    'worklet'
     return {
       opacity: opacity.value,
       transform: [
