@@ -45,7 +45,8 @@ export const Toast: FC<Props> = ({
   const insets = useSafeAreaInsets();
   const { width, height } = useWindowDimensions();
   const { keyboardShown: keyboardVisible, keyboardHeight } = useKeyboard();
-  const isDarkMode = useColorScheme() === 'dark' || overrideDarkMode;
+  let isDarkMode = useColorScheme() === 'dark';
+  isDarkMode = overrideDarkMode ?? isDarkMode;
 
   const [toastHeight, setToastHeight] = useState<number>(
     toast?.height ? toast.height : DEFAULT_TOAST_HEIGHT
