@@ -8,16 +8,21 @@ import {
   View,
 } from 'react-native';
 import Animated, {
+  runOnJS,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Directions, FlingGestureHandler } from 'react-native-gesture-handler';
+import {
+  Directions,
+  Gesture,
+  GestureDetector,
+} from 'react-native-gesture-handler';
 
 import type { Toast as ToastType } from '../core/types';
-import { ToastPosition } from '../core/types';
+import { resolveValue, ToastPosition } from '../core/types';
 import { colors, ConstructShadow, useKeyboard } from '../utils';
 import { toast as toasting } from '../headless';
 
@@ -64,22 +69,26 @@ export const Toast: FC<Props> = ({
 
   const opacity = useSharedValue(0);
   const position = useSharedValue(startingY);
+  const offsetY = useSharedValue(startingY);
 
   const setPosition = useCallback(() => {
     //control the position of the toast when rendering
     //based on offset, visibility, keyboard, and toast height
     if (toast.position === ToastPosition.TOP) {
+      offsetY.value = withTiming(toast.visible ? offset : startingY);
       position.value = withTiming(toast.visible ? offset : startingY);
     } else {
       let kbHeight = keyboardVisible ? keyboardHeight : 0;
-      position.value = withSpring(
-        toast.visible
-          ? startingY - toastHeight - offset - kbHeight - insets.bottom - 24
-          : startingY,
-        {
-          stiffness: 80,
-        }
-      );
+      const val = toast.visible
+        ? startingY - toastHeight - offset - kbHeight - insets.bottom - 24
+        : startingY;
+      offsetY.value = withSpring(val, {
+        stiffness: 80,
+      });
+
+      position.value = withSpring(val, {
+        stiffness: 80,
+      });
     }
   }, [
     offset,
@@ -91,7 +100,31 @@ export const Toast: FC<Props> = ({
     position,
     startingY,
     toast.position,
+    offsetY,
   ]);
+
+  const composedGesture = useMemo(() => {
+    const panGesture = Gesture.Pan()
+      .onUpdate((e) => {
+        offsetY.value = e.translationY / 4 + position.value;
+      })
+      .onEnd(() => {
+        runOnJS(setPosition)();
+      });
+
+    const flingGesture = Gesture.Fling()
+      .direction(
+        toast.position === ToastPosition.TOP ? Directions.UP : Directions.DOWN
+      )
+      .onEnd(() => {
+        offsetY.value = withTiming(startingY, {
+          duration: 40,
+        });
+        runOnJS(toasting.dismiss)(toast.id);
+      });
+
+    return Gesture.Simultaneous(flingGesture, panGesture);
+  }, [offsetY, startingY, position, setPosition, toast.position, toast.id]);
 
   useEffect(() => {
     //set the toast height if it updates while rendered
@@ -127,25 +160,14 @@ export const Toast: FC<Props> = ({
       opacity: opacity.value,
       transform: [
         {
-          translateY: position.value,
+          translateY: offsetY.value,
         },
       ],
     };
   });
 
   return (
-    <FlingGestureHandler
-      key={toast.id}
-      direction={
-        toast.position === ToastPosition.TOP ? Directions.UP : Directions.DOWN
-      }
-      onActivated={() => {
-        position.value = withTiming(startingY, {
-          duration: 40,
-        });
-        toasting.dismiss(toast.id);
-      }}
-    >
+    <GestureDetector key={toast.id} gesture={composedGesture}>
       <AnimatedPressable
         onPressIn={startPause}
         onPressOut={() => {
@@ -237,11 +259,11 @@ export const Toast: FC<Props> = ({
                 toast?.styles?.text,
               ]}
             >
-              {toast.message}
+              {resolveValue(toast.message, toast)}
             </Text>
           </View>
         )}
       </AnimatedPressable>
-    </FlingGestureHandler>
+    </GestureDetector>
   );
 };
