@@ -22,7 +22,7 @@ import {
 } from 'react-native-gesture-handler';
 
 import type { Toast as ToastType } from '../core/types';
-import { resolveValue, ToastPosition } from '../core/types';
+import { resolveValue, Toast as T, ToastPosition } from '../core/types';
 import { colors, ConstructShadow, useKeyboard } from '../utils';
 import { toast as toasting } from '../headless';
 
@@ -37,6 +37,9 @@ type Props = {
   startPause: () => void;
   customRenderer?: (toast: ToastType) => React.ReactNode;
   overrideDarkMode?: boolean;
+  onToastShow?: (toast: T) => void;
+  onToastHide?: (toast: T) => void;
+  onToastPress?: (toast: T) => void;
 };
 
 export const Toast: FC<Props> = ({
@@ -46,11 +49,16 @@ export const Toast: FC<Props> = ({
   startPause,
   endPause,
   overrideDarkMode,
+  onToastHide,
+  onToastPress,
+  onToastShow,
 }) => {
   const insets = useSafeAreaInsets();
   const { width, height } = useWindowDimensions();
   const { keyboardShown: keyboardVisible, keyboardHeight } = useKeyboard();
-  const isDarkMode = useColorScheme() === 'dark' || overrideDarkMode;
+  const isSystemDarkMode = useColorScheme() === 'dark';
+  const isDarkMode =
+    overrideDarkMode !== undefined ? overrideDarkMode : isSystemDarkMode;
 
   const [toastHeight, setToastHeight] = useState<number>(
     toast?.height ? toast.height : DEFAULT_TOAST_HEIGHT
@@ -70,6 +78,8 @@ export const Toast: FC<Props> = ({
   const opacity = useSharedValue(0);
   const position = useSharedValue(startingY);
   const offsetY = useSharedValue(startingY);
+
+  const onPress = () => onToastPress?.(toast);
 
   const setPosition = useCallback(() => {
     //control the position of the toast when rendering
@@ -127,6 +137,13 @@ export const Toast: FC<Props> = ({
   }, [offsetY, startingY, position, setPosition, toast.position, toast.id]);
 
   useEffect(() => {
+    onToastShow?.(toast);
+
+    return () => onToastHide?.(toast);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     //set the toast height if it updates while rendered
     setToastHeight(toast?.height ? toast.height : DEFAULT_TOAST_HEIGHT);
   }, [toast.height]);
@@ -173,6 +190,7 @@ export const Toast: FC<Props> = ({
         onPressOut={() => {
           endPause();
         }}
+        onPress={onPress}
         style={[
           {
             position: 'absolute',

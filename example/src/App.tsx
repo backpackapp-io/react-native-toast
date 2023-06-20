@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FunctionComponent, useMemo, useState } from 'react';
+import { FunctionComponent, useState } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import {
   Pressable,
@@ -22,18 +22,13 @@ export default function App() {
   const { width: screenWidth } = useWindowDimensions();
   const isSystemDarkMode = useColorScheme() === 'dark';
 
-  const [isUserDarkMode, setIsUserDarkMode] = useState(true);
+  const [isDarkMode, setIsUserDarkMode] = useState(isSystemDarkMode);
   const [position, setPosition] = useState(ToastPosition.TOP);
   const [height, setHeight] = useState(50);
   const [width, setWidth] = useState(
     screenWidth - 32 > 360 ? 360 : screenWidth - 32
   );
   const [duration, setDuration] = useState(4000);
-
-  const isDarkMode = useMemo(
-    () => (isUserDarkMode ? isUserDarkMode : isSystemDarkMode),
-    [isUserDarkMode, isSystemDarkMode]
-  );
 
   return (
     <SafeAreaProvider>
@@ -181,7 +176,18 @@ export default function App() {
             </Text>
           </Pressable>
         </ScrollView>
-        <Toasts overrideDarkMode={isDarkMode} />
+        <Toasts
+          onToastShow={(t) => {
+            console.log('SHOW: ', t);
+          }}
+          onToastHide={(t) => {
+            console.log('HIDE: ', t);
+          }}
+          onToastPress={(t) => {
+            console.log('PRESS: ', t);
+          }}
+          overrideDarkMode={isDarkMode}
+        />
       </GestureHandlerRootView>
     </SafeAreaProvider>
   );
