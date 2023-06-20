@@ -23,7 +23,12 @@ import {
 
 import type { Toast as ToastType } from '../core/types';
 import { resolveValue, Toast as T, ToastPosition } from '../core/types';
-import { colors, ConstructShadow, useKeyboard } from '../utils';
+import {
+  colors,
+  ConstructShadow,
+  useKeyboard,
+  useVisibilityChange,
+} from '../utils';
 import { toast as toasting } from '../headless';
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
@@ -56,6 +61,17 @@ export const Toast: FC<Props> = ({
   const insets = useSafeAreaInsets();
   const { width, height } = useWindowDimensions();
   const { keyboardShown: keyboardVisible, keyboardHeight } = useKeyboard();
+
+  useVisibilityChange(
+    () => {
+      onToastShow?.(toast);
+    },
+    () => {
+      onToastHide?.(toast);
+    },
+    toast.visible
+  );
+
   const isSystemDarkMode = useColorScheme() === 'dark';
   const isDarkMode =
     overrideDarkMode !== undefined ? overrideDarkMode : isSystemDarkMode;
@@ -135,13 +151,6 @@ export const Toast: FC<Props> = ({
 
     return Gesture.Simultaneous(flingGesture, panGesture);
   }, [offsetY, startingY, position, setPosition, toast.position, toast.id]);
-
-  useEffect(() => {
-    onToastShow?.(toast);
-
-    return () => onToastHide?.(toast);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   useEffect(() => {
     //set the toast height if it updates while rendered
