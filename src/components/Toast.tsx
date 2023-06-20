@@ -241,11 +241,7 @@ export const Toast: FC<Props> = ({
             style={[
               {
                 height: toastHeight,
-                backgroundColor: isDarkMode
-                  ? colors.backgroundDark
-                  : colors.backgroundLight,
                 width: toastWidth,
-                borderRadius: 8,
                 flexDirection: 'row',
                 alignItems: 'center',
                 paddingVertical: 12,

@@ -16,6 +16,7 @@ type Props = {
   onToastShow?: (toast: T) => void;
   onToastHide?: (toast: T) => void;
   onToastPress?: (toast: T) => void;
+  providerKey?: string;
 };
 
 export const Toasts: FunctionComponent<Props> = ({
@@ -24,8 +25,9 @@ export const Toasts: FunctionComponent<Props> = ({
   onToastHide,
   onToastPress,
   onToastShow,
+  providerKey = 'DEFAULT',
 }) => {
-  const { toasts, handlers } = useToaster();
+  const { toasts, handlers } = useToaster({ providerKey });
   const { startPause, endPause } = handlers;
   const insets = useSafeAreaInsets();
 
