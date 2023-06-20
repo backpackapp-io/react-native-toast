@@ -48,6 +48,7 @@ export interface Toast {
     indicator?: ViewStyle;
   };
   customToast?: (toast: Toast) => JSX.Element;
+  providerKey: string;
 }
 
 export type ToastOptions = Partial<
@@ -62,6 +63,7 @@ export type ToastOptions = Partial<
     | 'width'
     | 'customToast'
     | 'disableShadow'
+    | 'providerKey'
   >
 >;
 

@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent, useCallback, useState } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import {
+  Button,
   Pressable,
   ScrollView,
   Switch,
@@ -11,6 +12,7 @@ import {
   useWindowDimensions,
   View,
 } from 'react-native';
+import Modal from 'react-native-modal';
 
 import { Toasts } from '../../src/components/Toasts';
 import { toast } from '../../src/headless';
@@ -21,6 +23,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 export default function App() {
   const { width: screenWidth } = useWindowDimensions();
   const isSystemDarkMode = useColorScheme() === 'dark';
+  const [isModalVisible, setModalVisible] = useState<boolean>(false);
 
   const [isDarkMode, setIsUserDarkMode] = useState(isSystemDarkMode);
   const [position, setPosition] = useState(ToastPosition.TOP);
@@ -29,6 +32,10 @@ export default function App() {
     screenWidth - 32 > 360 ? 360 : screenWidth - 32
   );
   const [duration, setDuration] = useState(4000);
+
+  const toggleModal = useCallback(() => {
+    setModalVisible(!isModalVisible);
+  }, [isModalVisible, setModalVisible]);
 
   return (
     <SafeAreaProvider>
@@ -92,6 +99,7 @@ export default function App() {
                 duration,
                 height,
                 width,
+                providerKey: 'PERSISTS',
               });
             }}
           >
@@ -175,7 +183,57 @@ export default function App() {
               Promise Toast
             </Text>
           </Pressable>
+          <Button title={'Toggle Modal'} onPress={toggleModal} />
         </ScrollView>
+        <Modal style={{ padding: 0, margin: 0 }} isVisible={isModalVisible}>
+          <View
+            style={{
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: !isDarkMode ? colors.textDark : colors.textLight,
+            }}
+          >
+            <Button title={'Toggle Modal'} onPress={toggleModal} />
+
+            <Pressable
+              style={{ marginTop: 64 }}
+              onPress={() => {
+                toast(Math.floor(Math.random() * 1000).toString(), {
+                  position,
+                  duration,
+                  height,
+                  width,
+                  providerKey: 'PERSISTS',
+                });
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 16,
+                  fontWeight: 'bold',
+                  color: isDarkMode ? colors.textDark : colors.textLight,
+                }}
+              >
+                Normal Toast
+              </Text>
+            </Pressable>
+
+            <Toasts
+              providerKey={'MODAL::1'}
+              onToastShow={(t) => {
+                console.log('SHOW: ', t);
+              }}
+              onToastHide={(t) => {
+                console.log('HIDE: ', t);
+              }}
+              onToastPress={(t) => {
+                console.log('PRESS: ', t);
+              }}
+              overrideDarkMode={isDarkMode}
+            />
+          </View>
+        </Modal>
         <Toasts
           onToastShow={(t) => {
             console.log('SHOW: ', t);
