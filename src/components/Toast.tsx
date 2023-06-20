@@ -22,7 +22,7 @@ import {
 } from 'react-native-gesture-handler';
 
 import type { Toast as ToastType } from '../core/types';
-import { ToastPosition } from '../core/types';
+import { resolveValue, ToastPosition } from '../core/types';
 import { colors, ConstructShadow, useKeyboard } from '../utils';
 import { toast as toasting } from '../headless';
 
@@ -106,10 +106,9 @@ export const Toast: FC<Props> = ({
   const composedGesture = useMemo(() => {
     const panGesture = Gesture.Pan()
       .onUpdate((e) => {
-        offsetY.value = e.translationY + position.value;
+        offsetY.value = e.translationY / 4 + position.value;
       })
       .onEnd(() => {
-        console.log('END PAN');
         runOnJS(setPosition)();
       });
 
@@ -117,11 +116,7 @@ export const Toast: FC<Props> = ({
       .direction(
         toast.position === ToastPosition.TOP ? Directions.UP : Directions.DOWN
       )
-      .onStart(() => {
-        console.log('START FLING');
-      })
       .onEnd(() => {
-        console.log('END FLING');
         offsetY.value = withTiming(startingY, {
           duration: 40,
         });
@@ -264,7 +259,7 @@ export const Toast: FC<Props> = ({
                 toast?.styles?.text,
               ]}
             >
-              {toast.message}
+              {resolveValue(toast.message, toast)}
             </Text>
           </View>
         )}
