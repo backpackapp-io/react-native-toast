@@ -22,8 +22,13 @@ import {
 } from 'react-native-gesture-handler';
 
 import type { Toast as ToastType } from '../core/types';
-import { resolveValue, ToastPosition } from '../core/types';
-import { colors, ConstructShadow, useKeyboard } from '../utils';
+import { resolveValue, Toast as T, ToastPosition } from '../core/types';
+import {
+  colors,
+  ConstructShadow,
+  useKeyboard,
+  useVisibilityChange,
+} from '../utils';
 import { toast as toasting } from '../headless';
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
@@ -37,6 +42,9 @@ type Props = {
   startPause: () => void;
   customRenderer?: (toast: ToastType) => React.ReactNode;
   overrideDarkMode?: boolean;
+  onToastShow?: (toast: T) => void;
+  onToastHide?: (toast: T) => void;
+  onToastPress?: (toast: T) => void;
 };
 
 export const Toast: FC<Props> = ({
@@ -46,11 +54,27 @@ export const Toast: FC<Props> = ({
   startPause,
   endPause,
   overrideDarkMode,
+  onToastHide,
+  onToastPress,
+  onToastShow,
 }) => {
   const insets = useSafeAreaInsets();
   const { width, height } = useWindowDimensions();
   const { keyboardShown: keyboardVisible, keyboardHeight } = useKeyboard();
-  const isDarkMode = useColorScheme() === 'dark' || overrideDarkMode;
+
+  useVisibilityChange(
+    () => {
+      onToastShow?.(toast);
+    },
+    () => {
+      onToastHide?.(toast);
+    },
+    toast.visible
+  );
+
+  const isSystemDarkMode = useColorScheme() === 'dark';
+  const isDarkMode =
+    overrideDarkMode !== undefined ? overrideDarkMode : isSystemDarkMode;
 
   const [toastHeight, setToastHeight] = useState<number>(
     toast?.height ? toast.height : DEFAULT_TOAST_HEIGHT
@@ -70,6 +94,8 @@ export const Toast: FC<Props> = ({
   const opacity = useSharedValue(0);
   const position = useSharedValue(startingY);
   const offsetY = useSharedValue(startingY);
+
+  const onPress = () => onToastPress?.(toast);
 
   const setPosition = useCallback(() => {
     //control the position of the toast when rendering
@@ -173,6 +199,7 @@ export const Toast: FC<Props> = ({
         onPressOut={() => {
           endPause();
         }}
+        onPress={onPress}
         style={[
           {
             position: 'absolute',

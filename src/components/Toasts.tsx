@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { View } from 'react-native';
 
-import { useToaster } from '../headless';
+import { Toast as T, useToaster } from '../headless';
 import { Toast } from './Toast';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -13,11 +13,17 @@ type Props = {
     right?: number;
     left?: number;
   };
+  onToastShow?: (toast: T) => void;
+  onToastHide?: (toast: T) => void;
+  onToastPress?: (toast: T) => void;
 };
 
 export const Toasts: FunctionComponent<Props> = ({
   overrideDarkMode,
   extraInsets,
+  onToastHide,
+  onToastPress,
+  onToastShow,
 }) => {
   const { toasts, handlers } = useToaster();
   const { startPause, endPause } = handlers;
@@ -45,6 +51,9 @@ export const Toasts: FunctionComponent<Props> = ({
             reverseOrder: true,
           })}
           overrideDarkMode={overrideDarkMode}
+          onToastHide={onToastHide}
+          onToastPress={onToastPress}
+          onToastShow={onToastShow}
         />
       ))}
     </View>

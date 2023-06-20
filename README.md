@@ -137,6 +137,52 @@ toast.error('Wow. That Sucked!');
 
 # Documentation
 
+# `<Toasts />`
+
+Include the `<Toasts />` component in the root of your app.
+
+### Props
+
+#### overrideDarkMode (`boolean | undefined`) _<font size = 2>(optional)</font>_
+Override the system dark mode. If a value is supplied (I.e. `true` or `false`), then the toast components will use that value for the dark mode. For example, if `overrideDarkMode = {false}`, dark mode will be disabled, regardless of the system's preferences.
+
+#### extraInsets (`object`) _<font size = 2>(optional)</font>_
+Supply the container for the toasts extra padding.
+```
+extraInsets?: {
+  top?: number;
+  bottom?: number;
+  right?: number;
+  left?: number;
+};
+```
+
+#### onToastShow (`function`) _<font size = 2>(optional)</font>_
+When a toast is shown, this callback will fire, returning the toast object that was shown. _Note, the toast object is "shown" when the toast is mounted._
+```
+onToastShow?: (toast: T) => void;
+```
+#### onToastHide (`function`) _<font size = 2>(optional)</font>_
+When a toast is hidden, this callback will fire, returning the toast object that was hidden. _Note, the toast object is "hidden" when the toast is unmounted._
+```
+onToastHide?: (toast: T) => void;
+```
+#### onToastPress (`function`) _<font size = 2>(optional)</font>_
+When a toast is pressed, this callback will fire, returning the toast object that was pressed.
+```
+onToastPress?: (toast: T) => void;
+```
+
+### Example
+```
+<Toasts
+  onToastPress={(t) => {
+    console.log(`Toast ${t.id} was pressed.`)
+  }}
+  overrideDarkMode={isAppDarkMode}
+/>
+```
+
 ## `toast()` API
 
 Call it to create a toast from anywhere, even outside React (*hello* errors from controllers). Make sure you add the `<Toasts/>`component to your app first.
@@ -404,4 +450,3 @@ Made with [create-react-native-library](https://github.com/callstack/react-nativ
 - Allow theming in `<Toasts />`
 - Queue manager
 - Explore native modal fixes
-- Add callbacks for onOpen, onTap, onClose
