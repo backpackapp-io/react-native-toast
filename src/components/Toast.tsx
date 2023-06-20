@@ -202,6 +202,12 @@ export const Toast: FC<Props> = ({
         onPress={onPress}
         style={[
           {
+            backgroundColor: !toast.customToast
+              ? isDarkMode
+                ? colors.backgroundDark
+                : colors.backgroundLight
+              : undefined,
+            borderRadius: 8,
             position: 'absolute',
             maxHeight: toastHeight,
             left: (width - toastWidth) / 2,
