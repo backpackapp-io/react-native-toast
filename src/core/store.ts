@@ -187,19 +187,26 @@ export const useStore = (toastOptions: DefaultToastOptions = {}): State => {
     };
   }, [state]);
 
-  const mergedToasts = state.toasts.map((t) => ({
-    ...toastOptions,
-    ...toastOptions[t.type],
-    ...t,
-    duration:
-      t.duration ||
-      toastOptions[t.type]?.duration ||
-      toastOptions?.duration ||
-      defaultTimeouts[t.type],
-    styles: {
-      ...toastOptions.styles,
-    },
-  }));
+  const mergedToasts = state.toasts
+    .filter(
+      (t) =>
+        toastOptions?.providerKey === undefined ||
+        t.providerKey === toastOptions?.providerKey ||
+        t.providerKey === 'PERSISTS'
+    )
+    .map((t) => ({
+      ...toastOptions,
+      ...toastOptions[t.type],
+      ...t,
+      duration:
+        t.duration ||
+        toastOptions[t.type]?.duration ||
+        toastOptions?.duration ||
+        defaultTimeouts[t.type],
+      styles: {
+        ...toastOptions.styles,
+      },
+    }));
 
   return {
     ...state,

@@ -20,6 +20,8 @@ I know what you might be thinking (*jeez, another toast library?*). Trust me her
 - **Customizable** (custom styles, dimensions, duration, and even create your own component to be used in the toast)
 - Add support for **promises** <-- Really! Call `toast.promise(my_promise)` and watch react-native-toast work its magic, automatically updating the toast with a custom message on success -- or an error message on reject.
 - Runs on **web**
+- Support for native modals
+- Callbacks for onPress, onShow, and onHide
 
 # Getting Started
 
@@ -172,6 +174,49 @@ When a toast is pressed, this callback will fire, returning the toast object tha
 ```
 onToastPress?: (toast: T) => void;
 ```
+
+#### providerKey (`string`)  _<font size = 2>(optional)</font>_
+Provide the Toasts component with a providerKey to conditionally render toasts in a component. Useful for rendering toasts in native modals.
+```js
+// Component in native modal
+<Toasts providerKey="MODAL::1" />
+
+//...
+// Root component
+<Toasts /> //has default providerKey of DEFAULT
+
+//...
+// Call toast in root modal
+
+const id = toast("Hello from root modal") //default providerKey of DEFAULT
+
+// Native modal becomes visible
+const id = toast("Hello from native modal", {providerKey: "MODAL::1"})
+//Now, toast is shown only in native modal
+```
+
+If you want to persist toasts across components (i.e. when you open/close a modal and want to keep the same toasts), your toasts should be assigned a providerKey of "PERSISTS".
+
+```js
+toast("Message...", {providerKey: "PERSISTS"})
+```
+
+Or, if you cannot do so, you can update each toast manually.
+
+```js
+const { toasts } = useToasterStore(); //Note, no provider key passed in
+
+useEffect(() => {
+  toasts.forEach((t) => {
+    toast(t.message, {
+      ...t,
+      providerKey: isModalVisible ? 'MODAL::1' : 'DEFAULT', //Switch provider key here
+    });
+  });
+}, [isModalVisible]);
+```
+
+
 
 ### Example
 ```
@@ -449,4 +494,3 @@ Made with [create-react-native-library](https://github.com/callstack/react-nativ
 - Add unit tests for Components and hooks
 - Allow theming in `<Toasts />`
 - Queue manager
-- Explore native modal fixes

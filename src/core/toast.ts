@@ -26,6 +26,7 @@ const createToast = (
   message,
   pauseDuration: 0,
   position: ToastPosition.TOP,
+  providerKey: 'DEFAULT',
   ...opts,
   id: opts?.id || genId(),
 });
