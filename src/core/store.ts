@@ -204,7 +204,7 @@ export const useStore = (toastOptions: DefaultToastOptions = {}): State => {
         toastOptions?.duration ||
         defaultTimeouts[t.type],
       styles: {
-        ...toastOptions.styles,
+        ...(t?.styles ?? {}),
       },
     }));
 
