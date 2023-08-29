@@ -32,7 +32,7 @@ yarn add @backpackapp-io/react-native-toast
 npm i @backpackapp-io/react-native-toast
 ```
 #### Peer Dependencies
-Install and link [react-native-reanimated](https://docs.swmansion.com/react-native-reanimated/docs/fundamentals/installation/), [react-native-safe-area-context](https://github.com/th3rdwave/react-native-safe-area-context), and [react-native-gesture-handler](https://docs.swmansion.com/react-native-gesture-handler/docs/installation)
+Install and link [react-native-reanimated](https://docs.swmansion.com/react-native-reanimated/docs/fundamentals/getting-started/), [react-native-safe-area-context](https://github.com/th3rdwave/react-native-safe-area-context), and [react-native-gesture-handler](https://docs.swmansion.com/react-native-gesture-handler/docs/installation)
 
 ```sh
 yarn add react-native-reanimated react-native-safe-area-context react-native-gesture-handler
@@ -42,7 +42,7 @@ yarn add react-native-reanimated react-native-safe-area-context react-native-ges
 
 *Using expo?*
 ```sh
-expo install react-native-reanimated react-native-safe-area-context react-native-gesture-handler
+npx expo install react-native-reanimated react-native-safe-area-context react-native-gesture-handler
 ```
 <br />
 
