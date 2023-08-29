@@ -96,6 +96,12 @@ export const Toast: FC<Props> = ({
   const offsetY = useSharedValue(startingY);
 
   const onPress = () => onToastPress?.(toast);
+  const dismiss = useCallback(
+    (id: string) => {
+      toasting.dismiss(id);
+    },
+    [toasting.dismiss]
+  );
 
   const setPosition = useCallback(() => {
     //control the position of the toast when rendering
@@ -146,7 +152,7 @@ export const Toast: FC<Props> = ({
         offsetY.value = withTiming(startingY, {
           duration: 40,
         });
-        runOnJS(toasting.dismiss)(toast.id);
+        runOnJS(dismiss)(toast.id);
       });
 
     return Gesture.Simultaneous(flingGesture, panGesture);
