@@ -5,7 +5,7 @@ A toast library for react-native, built on [react-hot-toast](https://react-hot-t
 
 <br />
 
-![video](https://user-images.githubusercontent.com/27066041/180588807-1ca73f29-56d7-4e44-ac0c-9f2e2cdeb94c.mp4)
+[video](https://user-images.githubusercontent.com/27066041/180588807-1ca73f29-56d7-4e44-ac0c-9f2e2cdeb94c.mp4)
 
 <br />
 
