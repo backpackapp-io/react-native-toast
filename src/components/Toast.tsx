@@ -284,7 +284,6 @@ export const Toast: FC<Props> = ({
               toast.icon
             )}
             <Text
-              numberOfLines={1}
               style={[
                 {
                   color: isDarkMode ? colors.textLight : colors.textDark,
