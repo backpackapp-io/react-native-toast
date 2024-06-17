@@ -86,9 +86,9 @@ export const Toast: FC<Props> = ({
   const startingY = useMemo(
     () =>
       toast.position === ToastPosition.TOP
-        ? -50
+        ?  - (toast.height || DEFAULT_TOAST_HEIGHT) - insets.top - 50
         : height - insets.bottom - Platform.select({ ios: 0, default: 32 }),
-    [height, toast.position, insets.bottom]
+    [height, toast.position, insets.bottom, insets.top, toast.height]
   );
 
   const opacity = useSharedValue(0);
