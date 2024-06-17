@@ -346,6 +346,16 @@ toast.promise(myPromise, {
 });
 ```
 
+#### Prevent Swipe to Dismiss
+
+```js
+toast('This toast cannot be swiped away', {
+  duration: 4000,
+  position: ToastPosition.TOP,
+  isSwipeable: false, // <-- Add here (defaults to true)
+})
+```
+
 #### Advanced
 
 You can provide a function to the success/error messages to incorporate the result/error of the promise. The third argument is `toastOptions`.
@@ -448,18 +458,19 @@ toast.success('Copied to clipboard!', {
 <br />
 
 ### ToastOptions *all optional*
-| Option Name     | Type                                              | Possible Values                                                                                                                                                     |
-|-----------------|---------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| *id*            | `string`                                          | Given an id, update the toast with the following options                                                                                                            |
-| *message*       | `string`                                          | The message to render in the toast                                                                                                                                  |
-| *position*      | `ToastPosition.TOP, ToastPosition.BOTTOM, number` | The position of the toast. Use the ToastPosition enum to effectively set it                                                                                         |
-| *duration*      | `number`                                          | the duration (in ms) to show the toast for                                                                                                                          |
-| *customToast*   | `function`                                        | override the toast body and apply a custom toast. Receives the toast as a parameter I.e. `(toast: Toast) => JSX.Element`                                            |
-| *height*        | `number`                                          | the height of the toast **Must set here even if you are using a custom toast or applying it in the styles.view/pressable to ensure calculations are accurate**      |
-| *width*         | `number`                                          | the width of the toast                                                                                                                                              |
-| *icon*          | `JSX.Element, string`                             | Render an icon to the left of the message                                                                                                                           |
-| *styles*        | `object`                                          | the styles to apply to the toast                                                                                                                                    |
-| *disableShadow* | `boolean`                                         | Disable the shadow underneath the toast                                                                                                                             |
+| Option Name     | Type                                              | Possible Values                                                                                                                                                |
+|-----------------|---------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| *id*            | `string`                                          | Given an id, update the toast with the following options                                                                                                       |
+| *message*       | `string`                                          | The message to render in the toast                                                                                                                             |
+| *position*      | `ToastPosition.TOP, ToastPosition.BOTTOM, number` | The position of the toast. Use the ToastPosition enum to effectively set it                                                                                    |
+| *duration*      | `number`                                          | the duration (in ms) to show the toast for                                                                                                                     |
+| *customToast*   | `function`                                        | override the toast body and apply a custom toast. Receives the toast as a parameter I.e. `(toast: Toast) => JSX.Element`                                       |
+| *height*        | `number`                                          | the height of the toast **Must set here even if you are using a custom toast or applying it in the styles.view/pressable to ensure calculations are accurate** |
+| *width*         | `number`                                          | the width of the toast                                                                                                                                         |
+| *icon*          | `JSX.Element, string`                             | Render an icon to the left of the message                                                                                                                      |
+| *styles*        | `object`                                          | the styles to apply to the toast                                                                                                                               |
+| *disableShadow* | `boolean`                                         | Disable the shadow underneath the toast                                                                                                                        |
+| *isSwipeable*   | `boolean`                                         | Control whether the toast can be dismissed with a swipe or not                                                                                                 |
 
 **Styles object**
 ```

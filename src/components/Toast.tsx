@@ -161,7 +161,9 @@ export const Toast: FC<Props> = ({
         runOnJS(dismiss)(toast.id);
       });
 
-    return Gesture.Simultaneous(flingGesture, panGesture);
+    return toast.isSwipeable
+      ? Gesture.Simultaneous(flingGesture, panGesture)
+      : panGesture;
   }, [
     offsetY,
     startingY,
@@ -170,6 +172,7 @@ export const Toast: FC<Props> = ({
     toast.position,
     toast.id,
     dismiss,
+    toast.isSwipeable,
   ]);
 
   useEffect(() => {

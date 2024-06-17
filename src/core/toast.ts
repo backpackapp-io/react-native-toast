@@ -27,6 +27,7 @@ const createToast = (
   pauseDuration: 0,
   position: ToastPosition.TOP,
   providerKey: 'DEFAULT',
+  isSwipeable: true,
   ...opts,
   id: opts?.id || genId(),
 });
