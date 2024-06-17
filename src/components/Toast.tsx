@@ -21,7 +21,7 @@ import {
   GestureDetector,
 } from 'react-native-gesture-handler';
 
-import type { Toast as ToastType } from '../core/types';
+import type { ExtraInsets, Toast as ToastType } from '../core/types';
 import { resolveValue, Toast as T, ToastPosition } from '../core/types';
 import {
   colors,
@@ -45,6 +45,7 @@ type Props = {
   onToastShow?: (toast: T) => void;
   onToastHide?: (toast: T) => void;
   onToastPress?: (toast: T) => void;
+  extraInsets?: ExtraInsets;
 };
 
 export const Toast: FC<Props> = ({
@@ -57,6 +58,7 @@ export const Toast: FC<Props> = ({
   onToastHide,
   onToastPress,
   onToastShow,
+  extraInsets,
 }) => {
   const insets = useSafeAreaInsets();
   const { width, height } = useWindowDimensions();
@@ -109,7 +111,13 @@ export const Toast: FC<Props> = ({
     } else {
       let kbHeight = keyboardVisible ? keyboardHeight : 0;
       const val = toast.visible
-        ? startingY - toastHeight - offset - kbHeight - insets.bottom - 24
+        ? startingY -
+          toastHeight -
+          offset -
+          kbHeight -
+          insets.bottom -
+          (extraInsets?.bottom ?? 0) -
+          24
         : startingY;
       offsetY.value = withSpring(val, {
         stiffness: 80,
@@ -130,6 +138,7 @@ export const Toast: FC<Props> = ({
     startingY,
     toast.position,
     offsetY,
+    extraInsets,
   ]);
 
   const composedGesture = useMemo(() => {

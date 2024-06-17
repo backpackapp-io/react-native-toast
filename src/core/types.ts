@@ -80,3 +80,10 @@ export interface ToasterProps {
   containerClassName?: string;
   children?: (toast: Toast) => JSX.Element;
 }
+
+export type ExtraInsets = {
+  top?: number;
+  bottom?: number;
+  right?: number;
+  left?: number;
+};

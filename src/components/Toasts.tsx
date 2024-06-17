@@ -4,15 +4,11 @@ import { View } from 'react-native';
 import { Toast as T, useToaster } from '../headless';
 import { Toast } from './Toast';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { ExtraInsets } from '../core/types';
 
 type Props = {
   overrideDarkMode?: boolean;
-  extraInsets?: {
-    top?: number;
-    bottom?: number;
-    right?: number;
-    left?: number;
-  };
+  extraInsets?: ExtraInsets;
   onToastShow?: (toast: T) => void;
   onToastHide?: (toast: T) => void;
   onToastPress?: (toast: T) => void;
@@ -56,6 +52,7 @@ export const Toasts: FunctionComponent<Props> = ({
           onToastHide={onToastHide}
           onToastPress={onToastPress}
           onToastShow={onToastShow}
+          extraInsets={extraInsets}
         />
       ))}
     </View>
