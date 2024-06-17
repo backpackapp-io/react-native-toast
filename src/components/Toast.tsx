@@ -86,7 +86,7 @@ export const Toast: FC<Props> = ({
   const startingY = useMemo(
     () =>
       toast.position === ToastPosition.TOP
-        ?  - (toast.height || DEFAULT_TOAST_HEIGHT) - insets.top - 50
+        ? -(toast.height || DEFAULT_TOAST_HEIGHT) - insets.top - 50
         : height - insets.bottom - Platform.select({ ios: 0, default: 32 }),
     [height, toast.position, insets.bottom, insets.top, toast.height]
   );
@@ -96,12 +96,9 @@ export const Toast: FC<Props> = ({
   const offsetY = useSharedValue(startingY);
 
   const onPress = () => onToastPress?.(toast);
-  const dismiss = useCallback(
-    (id: string) => {
-      toasting.dismiss(id);
-    },
-    [toasting.dismiss]
-  );
+  const dismiss = useCallback((id: string) => {
+    toasting.dismiss(id);
+  }, []);
 
   const setPosition = useCallback(() => {
     //control the position of the toast when rendering
@@ -156,7 +153,15 @@ export const Toast: FC<Props> = ({
       });
 
     return Gesture.Simultaneous(flingGesture, panGesture);
-  }, [offsetY, startingY, position, setPosition, toast.position, toast.id]);
+  }, [
+    offsetY,
+    startingY,
+    position,
+    setPosition,
+    toast.position,
+    toast.id,
+    dismiss,
+  ]);
 
   useEffect(() => {
     //set the toast height if it updates while rendered
