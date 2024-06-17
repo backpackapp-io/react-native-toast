@@ -47,11 +47,14 @@ npx expo install react-native-reanimated react-native-safe-area-context react-na
 <br />
 
 ### Cool, now what?
-Wrap your App with ``<GestureHandlerRootView></GestureHandlerRootView>`` & add the ``<Toasts />`` component to the root of your app. Call `toast("My Toast Message") whenever you are ready from *anywhere* in your app.
+Wrap your App with ``<GestureHandlerRootView />`` and ``<SafeAreaProvider />`` & add the ``<Toasts />`` component to the root of your app.
+
+Call ``toast("My Toast Message")`` whenever you are ready from *anywhere* in your app.
 
 ```js
 import { View, StyleSheet, Text } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { toast, Toasts } from '@backpackapp-io/react-native-toast';
 import { useEffect } from 'react';
 
@@ -61,10 +64,12 @@ export default function App() {
   }, []);
 
   return (
-    <GestureHandlerRootView style={styles.container}>
-      <View>{/*The rest of your app*/}</View>
-      <Toasts /> {/* <---- Add Here */}
-    </GestureHandlerRootView>
+    <SafeAreaProvider>
+      <GestureHandlerRootView style={styles.container}>
+        <View>{/*The rest of your app*/}</View>
+        <Toasts /> {/* <---- Add Here */}
+      </GestureHandlerRootView>
+    </SafeAreaProvider>
   );
 }
 
