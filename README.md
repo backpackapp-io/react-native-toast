@@ -181,6 +181,17 @@ When a toast is pressed, this callback will fire, returning the toast object tha
 onToastPress?: (toast: T) => void;
 ```
 
+#### defaultStyle (`object`) _<font size = 2>(optional)</font>_
+Supply default styles for the toast component. This will be applied to all toasts unless overridden by the toast options.
+```
+defaultStyle?: {
+  view?: ViewStyle;
+  pressable?: ViewStyle;
+  text?: TextStyle;
+  indicator?: ViewStyle;
+};
+```
+
 #### providerKey (`string`)  _<font size = 2>(optional)</font>_
 Provide the Toasts component with a providerKey to conditionally render toasts in a component. Useful for rendering toasts in native modals.
 ```js
@@ -458,19 +469,20 @@ toast.success('Copied to clipboard!', {
 <br />
 
 ### ToastOptions *all optional*
-| Option Name     | Type                                              | Possible Values                                                                                                                                                |
-|-----------------|---------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| *id*            | `string`                                          | Given an id, update the toast with the following options                                                                                                       |
-| *message*       | `string`                                          | The message to render in the toast                                                                                                                             |
-| *position*      | `ToastPosition.TOP, ToastPosition.BOTTOM, number` | The position of the toast. Use the ToastPosition enum to effectively set it                                                                                    |
-| *duration*      | `number`                                          | the duration (in ms) to show the toast for                                                                                                                     |
-| *customToast*   | `function`                                        | override the toast body and apply a custom toast. Receives the toast as a parameter I.e. `(toast: Toast) => JSX.Element`                                       |
-| *height*        | `number`                                          | the height of the toast **Must set here even if you are using a custom toast or applying it in the styles.view/pressable to ensure calculations are accurate** |
-| *width*         | `number`                                          | the width of the toast                                                                                                                                         |
-| *icon*          | `JSX.Element, string`                             | Render an icon to the left of the message                                                                                                                      |
-| *styles*        | `object`                                          | the styles to apply to the toast                                                                                                                               |
-| *disableShadow* | `boolean`                                         | Disable the shadow underneath the toast                                                                                                                        |
-| *isSwipeable*   | `boolean`                                         | Control whether the toast can be dismissed with a swipe or not                                                                                                 |
+| Option Name       | Type                                              | Possible Values                                                                                                                                                        |
+|-------------------|---------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| *id*              | `string`                                          | Given an id, update the toast with the following options                                                                                                               |
+| *message*         | `string`                                          | The message to render in the toast                                                                                                                                     |
+| *position*        | `ToastPosition.TOP, ToastPosition.BOTTOM, number` | The position of the toast. Use the ToastPosition enum to effectively set it                                                                                            |
+| *duration*        | `number`                                          | the duration (in ms) to show the toast for                                                                                                                             |
+| *customToast*     | `function`                                        | override the toast body and apply a custom toast. Receives the toast as a parameter I.e. `(toast: Toast) => JSX.Element`                                               |
+| *height*          | `number`                                          | the minimum height of the toast **Must set here even if you are using a custom toast or applying it in the styles.view/pressable to ensure calculations are accurate** |
+| *width*           | `number`                                          | the width of the toast                                                                                                                                                 |
+| *icon*            | `JSX.Element, string`                             | Render an icon to the left of the message                                                                                                                              |
+| *styles*          | `object`                                          | the styles to apply to the toast                                                                                                                                       |
+| *disableShadow*   | `boolean`                                         | Disable the shadow underneath the toast                                                                                                                                |
+| *isSwipeable*     | `boolean`                                         | Control whether the toast can be dismissed with a swipe or not                                                                                                         |
+| *animationConfig* | `object`                                          | Control the fade duration, stiffness, and return duration of the toast                                                                                                 |
 
 **Styles object**
 ```
@@ -507,7 +519,6 @@ Made with [create-react-native-library](https://github.com/callstack/react-nativ
 
 ### Todos
 
-- Add support for multiline toasts
 - Add unit tests for Components and hooks
 - Allow theming in `<Toasts />`
 - Queue manager
