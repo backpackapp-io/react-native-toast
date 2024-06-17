@@ -3,9 +3,11 @@ import {
   Platform,
   Pressable,
   Text,
+  TextStyle,
   useColorScheme,
   useWindowDimensions,
   View,
+  ViewStyle,
 } from 'react-native';
 import Animated, {
   runOnJS,
@@ -46,6 +48,12 @@ type Props = {
   onToastHide?: (toast: T) => void;
   onToastPress?: (toast: T) => void;
   extraInsets?: ExtraInsets;
+  defaultStyle?: {
+    pressable?: ViewStyle;
+    view?: ViewStyle;
+    text?: TextStyle;
+    indicator?: ViewStyle;
+  };
 };
 
 export const Toast: FC<Props> = ({
@@ -59,6 +67,7 @@ export const Toast: FC<Props> = ({
   onToastPress,
   onToastShow,
   extraInsets,
+  defaultStyle,
 }) => {
   const insets = useSafeAreaInsets();
   const { width, height } = useWindowDimensions();
@@ -106,8 +115,12 @@ export const Toast: FC<Props> = ({
     //control the position of the toast when rendering
     //based on offset, visibility, keyboard, and toast height
     if (toast.position === ToastPosition.TOP) {
-      offsetY.value = withTiming(toast.visible ? offset : startingY);
-      position.value = withTiming(toast.visible ? offset : startingY);
+      offsetY.value = withTiming(toast.visible ? offset : startingY, {
+        duration: toast?.animationConfig?.animationDuration ?? 300,
+      });
+      position.value = withTiming(toast.visible ? offset : startingY, {
+        duration: toast?.animationConfig?.animationDuration ?? 300,
+      });
     } else {
       let kbHeight = keyboardVisible ? keyboardHeight : 0;
       const val = toast.visible
@@ -119,12 +132,13 @@ export const Toast: FC<Props> = ({
           (extraInsets?.bottom ?? 0) -
           24
         : startingY;
+
       offsetY.value = withSpring(val, {
-        stiffness: 80,
+        stiffness: toast?.animationConfig?.animationStiffness ?? 80,
       });
 
       position.value = withSpring(val, {
-        stiffness: 80,
+        stiffness: toast?.animationConfig?.animationStiffness ?? 80,
       });
     }
   }, [
@@ -139,6 +153,7 @@ export const Toast: FC<Props> = ({
     toast.position,
     offsetY,
     extraInsets,
+    toast.animationConfig,
   ]);
 
   const composedGesture = useMemo(() => {
@@ -156,7 +171,7 @@ export const Toast: FC<Props> = ({
       )
       .onEnd(() => {
         offsetY.value = withTiming(startingY, {
-          duration: 40,
+          duration: toast?.animationConfig?.flingPositionReturnDuration ?? 40,
         });
         runOnJS(dismiss)(toast.id);
       });
@@ -173,6 +188,7 @@ export const Toast: FC<Props> = ({
     toast.id,
     dismiss,
     toast.isSwipeable,
+    toast.animationConfig,
   ]);
 
   useEffect(() => {
@@ -188,9 +204,9 @@ export const Toast: FC<Props> = ({
   useEffect(() => {
     //Control visibility of toast when rendering
     opacity.value = withTiming(toast.visible ? 1 : 0, {
-      duration: 300,
+      duration: toast?.animationConfig?.animationDuration ?? 300,
     });
-  }, [toast.visible, opacity]);
+  }, [toast.visible, opacity, toast.animationConfig]);
 
   useEffect(() => {
     setPosition();
@@ -232,7 +248,6 @@ export const Toast: FC<Props> = ({
               : undefined,
             borderRadius: 8,
             position: 'absolute',
-            maxHeight: toastHeight,
             left: (width - toastWidth) / 2,
             zIndex: toast.visible ? 9999 : undefined,
             alignItems: 'center',
@@ -240,6 +255,7 @@ export const Toast: FC<Props> = ({
           },
           style,
           !toast.disableShadow && ConstructShadow('#181821', 0.15, false),
+          defaultStyle?.pressable,
           toast.styles?.pressable,
         ]}
       >
@@ -263,13 +279,14 @@ export const Toast: FC<Props> = ({
             }
             style={[
               {
-                height: toastHeight,
+                minHeight: toastHeight,
                 width: toastWidth,
                 flexDirection: 'row',
                 alignItems: 'center',
                 paddingVertical: 12,
                 paddingHorizontal: 16,
               },
+              defaultStyle?.view,
               toast.styles?.view,
             ]}
             key={toast.id}
@@ -291,6 +308,7 @@ export const Toast: FC<Props> = ({
                     borderRadius: 12,
                     marginRight: 12,
                   },
+                  defaultStyle?.indicator,
                   toast?.styles?.indicator,
                 ]}
               />
@@ -301,13 +319,13 @@ export const Toast: FC<Props> = ({
               toast.icon
             )}
             <Text
-              numberOfLines={1}
               style={[
                 {
                   color: isDarkMode ? colors.textLight : colors.textDark,
                   padding: 4,
                   flex: 1,
                 },
+                defaultStyle?.text,
                 toast?.styles?.text,
               ]}
             >

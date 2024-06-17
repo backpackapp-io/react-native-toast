@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { View } from 'react-native';
+import { TextStyle, View, ViewStyle } from 'react-native';
 
 import { Toast as T, useToaster } from '../headless';
 import { Toast } from './Toast';
@@ -13,6 +13,12 @@ type Props = {
   onToastHide?: (toast: T) => void;
   onToastPress?: (toast: T) => void;
   providerKey?: string;
+  defaultStyle?: {
+    pressable?: ViewStyle;
+    view?: ViewStyle;
+    text?: TextStyle;
+    indicator?: ViewStyle;
+  };
 };
 
 export const Toasts: FunctionComponent<Props> = ({
@@ -22,6 +28,7 @@ export const Toasts: FunctionComponent<Props> = ({
   onToastPress,
   onToastShow,
   providerKey = 'DEFAULT',
+  defaultStyle,
 }) => {
   const { toasts, handlers } = useToaster({ providerKey });
   const { startPause, endPause } = handlers;
@@ -53,6 +60,7 @@ export const Toasts: FunctionComponent<Props> = ({
           onToastPress={onToastPress}
           onToastShow={onToastShow}
           extraInsets={extraInsets}
+          defaultStyle={defaultStyle}
         />
       ))}
     </View>

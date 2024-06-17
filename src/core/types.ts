@@ -50,6 +50,11 @@ export interface Toast {
   customToast?: (toast: Toast) => JSX.Element;
   providerKey: string;
   isSwipeable?: boolean;
+  animationConfig?: {
+    flingPositionReturnDuration?: number;
+    animationStiffness?: number;
+    animationDuration?: number;
+  };
 }
 
 export type ToastOptions = Partial<
