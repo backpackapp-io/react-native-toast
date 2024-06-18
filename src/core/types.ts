@@ -71,6 +71,7 @@ export type ToastOptions = Partial<
     | 'disableShadow'
     | 'providerKey'
     | 'isSwipeable'
+    | 'animationConfig'
   >
 >;
 

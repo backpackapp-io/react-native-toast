@@ -466,6 +466,42 @@ toast.success('Copied to clipboard!', {
 });
 ```
 
+#### Adjust toast width to hug text
+To have the toast adjust its width based on the content of the text, you can apply the following styles.
+
+```
+styles: {
+  pressable: {
+    maxWidth: width - 32,
+    alignSelf: 'center',
+    left: null,
+    paddingHorizontal: 16
+  },
+  view: {
+    flexGrow: 1,
+    flexShrink: 1,
+    maxWidth: width - 32,
+    paddingHorizontal: 0,
+    width: undefined
+  },
+  text: {
+    flex: undefined,
+    flexGrow: 1,
+    flexShrink: 1,
+    flexWrap: 'wrap'
+  }
+}
+```
+
+These styles can be applied to the defaultStyle prop in the <Toasts /> component or to each toast instance individually. If you use these styles frequently, I recommend creating an object that you can add directly to each toast call, e.g.,
+
+```js
+toast('my toast', {
+  styles: AutoWidthStyles
+});
+```
+where `AutoWidthStyles` holds the actual styles for auto width.
+
 <br />
 
 ### ToastOptions *all optional*
