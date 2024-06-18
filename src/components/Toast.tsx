@@ -198,7 +198,9 @@ export const Toast: FC<Props> = ({
 
   useEffect(() => {
     //set the toast width if it updates while rendered
-    setToastWidth(toast?.width ? toast.width : width - 32);
+    setToastWidth(
+      toast?.width ? toast.width : width - 32 > 360 ? 360 : width - 32
+    );
   }, [toast.width, width]);
 
   useEffect(() => {
