@@ -5,6 +5,7 @@ import { Toast as T, useToaster } from '../headless';
 import { Toast } from './Toast';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ExtraInsets } from '../core/types';
+import { useScreenReader } from 'src/core/utils';
 
 type Props = {
   overrideDarkMode?: boolean;
@@ -33,6 +34,13 @@ export const Toasts: FunctionComponent<Props> = ({
   const { toasts, handlers } = useToaster({ providerKey });
   const { startPause, endPause } = handlers;
   const insets = useSafeAreaInsets();
+  const isScreenReaderEnabled = useScreenReader();
+
+  // If screen reader is enabled, we don't want to show toasts
+  // because overlay will block the screen reader
+  if (isScreenReaderEnabled) {
+    return null;
+  }
 
   return (
     <View
