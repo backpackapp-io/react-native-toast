@@ -32,6 +32,7 @@ export interface Toast {
   type: ToastType;
   id: string;
   message: ValueOrFunction<Element, Toast>;
+  accessabilityMessage?: string;
   icon?: Element;
   duration?: number;
   pauseDuration: number;
@@ -62,6 +63,7 @@ export type ToastOptions = Partial<
     Toast,
     | 'id'
     | 'icon'
+    | 'accessabilityMessage'
     | 'duration'
     | 'position'
     | 'styles'

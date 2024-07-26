@@ -5,6 +5,7 @@ import { Toast as T, useToaster } from '../headless';
 import { Toast } from './Toast';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ExtraInsets } from '../core/types';
+import { useScreenReader } from 'src/core/utils';
 
 type Props = {
   overrideDarkMode?: boolean;
@@ -13,6 +14,7 @@ type Props = {
   onToastHide?: (toast: T) => void;
   onToastPress?: (toast: T) => void;
   providerKey?: string;
+  preventScreenReaderFromHiding?: boolean;
   defaultStyle?: {
     pressable?: ViewStyle;
     view?: ViewStyle;
@@ -28,11 +30,17 @@ export const Toasts: FunctionComponent<Props> = ({
   onToastPress,
   onToastShow,
   providerKey = 'DEFAULT',
+  preventScreenReaderFromHiding,
   defaultStyle,
 }) => {
   const { toasts, handlers } = useToaster({ providerKey });
   const { startPause, endPause } = handlers;
   const insets = useSafeAreaInsets();
+  const isScreenReaderEnabled = useScreenReader();
+
+  if (isScreenReaderEnabled && !preventScreenReaderFromHiding) {
+    return null;
+  }
 
   return (
     <View
