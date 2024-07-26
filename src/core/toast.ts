@@ -8,7 +8,7 @@ import {
   ToastType,
   ValueOrFunction,
 } from './types';
-import { genId } from './utils';
+import { announceForAccessibility, genId } from './utils';
 import { ActionType, dispatch } from './store';
 
 type Message = ValueOrFunction<Element, Toast>;
@@ -37,6 +37,11 @@ const createHandler =
   (message, options) => {
     const toast = createToast(message, type, options);
     dispatch({ type: ActionType.UPSERT_TOAST, toast });
+
+    if (toast.accessabilityMessage) {
+      announceForAccessibility(toast.accessabilityMessage);
+    }
+
     return toast.id;
   };
 

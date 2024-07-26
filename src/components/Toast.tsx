@@ -116,10 +116,10 @@ export const Toast: FC<Props> = ({
     //based on offset, visibility, keyboard, and toast height
     if (toast.position === ToastPosition.TOP) {
       offsetY.value = withTiming(toast.visible ? offset : startingY, {
-        duration: toast?.animationConfig?.animationDuration ?? 300,
+        duration: toast?.animationConfig?.duration ?? 300,
       });
       position.value = withTiming(toast.visible ? offset : startingY, {
-        duration: toast?.animationConfig?.animationDuration ?? 300,
+        duration: toast?.animationConfig?.duration ?? 300,
       });
     } else {
       let kbHeight = keyboardVisible ? keyboardHeight : 0;
@@ -134,11 +134,13 @@ export const Toast: FC<Props> = ({
         : startingY;
 
       offsetY.value = withSpring(val, {
-        stiffness: toast?.animationConfig?.animationStiffness ?? 80,
+        stiffness: toast?.animationConfig?.stiffness ?? 80,
+        ...(toast?.animationConfig ?? {}),
       });
 
       position.value = withSpring(val, {
-        stiffness: toast?.animationConfig?.animationStiffness ?? 80,
+        stiffness: toast?.animationConfig?.stiffness ?? 80,
+        ...(toast?.animationConfig ?? {}),
       });
     }
   }, [
@@ -206,7 +208,7 @@ export const Toast: FC<Props> = ({
   useEffect(() => {
     //Control visibility of toast when rendering
     opacity.value = withTiming(toast.visible ? 1 : 0, {
-      duration: toast?.animationConfig?.animationDuration ?? 300,
+      duration: toast?.animationConfig?.duration ?? 300,
     });
   }, [toast.visible, opacity, toast.animationConfig]);
 

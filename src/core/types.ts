@@ -1,4 +1,5 @@
 import type { TextStyle, ViewStyle } from 'react-native';
+import type { SpringConfig } from 'react-native-reanimated/lib/typescript/reanimated2/animation/springUtils';
 
 export type ToastType = 'success' | 'error' | 'loading' | 'blank';
 export enum ToastPosition {
@@ -32,6 +33,7 @@ export interface Toast {
   type: ToastType;
   id: string;
   message: ValueOrFunction<Element, Toast>;
+  accessabilityMessage?: string;
   icon?: Element;
   duration?: number;
   pauseDuration: number;
@@ -52,9 +54,7 @@ export interface Toast {
   isSwipeable?: boolean;
   animationConfig?: {
     flingPositionReturnDuration?: number;
-    animationStiffness?: number;
-    animationDuration?: number;
-  };
+  } & SpringConfig;
 }
 
 export type ToastOptions = Partial<
@@ -62,6 +62,7 @@ export type ToastOptions = Partial<
     Toast,
     | 'id'
     | 'icon'
+    | 'accessabilityMessage'
     | 'duration'
     | 'position'
     | 'styles'
