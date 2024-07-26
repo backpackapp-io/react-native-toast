@@ -14,6 +14,7 @@ type Props = {
   onToastHide?: (toast: T) => void;
   onToastPress?: (toast: T) => void;
   providerKey?: string;
+  preventScreenReaderFromHiding?: boolean;
   defaultStyle?: {
     pressable?: ViewStyle;
     view?: ViewStyle;
@@ -29,6 +30,7 @@ export const Toasts: FunctionComponent<Props> = ({
   onToastPress,
   onToastShow,
   providerKey = 'DEFAULT',
+  preventScreenReaderFromHiding,
   defaultStyle,
 }) => {
   const { toasts, handlers } = useToaster({ providerKey });
@@ -36,9 +38,7 @@ export const Toasts: FunctionComponent<Props> = ({
   const insets = useSafeAreaInsets();
   const isScreenReaderEnabled = useScreenReader();
 
-  // If screen reader is enabled, we don't want to show toasts
-  // because overlay will block the screen reader
-  if (isScreenReaderEnabled) {
+  if (isScreenReaderEnabled && !preventScreenReaderFromHiding) {
     return null;
   }
 
