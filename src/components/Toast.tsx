@@ -10,11 +10,15 @@ import {
   ViewStyle,
 } from 'react-native';
 import Animated, {
+  Easing,
+  ReduceMotion,
   runOnJS,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
+  type WithSpringConfig,
   withTiming,
+  type WithTimingConfig,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
@@ -114,13 +118,36 @@ export const Toast: FC<Props> = ({
   const setPosition = useCallback(() => {
     //control the position of the toast when rendering
     //based on offset, visibility, keyboard, and toast height
+    let timingConfig: WithTimingConfig = {
+      duration: 300,
+    };
+    let springConfig: WithSpringConfig = {
+      stiffness: 80,
+    };
+    if (toast.animationConfig) {
+      const {
+        duration = 300,
+        easing = Easing.inOut(Easing.quad),
+        reduceMotion = ReduceMotion.System,
+        ...spring
+      } = toast.animationConfig;
+      timingConfig = {
+        duration,
+        easing,
+        reduceMotion,
+      };
+      springConfig = spring;
+    }
+
     if (toast.position === ToastPosition.TOP) {
-      offsetY.value = withTiming(toast.visible ? offset : startingY, {
-        duration: toast?.animationConfig?.duration ?? 300,
-      });
-      position.value = withTiming(toast.visible ? offset : startingY, {
-        duration: toast?.animationConfig?.duration ?? 300,
-      });
+      offsetY.value = withTiming(
+        toast.visible ? offset : startingY,
+        timingConfig
+      );
+      position.value = withTiming(
+        toast.visible ? offset : startingY,
+        timingConfig
+      );
     } else {
       let kbHeight = keyboardVisible ? keyboardHeight : 0;
       const val = toast.visible
@@ -133,15 +160,9 @@ export const Toast: FC<Props> = ({
           24
         : startingY;
 
-      offsetY.value = withSpring(val, {
-        stiffness: toast?.animationConfig?.stiffness ?? 80,
-        ...(toast?.animationConfig ?? {}),
-      });
+      offsetY.value = withSpring(val, springConfig);
 
-      position.value = withSpring(val, {
-        stiffness: toast?.animationConfig?.stiffness ?? 80,
-        ...(toast?.animationConfig ?? {}),
-      });
+      position.value = withSpring(val, springConfig);
     }
   }, [
     offset,
