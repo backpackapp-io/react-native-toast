@@ -6,6 +6,7 @@ import { Toast } from './Toast';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ExtraInsets } from '../core/types';
 import { useScreenReader } from 'src/core/utils';
+import { useKeyboard } from 'src/utils';
 
 type Props = {
   overrideDarkMode?: boolean;
@@ -37,6 +38,7 @@ export const Toasts: FunctionComponent<Props> = ({
   const { startPause, endPause } = handlers;
   const insets = useSafeAreaInsets();
   const isScreenReaderEnabled = useScreenReader();
+  const { keyboardShown: keyboardVisible, keyboardHeight } = useKeyboard();
 
   if (isScreenReaderEnabled && !preventScreenReaderFromHiding) {
     return null;
@@ -69,6 +71,8 @@ export const Toasts: FunctionComponent<Props> = ({
           onToastShow={onToastShow}
           extraInsets={extraInsets}
           defaultStyle={defaultStyle}
+          keyboardVisible={keyboardVisible}
+          keyboardHeight={keyboardHeight}
         />
       ))}
     </View>
