@@ -28,6 +28,8 @@ const createToast = (
   position: ToastPosition.TOP,
   providerKey: 'DEFAULT',
   isSwipeable: true,
+  animationType: opts?.animationType ?? 'timing',
+  animationConfig: opts?.animationConfig,
   ...opts,
   id: opts?.id || genId(),
 });

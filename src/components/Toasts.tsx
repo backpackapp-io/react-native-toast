@@ -4,7 +4,11 @@ import { TextStyle, View, ViewStyle } from 'react-native';
 import { Toast as T, useToaster } from '../headless';
 import { Toast } from './Toast';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { ExtraInsets } from '../core/types';
+import {
+  ExtraInsets,
+  ToastAnimationConfig,
+  ToastAnimationType,
+} from '../core/types';
 import { useScreenReader } from 'src/core/utils';
 import { useKeyboard } from 'src/utils';
 
@@ -22,6 +26,8 @@ type Props = {
     text?: TextStyle;
     indicator?: ViewStyle;
   };
+  globalAnimationType?: ToastAnimationType;
+  globalAnimationConfig?: ToastAnimationConfig;
 };
 
 export const Toasts: FunctionComponent<Props> = ({
@@ -33,6 +39,8 @@ export const Toasts: FunctionComponent<Props> = ({
   providerKey = 'DEFAULT',
   preventScreenReaderFromHiding,
   defaultStyle,
+  globalAnimationType,
+  globalAnimationConfig,
 }) => {
   const { toasts, handlers } = useToaster({ providerKey });
   const { startPause, endPause } = handlers;
@@ -58,7 +66,11 @@ export const Toasts: FunctionComponent<Props> = ({
       {toasts.map((t) => (
         <Toast
           key={t.id}
-          toast={t}
+          toast={{
+            ...t,
+            animationType: t.animationType || globalAnimationType,
+            animationConfig: t.animationConfig || globalAnimationConfig,
+          }}
           startPause={startPause}
           endPause={endPause}
           updateHeight={handlers.updateHeight}
