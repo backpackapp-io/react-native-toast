@@ -25,12 +25,7 @@ import {
 
 import type { ExtraInsets, Toast as ToastType } from '../core/types';
 import { resolveValue, Toast as T, ToastPosition } from '../core/types';
-import {
-  colors,
-  ConstructShadow,
-  useKeyboard,
-  useVisibilityChange,
-} from '../utils';
+import { colors, ConstructShadow, useVisibilityChange } from '../utils';
 import { toast as toasting } from '../headless';
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
@@ -48,6 +43,8 @@ type Props = {
   onToastHide?: (toast: T) => void;
   onToastPress?: (toast: T) => void;
   extraInsets?: ExtraInsets;
+  keyboardVisible?: boolean;
+  keyboardHeight: number;
   defaultStyle?: {
     pressable?: ViewStyle;
     view?: ViewStyle;
@@ -68,10 +65,11 @@ export const Toast: FC<Props> = ({
   onToastShow,
   extraInsets,
   defaultStyle,
+  keyboardVisible,
+  keyboardHeight,
 }) => {
   const insets = useSafeAreaInsets();
   const { width, height } = useWindowDimensions();
-  const { keyboardShown: keyboardVisible, keyboardHeight } = useKeyboard();
 
   useVisibilityChange(
     () => {
