@@ -264,6 +264,11 @@ toast('Hello World', {
     text: TextStyle,
     indicator: ViewStyle
   },
+  animationType: 'timing' | 'spring',
+  animationConfig: {
+    flingPositionReturnDuration: number,
+    ...(springConfig | timingConfig)
+  },
 });
 ```
 
@@ -401,6 +406,63 @@ Every type has its own duration. You can overwrite them `duration` with the toas
 | `loading` | Infinity |
 
 <br />
+
+### Animation Options
+You can now control the animation type and configuration for toasts.
+
+#### Props
+
+- **animationType** (`'spring' | 'timing'`, optional): Choose the animation type for toast appearance. By default, toasts positioned at the bottom use spring, and those at the top use timing.
+- **animationConfig** (object, optional): Customize the animation configuration for spring or timing.
+
+#### Example Usage
+
+```javascript
+import { toast } from 'react-native-toast';
+
+// Show a toast with custom animation settings
+toast.show('This is a toast message', {
+  animationType: 'spring',
+  animationConfig: {
+    duration: 500,
+    stiffness: 100,
+  },
+  position: 'top',
+});
+````
+
+### Global Animation Configuration/Type
+
+You can define a `globalAnimationType` and a `globalAnimationConfig` that sets the default animation configuration for all toasts. If an individual toast specifies its own `animationConfig`, it will override this global setting.
+
+#### Props
+
+- **globalAnimationConfig** (object, optional): Provides a default configuration for toast animations using either spring or timing options.
+
+#### Example Usage
+
+```javascript
+import { Toasts } from 'react-native-toast';
+
+// In your component
+<Toasts
+  globalAnimationType="spring"
+  globalAnimationConfig={{
+    duration: 500,
+    stiffness: 120,
+  }}
+/>
+
+// Or when showing a toast
+toast.show('This is a toast message', {
+  position: 'bottom',
+  animationType: 'spring',
+  animationConfig: {
+    duration: 400,
+    damping: 10,
+  },
+});
+```
 
 
 ### Dismiss toast programmatically

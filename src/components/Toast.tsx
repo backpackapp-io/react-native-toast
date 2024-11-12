@@ -116,14 +116,9 @@ export const Toast: FC<Props> = ({
   }, []);
 
   const setPosition = useCallback(() => {
-    //control the position of the toast when rendering
-    //based on offset, visibility, keyboard, and toast height
-    let timingConfig: WithTimingConfig = {
-      duration: 300,
-    };
-    let springConfig: WithSpringConfig = {
-      stiffness: 80,
-    };
+    let timingConfig: WithTimingConfig = { duration: 300 };
+    let springConfig: WithSpringConfig = { stiffness: 80 };
+
     if (toast.animationConfig) {
       const {
         duration = 300,
@@ -131,22 +126,22 @@ export const Toast: FC<Props> = ({
         reduceMotion = ReduceMotion.System,
         ...spring
       } = toast.animationConfig;
-      timingConfig = {
-        duration,
-        easing,
-        reduceMotion,
-      };
+      timingConfig = { duration, easing, reduceMotion };
       springConfig = spring;
     }
 
+    const useSpringAnimation = toast.animationType === 'spring';
+
+    const animation = useSpringAnimation ? withSpring : withTiming;
+
     if (toast.position === ToastPosition.TOP) {
-      offsetY.value = withTiming(
+      offsetY.value = animation(
         toast.visible ? offset : startingY,
-        timingConfig
+        useSpringAnimation ? springConfig : timingConfig
       );
-      position.value = withTiming(
+      position.value = animation(
         toast.visible ? offset : startingY,
-        timingConfig
+        useSpringAnimation ? springConfig : timingConfig
       );
     } else {
       let kbHeight = keyboardVisible ? keyboardHeight : 0;
@@ -160,9 +155,14 @@ export const Toast: FC<Props> = ({
           24
         : startingY;
 
-      offsetY.value = withSpring(val, springConfig);
-
-      position.value = withSpring(val, springConfig);
+      offsetY.value = animation(
+        val,
+        useSpringAnimation ? springConfig : timingConfig
+      );
+      position.value = animation(
+        val,
+        useSpringAnimation ? springConfig : timingConfig
+      );
     }
   }, [
     offset,
@@ -177,6 +177,7 @@ export const Toast: FC<Props> = ({
     offsetY,
     extraInsets,
     toast.animationConfig,
+    toast.animationType,
   ]);
 
   const composedGesture = useMemo(() => {
@@ -215,19 +216,16 @@ export const Toast: FC<Props> = ({
   ]);
 
   useEffect(() => {
-    //set the toast height if it updates while rendered
     setToastHeight(toast?.height ? toast.height : DEFAULT_TOAST_HEIGHT);
   }, [toast.height]);
 
   useEffect(() => {
-    //set the toast width if it updates while rendered
     setToastWidth(
       toast?.width ? toast.width : width - 32 > 360 ? 360 : width - 32
     );
   }, [toast.width, width]);
 
   useEffect(() => {
-    //Control visibility of toast when rendering
     opacity.value = withTiming(toast.visible ? 1 : 0, {
       duration: toast?.animationConfig?.duration ?? 300,
     });

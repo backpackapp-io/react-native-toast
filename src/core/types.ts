@@ -1,8 +1,5 @@
 import type { TextStyle, ViewStyle } from 'react-native';
-import type {
-  WithTimingConfig,
-  WithSpringConfig,
-} from 'react-native-reanimated';
+import { WithSpringConfig, WithTimingConfig } from 'react-native-reanimated';
 
 export type ToastType = 'success' | 'error' | 'loading' | 'blank';
 export enum ToastPosition {
@@ -16,6 +13,12 @@ export interface IconTheme {
   primary: string;
   secondary: string;
 }
+export type ToastAnimationType = 'spring' | 'timing';
+
+export type ToastAnimationConfig = {
+  flingPositionReturnDuration?: number;
+} & WithSpringConfig &
+  WithTimingConfig;
 
 export type ValueFunction<TValue, TArg> = (arg: TArg) => TValue;
 export type ValueOrFunction<TValue, TArg> =
@@ -55,10 +58,8 @@ export interface Toast {
   customToast?: (toast: Toast) => JSX.Element;
   providerKey: string;
   isSwipeable?: boolean;
-  animationConfig?: {
-    flingPositionReturnDuration?: number;
-  } & WithSpringConfig &
-    WithTimingConfig;
+  animationType?: ToastAnimationType;
+  animationConfig?: ToastAnimationConfig;
 }
 
 export type ToastOptions = Partial<
@@ -77,6 +78,7 @@ export type ToastOptions = Partial<
     | 'providerKey'
     | 'isSwipeable'
     | 'animationConfig'
+    | 'animationType'
   >
 >;
 
