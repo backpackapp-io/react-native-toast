@@ -9,8 +9,8 @@ import {
   ToastAnimationConfig,
   ToastAnimationType,
 } from '../core/types';
-import { useScreenReader } from 'src/core/utils';
-import { useKeyboard } from 'src/utils';
+import { useScreenReader } from '../core/utils';
+import { useKeyboard } from '../utils';
 
 type Props = {
   overrideDarkMode?: boolean;
