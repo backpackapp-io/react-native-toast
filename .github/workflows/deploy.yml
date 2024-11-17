@@ -1,0 +1,43 @@
+name: Build and Deploy Docusaurus Site
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build Docusaurus Site
+        run: npm run build
+
+      - name: Clone Deployment Repository
+        run: |
+          git clone https://github.com/backpackapp-io/docs-deployment.git deployment-repo
+        env:
+          GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
+
+      - name: Copy Build to Deployment Repo
+        run: |
+          rm -rf deployment-repo/hosting/react-native-toast
+          mkdir -p deployment-repo/hosting/react-native-toast
+          cp -R /website/build/* deployment-repo/hosting/react-native-toast/
+        working-directory: .
+
+      - name: Commit and Push Changes to Deployment Repo
+        run: |
+          cd deployment-repo
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add hosting/react-native-toast
+          git commit -m "Update react-native-toast docs from $GITHUB_REPOSITORY@$GITHUB_SHA"
+          git push origin main
+        env:
+          GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
