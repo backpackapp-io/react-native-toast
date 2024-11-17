@@ -10,7 +10,7 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install Dependencies
         run: cd website && npm install
@@ -18,11 +18,12 @@ jobs:
       - name: Build Docusaurus Site
         run: cd website && npm run build
 
-      - name: Clone Deployment Repository
-        run: |
-          git clone https://github.com/backpackapp-io/docs-deployment.git deployment-repo
-        env:
-          GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
+      - name: Checkout Deployment Repository
+        uses: actions/checkout@v3
+        with:
+          repository: backpackapp-io/docs-deployment
+          path: deployment-repo
+          token: ${{ secrets.GIT_TOKEN }}  # The PAT with access to the deployment repo
 
       - name: Copy Build to Deployment Repo
         run: |
@@ -37,7 +38,5 @@ jobs:
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
           git add hosting/react-native-toast
-          git commit -m "Update react-native-toast docs from $GITHUB_REPOSITORY@$GITHUB_SHA"
+          git commit -m "Update react-native-toast docs from $GITHUB_REPOSITORY@$GITHUB_SHA" || echo "No changes to commit"
           git push origin main
-        env:
-          GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
