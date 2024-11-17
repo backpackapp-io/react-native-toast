@@ -49,7 +49,7 @@ const config: Config = {
           sidebarId: 'tutorialSidebar',
           position: 'left',
           label: 'Get Started',
-          to: '/docs/index',
+          to: '/',
         },
         {
           href: 'https://github.com/backpackapp-io/react-native-toast',
@@ -66,7 +66,7 @@ const config: Config = {
           items: [
             {
               label: 'Get Started',
-              to: '/docs/index',
+              to: '/',
             },
           ],
         },

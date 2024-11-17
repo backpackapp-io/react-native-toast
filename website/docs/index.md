@@ -115,10 +115,10 @@ react-native-toast is built with modified react-hot-toast internals? Why? Well, 
 
 
 ## Contributing
-See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
+See the [contributing guide](https://github.com/backpackapp-io/react-native-toast/blob/master/CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
 
 ## License
-[MIT](./LICENSE)
+[MIT](https://github.com/backpackapp-io/react-native-toast/blob/master/LICENSE)
 
 Made with [create-react-native-library](https://github.com/callstack/react-native-builder-bob)
 
