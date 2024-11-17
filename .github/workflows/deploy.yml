@@ -13,10 +13,12 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install Dependencies
-        run: cd website && npm install
+        working-directory: website
+        run: npm install
 
       - name: Build Docusaurus Site
-        run: cd website && npm run build
+        working-directory: website
+        run: npm run build
 
       - name: Checkout Deployment Repository
         uses: actions/checkout@v3
@@ -29,8 +31,7 @@ jobs:
         run: |
           rm -rf deployment-repo/hosting/react-native-toast
           mkdir -p deployment-repo/hosting/react-native-toast
-          cp -R /website/build/* deployment-repo/hosting/react-native-toast/
-        working-directory: .
+          cp -R website/build/* deployment-repo/hosting/react-native-toast/
 
       - name: Commit and Push Changes to Deployment Repo
         run: |
