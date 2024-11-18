@@ -77,6 +77,13 @@ const config: Config = {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
     },
+    algolia: {
+      appId: 'EUH7S3OU5L',
+
+      apiKey: '9e23f541ed9dd307b8bd9c9edc9c95f7',
+
+      indexName: 'backpackapp',
+    },
   },
 };
 
