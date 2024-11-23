@@ -15,10 +15,11 @@ export interface IconTheme {
 }
 export type ToastAnimationType = 'spring' | 'timing';
 
-export type ToastAnimationConfig = {
-  flingPositionReturnDuration?: number;
-} & WithSpringConfig &
-  WithTimingConfig;
+export type ToastAnimationConfig =
+  | (WithSpringConfig & WithTimingConfig) & {
+      duration?: number;
+      flingPositionReturnDuration?: number;
+    };
 
 export type ValueFunction<TValue, TArg> = (arg: TArg) => TValue;
 export type ValueOrFunction<TValue, TArg> =

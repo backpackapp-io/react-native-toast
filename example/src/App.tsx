@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { FunctionComponent, useCallback, useState } from 'react';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 import {
+  ActivityIndicator,
   Button,
   Pressable,
   ScrollView,
@@ -19,6 +19,7 @@ import { toast } from '../../src/headless';
 import { ToastPosition } from '../../src/core/types';
 import { colors } from '../../src/utils';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 export default function App() {
   const { width: screenWidth } = useWindowDimensions();
@@ -157,10 +158,24 @@ export default function App() {
                   }
                 }, 2500);
               });
+
               toast.promise(
                 sleep,
                 {
-                  loading: 'Loading...',
+                  loading: (
+                    <View
+                      style={{ flexDirection: 'row', alignItems: 'center' }}
+                    >
+                      <ActivityIndicator style={{ marginRight: 16 }} />
+                      <Text
+                        style={{
+                          color: 'white',
+                        }}
+                      >
+                        Loading
+                      </Text>
+                    </View>
+                  ),
                   success: (data: any) => 'Welcome ' + data.username,
                   error: (err) => err.toString(),
                 },
@@ -169,6 +184,10 @@ export default function App() {
                   duration,
                   height,
                   width,
+                  animationConfig: {
+                    stiffness: 300,
+                    duration: 200,
+                  },
                 }
               );
             }}
