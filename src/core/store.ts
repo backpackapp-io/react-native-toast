@@ -13,7 +13,7 @@ export enum ActionType {
   END_PAUSE,
 }
 
-type Action =
+export type Action =
   | {
       type: ActionType.ADD_TOAST;
       toast: Toast;

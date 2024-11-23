@@ -9,7 +9,7 @@ import {
   ToastAnimationConfig,
   ToastAnimationType,
 } from '../core/types';
-import { useScreenReader } from '../core/utils';
+import { useScreenReader } from '../utils';
 import { useKeyboard } from '../utils';
 
 type Props = {
@@ -68,8 +68,9 @@ export const Toasts: FunctionComponent<Props> = ({
           key={t.id}
           toast={{
             ...t,
-            animationType: t.animationType || globalAnimationType,
-            animationConfig: t.animationConfig || globalAnimationConfig,
+            animationType: t.animationType || globalAnimationType || 'timing',
+            animationConfig: t.animationConfig ||
+              globalAnimationConfig || { duration: 300 },
           }}
           startPause={startPause}
           endPause={endPause}

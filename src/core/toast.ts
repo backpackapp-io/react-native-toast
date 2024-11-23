@@ -8,7 +8,8 @@ import {
   ToastType,
   ValueOrFunction,
 } from './types';
-import { announceForAccessibility, genId } from './utils';
+import { genId } from './utils';
+import { announceForAccessibility } from '../utils';
 import { ActionType, dispatch } from './store';
 
 type Message = ValueOrFunction<Element, Toast>;
@@ -28,7 +29,7 @@ const createToast = (
   position: ToastPosition.TOP,
   providerKey: 'DEFAULT',
   isSwipeable: true,
-  animationType: opts?.animationType ?? 'timing',
+  animationType: opts?.animationType,
   animationConfig: opts?.animationConfig,
   ...opts,
   id: opts?.id || genId(),

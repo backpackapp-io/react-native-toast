@@ -9,7 +9,7 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "jsx": "react",
-    "lib": ["esnext"],
+    "lib": ["esnext", "dom"],
     "module": "esnext",
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
@@ -23,5 +23,7 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "esnext",
+    "types": ["jest", "node"]
   },
+  "exclude": ["node_modules", "babel.config.js", "metro.config.js", "jest.config.js", "website"],
 }

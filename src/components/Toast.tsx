@@ -255,6 +255,7 @@ export const Toast: FC<Props> = ({
   return (
     <GestureDetector key={toast.id} gesture={composedGesture}>
       <AnimatedPressable
+        testID="toast-pressable"
         onPressIn={startPause}
         onPressOut={() => {
           endPause();
@@ -282,6 +283,7 @@ export const Toast: FC<Props> = ({
       >
         {toast.customToast ? (
           <View
+            testID="toast-view"
             onLayout={(event) =>
               updateHeight(toast.id, event.nativeEvent.layout.height)
             }
@@ -295,6 +297,7 @@ export const Toast: FC<Props> = ({
           </View>
         ) : (
           <View
+            testID="toast-view"
             onLayout={(event) =>
               updateHeight(toast.id, event.nativeEvent.layout.height)
             }
