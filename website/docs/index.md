@@ -1,8 +1,8 @@
 ---
 id: index
-title: React Native Toast
+title: Introduction
 hide_title: true
-sidebar_label: React Native Toast
+sidebar_label: Introduction
 description: A toast library for React Native, inspired by react-hot-toast. Features include multiple toasts, keyboard handling, swipe-to-dismiss, positional toasts, and support for JS promises. Works on iOS, Android, and web.
 slug: /
 ---
@@ -32,11 +32,11 @@ A toast library for React Native, inspired by [react-hot-toast](https://react-ho
 - Support for native modals
 - Callbacks for onPress, onShow, and onHide
 ## Installation
-```sh
+```bash
 yarn add @backpackapp-io/react-native-toast
 ```
 *OR*
-```sh
+```bash
 npm i @backpackapp-io/react-native-toast
 ```
 #### Peer Dependencies
@@ -54,54 +54,12 @@ npx expo install react-native-reanimated react-native-safe-area-context react-na
 ```
 <br />
 
-### Cool, now what?
-Wrap your App with ``<GestureHandlerRootView />`` and ``<SafeAreaProvider />`` & add the ``<Toasts />`` component to the root of your app.
-
-Call ``toast("My Toast Message")`` whenever you are ready from *anywhere* in your app.
-
-```js
-import { View, StyleSheet, Text } from 'react-native';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { toast, Toasts } from '@backpackapp-io/react-native-toast';
-import { useEffect } from 'react';
-
-export default function App() {
-  useEffect(() => {
-    toast('Hello');
-  }, []);
-
-  return (
-    <SafeAreaProvider>
-      <GestureHandlerRootView style={styles.container}>
-        <View>{/*The rest of your app*/}</View>
-        <Toasts /> {/* <---- Add Here */}
-      </GestureHandlerRootView>
-    </SafeAreaProvider>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
-```
 
 :::info
 **React Native Gesture Handler v3** needs extra steps to finalize its installation, please follow their [installation instructions](https://docs.swmansion.com/react-native-gesture-handler/docs/fundamentals/installation). Please **make sure** to wrap your App with `GestureHandlerRootView` when you've upgraded to React Native Gesture Handler ^3.
 
 **React Native Reanimated v3** needs extra steps to finalize its installation, please follow their [installation instructions](https://docs.swmansion.com/react-native-reanimated/docs/fundamentals/getting-started).
 :::
-
-## Built With ❤️
-
-- [react-native-reanimated](https://github.com/software-mansion/react-native-reanimated)
-- [react-native-gesture-handler](https://github.com/software-mansion/react-native-gesture-handler)
-- [react-native-builder-bob](https://github.com/callstack/react-native-builder-bob)
-
 
 ### Thank you [react-hot-toast](https://react-hot-toast.com)
 

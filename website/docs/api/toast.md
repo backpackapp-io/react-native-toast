@@ -2,33 +2,37 @@
 id: toast
 title: Toast
 hide_title: true
-sidebar_label: Toast()
-slug: /toast
+sidebar_label: toast()
+slug: /api/toast
 ---
 
-## `toast()` API
+# `toast()` API
 
-Call it to create a toast from anywhere, even outside React (*hello* errors from controllers). Make sure you add the `<Toasts/>`component to your app first.
+Call it to create a toast from anywhere, even outside React components, such as in your state management tools.
 
-## Available toast options
+**Make sure you add the `<Toasts/>` component to your app first.**
 
-You can provide `ToastOptions` as the second argument. *All arguments are optional*.
+
+### Basic Usage
 
 ```js
+import { toast } from '@backpackapp-io/react-native-toast';
+
+// ...
+
+toast('Hello World');
+
+// ...
+
 toast('Hello World', {
   duration: 4000,
   position: ToastPosition.TOP,
   icon: '👏',
-  styles: {
-    view: ViewStyle,
-    pressable: ViewStyle,
-    text: TextStyle,
-    indicator: ViewStyle
-  },
-  animationType: 'timing' | 'spring',
+  animationType: 'timing',
   animationConfig: {
-    flingPositionReturnDuration: number,
-    ...(springConfig | timingConfig)
+    duration: 500,
+    flingPositionReturnDuration: 200,
+    easing: Easing.elastic(1),
   },
 });
 ```
@@ -141,34 +145,11 @@ toast.promise(
 );
 ```
 
-## Prevent Swipe to Dismiss
 
-```js
-toast('This toast cannot be swiped away', {
-  duration: 4000,
-  position: ToastPosition.TOP,
-  isSwipeable: false, // <-- Add here (defaults to true)
-})
-```
-
-<br />
-
-## Disable Shadow
-
-You can disable the shadow of the toast by setting `disableShadow` to `true`.
-
-```js
-toast('This toast has no shadow', {
-  duration: 4000,
-  position: ToastPosition.TOP,
-  disableShadow: true, // <-- Add here (defaults to false)
-})
-
-```
 
 ## Default durations
 
-Every type has its own duration. You can overwrite them `duration` with the toast options.
+Every type has its own duration. You can overwrite them by using the `duration` field within the toast options.
 
 | type      | duration |
 |-----------|----------|
@@ -177,65 +158,6 @@ Every type has its own duration. You can overwrite them `duration` with the toas
 | `success` | 2000     |
 | `custom`  | 4000     |
 | `loading` | Infinity |
-
-<br />
-
-## Animation Options
-You can now control the animation type and configuration for toasts.
-
-### Props
-
-- **animationType** (`'spring' | 'timing'`, optional): Choose the animation type for toast appearance. By default, toasts positioned at the bottom use spring, and those at the top use timing.
-- **animationConfig** (object, optional): Customize the animation configuration for spring or timing.
-
-### Example Usage
-
-```javascript
-import { toast } from 'react-native-toast';
-
-// Show a toast with custom animation settings
-toast.show('This is a toast message', {
-  animationType: 'spring',
-  animationConfig: {
-    duration: 500,
-    stiffness: 100,
-  },
-  position: 'top',
-});
-````
-
-### Global Animation Configuration/Type
-
-You can define a `globalAnimationType` and a `globalAnimationConfig` that sets the default animation configuration for all toasts. If an individual toast specifies its own `animationConfig`, it will override this global setting.
-
-#### Props
-
-- **globalAnimationConfig** (object, optional): Provides a default configuration for toast animations using either spring or timing options.
-
-#### Example Usage
-
-```javascript
-import { Toasts } from 'react-native-toast';
-
-// In your component
-<Toasts
-  globalAnimationType="spring"
-  globalAnimationConfig={{
-    duration: 500,
-    stiffness: 120,
-  }}
-/>
-
-// Or when showing a toast
-toast.show('This is a toast message', {
-  position: 'bottom',
-  animationType: 'spring',
-  animationConfig: {
-    duration: 400,
-    damping: 10,
-  },
-});
-```
 
 
 ## Dismiss toast programmatically
@@ -301,11 +223,56 @@ toast.success('Copied to clipboard!', {
 });
 ```
 
+
+## Prevent Swipe to Dismiss
+
+```js
+toast('This toast cannot be swiped away', {
+  duration: 4000,
+  position: ToastPosition.TOP,
+  isSwipeable: false, // <-- Add here (defaults to true)
+})
+```
+
+<br />
+
+## Disable Shadow
+
+You can disable the shadow of the toast by setting `disableShadow` to `true`.
+
+```js
+toast('This toast has no shadow', {
+  duration: 4000,
+  position: ToastPosition.TOP,
+  disableShadow: true, // <-- Add here (defaults to false)
+})
+
+```
+
+## Animation Options
+Control the animation type and configuration for toasts.
+*Note: it is important to still supply the duration when configuring the animation. The duration in `animatonConfig` controls the duration of the opacity animation, not the total duration of the toast.*
+
+```js
+import { toast } from 'react-native-toast';
+
+// Show a toast with custom animation settings
+toast.show('This is a toast message', {
+  animationType: 'spring',
+  animationConfig: {
+    duration: 500,
+    stiffness: 100,
+  },
+  position: 'top',
+});
+````
+
+
 ## Adjust toast width to hug text
 To have the toast adjust its width based on the content of the text, you can apply the following styles.
 
-```
-styles: {
+```js
+AutoWidthStyles = {
   pressable: {
     maxWidth: width - 32,
     alignSelf: 'center',
@@ -339,3 +306,24 @@ where `AutoWidthStyles` holds the actual styles for auto width.
 
 
 <br />
+
+## All toast() Options
+
+| Name            | Type     | Default   | Description                                                                                  |
+|-----------------|----------|-----------|----------------------------------------------------------------------------------------------|
+| `duration`      | number   | 3000      | Duration in milliseconds. Set to `Infinity` to keep the toast open until dismissed manually. |
+| `position`      | enum     | 1         | Position of the toast. Can be ToastPosition.TOP or ToastPosition.BOTTOM.                     |
+| `id`            | string   |           | Unique id for the toast.                                                                     |
+| `icon`          | Element  |           | Icon to display on the left of the toast.                                                    |
+| `animationType` | string   | 'timing'  | Animation type. Can be 'timing' or 'spring'.                                                 |
+| `animationConfig`| object   |           | Animation configuration.                                                                     |
+| `customToast`   | function |           | Custom toast component.                                                                      |
+| `width`         | number   |           | Width of the toast.                                                                          |
+| `height`        | number   |           | Height of the toast.                                                                         |
+| `disableShadow` | boolean  | false     | Disable shadow on the toast.                                                                 |
+| `isSwipeable`   | boolean  | true      | Disable/Enable swipe to dismiss the toast.                                                   |
+| `providerKey`   | string   | 'DEFAULT' | Provider key for the toast.                                                                  |
+| `accessibilityMessage`| string   |           | Accessibility message for screen readers.                                                    |
+| `styles`        | object   |           | Styles for the toast.                                                                        |
+
+

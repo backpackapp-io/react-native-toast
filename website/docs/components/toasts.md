@@ -3,7 +3,7 @@ id: toasts
 title: <Toasts />
 hide_title: true
 sidebar_label: <Toasts />
-slug: /toasts
+slug: /components/toasts
 ---
 
 # `<Toasts />`
@@ -12,11 +12,31 @@ Include the `<Toasts />` component in the root of your app.
 
 ## Props
 
-### overrideDarkMode (`boolean | undefined`)
+### globalAnimationType
+`'timing' | 'spring'`
+
+Set the global animation type for all toasts. This can be overridden by the toast options.
+```js
+<Toasts globalAnimationType="spring" />
+```
+
+### globalAnimationConfig
+`object`
+
+Set the global animation config for all toasts. This can be overridden by the toast options.
+```js
+<Toasts globalAnimationConfig={{duration: 500, flingPositionReturnDuration: 200, easing: Easing.elastic(1)}} />
+```
+
+### overrideDarkMode
+`boolean | undefined`
+
 Override the system dark mode. If a value is supplied (I.e. `true` or `false`), then the toast components will use that value for the dark mode. For example, if `overrideDarkMode = {false}`, dark mode will be disabled, regardless of the system's preferences.
 
-### extraInsets (`object`)
-Supply the container for the toasts extra padding.
+### extraInsets
+`object`
+
+Supply the container for the toasts with extra padding.
 ```
 extraInsets?: {
   top?: number;
@@ -26,23 +46,40 @@ extraInsets?: {
 };
 ```
 
-### onToastShow (`function`)
+### onToastShow
+`function`
+
 When a toast is shown, this callback will fire, returning the toast object that was shown. _Note, the toast object is "shown" when the toast is mounted._
 ```
 onToastShow?: (toast: T) => void;
 ```
-### onToastHide (`function`)
+### onToastHide
+`function`
+
 When a toast is hidden, this callback will fire, returning the toast object that was hidden. _Note, the toast object is "hidden" when the toast is unmounted._
 ```
 onToastHide?: (toast: T) => void;
 ```
-### onToastPress (`function`)
+### onToastPress
+`function`
+
 When a toast is pressed, this callback will fire, returning the toast object that was pressed.
 ```
 onToastPress?: (toast: T) => void;
 ```
 
-### defaultStyle (`object`)
+### preventScreenReaderFromHiding
+`boolean`
+
+Prevent screen readers from hiding the toast component. This is useful if you want to override the default behavior of screen readers hiding the toast component.
+
+```js
+<Toasts preventScreenReaderFromHiding={true} />
+```
+
+### defaultStyle
+(`object`)
+
 Supply default styles for the toast component. This will be applied to all toasts unless overridden by the toast options.
 ```
 defaultStyle?: {
@@ -53,7 +90,9 @@ defaultStyle?: {
 };
 ```
 
-### providerKey (`string`)
+### providerKey
+`string`
+
 Provide the Toasts component with a providerKey to conditionally render toasts in a component. Useful for rendering toasts in native modals.
 ```js
 // Component in native modal
@@ -97,11 +136,13 @@ useEffect(() => {
 
 
 ## Example
-```
+```js
 <Toasts
   onToastPress={(t) => {
     console.log(`Toast ${t.id} was pressed.`)
   }}
   overrideDarkMode={isAppDarkMode}
+  globalAnimationType="spring"
+  globalAnimationConfig={{duration: 500, flingPositionReturnDuration: 200, stiffness: 50, damping: 10}}
 />
 ```
