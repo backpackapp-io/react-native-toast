@@ -1,4 +1,4 @@
-import { renderHook, act } from '@testing-library/react-hooks';
+import { renderHook, act } from '@testing-library/react-native';
 import { AccessibilityInfo } from 'react-native';
 import { useScreenReader, announceForAccessibility } from '../../../src/utils';
 import { toast } from '../../../src';

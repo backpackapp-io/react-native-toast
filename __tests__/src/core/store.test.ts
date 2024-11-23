@@ -4,7 +4,7 @@ import {
   reducer,
   useStore,
 } from '../../../src/core/store';
-import { renderHook, act } from '@testing-library/react-hooks';
+import { renderHook, act } from '@testing-library/react-native';
 import { ToastPosition, ToastType } from '../../../src/core/types';
 
 describe('Toast Store', () => {

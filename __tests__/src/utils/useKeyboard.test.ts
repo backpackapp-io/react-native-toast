@@ -1,4 +1,4 @@
-import { renderHook, act } from '@testing-library/react-hooks';
+import { renderHook, act } from '@testing-library/react-native';
 import { EmitterSubscription, Keyboard } from 'react-native';
 import { useKeyboard } from '../../../src/utils';
 
