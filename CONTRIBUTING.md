@@ -56,6 +56,9 @@ Remember to add tests for your change if possible. Run the unit tests by:
 ```sh
 yarn test
 ```
+
+*All tests must pass to merge*
+
 ### Commit message convention
 
 We follow the [conventional commits specification](https://www.conventionalcommits.org/en) for our commit messages:
