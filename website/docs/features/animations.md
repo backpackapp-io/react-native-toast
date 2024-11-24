@@ -35,7 +35,7 @@ toast('Custom Animation', {
   animationType: 'timing',
   animationConfig: {
     duration: 500,
-    flingReturnDuration: 500,
+    flingPositionReturnDuration: 500,
   },
 });
 
@@ -82,7 +82,7 @@ toast.loading(<LoadingMessage msg="Loading..." />, {
   animationType: 'timing',
   animationConfig: {
     duration: 500,
-    flingReturnDuration: 500,
+    flingPositionReturnDuration: 500,
   },
 })
 
@@ -101,7 +101,7 @@ toast.promise(
     animationType: 'timing',
     animationConfig: {
       duration: 500,
-      flingReturnDuration: 500,
+      flingPositionReturnDuration: 500,
     },
   }
 );
