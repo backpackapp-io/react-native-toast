@@ -61,7 +61,7 @@ To create a custom loading animation, create a custom message component.
 
 ```js
 
-const LoadingMessage = (msg: string) => {
+const LoadingMessage = ({ msg }: { msg: string }) => {
   const isDarkMode = useColorScheme() === 'dark';
 
   return (
@@ -75,8 +75,8 @@ const LoadingMessage = (msg: string) => {
         {msg}
       </Text>
     </View>
-  )
-}
+  );
+};
 
 toast.loading(<LoadingMessage msg="Loading..." />, {
   animationType: 'timing',

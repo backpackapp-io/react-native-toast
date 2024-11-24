@@ -66,10 +66,12 @@ Creates a notification with an error indicator on the left.
 ### Custom (JSX)
 
 ```js
+import { resolveValue } from "@backpackapp-io/react-native-toast";
+
 toast("", {
   customToast: (toast) => (
     <View>
-      <Text>{toast.message}</Text>
+      <Text>{resolveValue(toast.message, toast)}</Text>
     </View>
    )
 })
@@ -78,6 +80,8 @@ Creates a custom notification with JSX. Have complete control over your toast.
 
 #### Full example
 ```js
+import { resolveValue } from "@backpackapp-io/react-native-toast";
+
 toast(Math.floor(Math.random() * 1000).toString(), {
   width: screenWidth,
   disableShadow: true,
@@ -91,7 +95,7 @@ toast(Math.floor(Math.random() * 1000).toString(), {
           borderRadius: 8,
         }}
       >
-        <Text>{toast.message}</Text>
+        <Text>{resolveValue(toast.message, toast)}</Text>
       </View>
     );
   },
