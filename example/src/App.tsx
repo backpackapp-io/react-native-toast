@@ -14,6 +14,23 @@ import {
 } from 'react-native';
 import Modal from 'react-native-modal';
 
+const LoadingMessage = ({ msg }: { msg: string }) => {
+  const isDarkMode = useColorScheme() === 'dark';
+
+  return (
+    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+      <ActivityIndicator style={{ marginRight: 16 }} />
+      <Text
+        style={{
+          color: isDarkMode ? 'black' : 'white',
+        }}
+      >
+        {msg}
+      </Text>
+    </View>
+  );
+};
+
 import { Toasts } from '../../src/components/Toasts';
 import { toast } from '../../src/headless';
 import { ToastPosition } from '../../src/core/types';
@@ -140,6 +157,27 @@ export default function App() {
               }}
             >
               Success Toast
+            </Text>
+          </Pressable>
+
+          <Pressable
+            onPress={() => {
+              toast.loading(<LoadingMessage msg={'Loading...'} />, {
+                position,
+                duration,
+                height,
+                width,
+              });
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 16,
+                fontWeight: 'bold',
+                color: isDarkMode ? colors.textDark : colors.textLight,
+              }}
+            >
+              Loading Toast
             </Text>
           </Pressable>
 
