@@ -26,7 +26,8 @@ const config: Config = {
         docs: {
           routeBasePath: '/',
           sidebarPath: './sidebars.ts',
-          editUrl: 'https://github.com/backpackapp-io/react-native-toast',
+          editUrl:
+            'https://github.com/backpackapp-io/react-native-toast/website',
         },
         theme: {
           customCss: './static/custom.css',
