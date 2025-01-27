@@ -252,6 +252,8 @@ export const Toast: FC<Props> = ({
     };
   });
 
+  const resolvedValue = resolveValue(toast.message, toast);
+
   return (
     <GestureDetector key={toast.id} gesture={composedGesture}>
       <AnimatedPressable
@@ -342,19 +344,23 @@ export const Toast: FC<Props> = ({
             ) : (
               toast.icon
             )}
-            <Text
-              style={[
-                {
-                  color: isDarkMode ? colors.textLight : colors.textDark,
-                  padding: 4,
-                  flex: 1,
-                },
-                defaultStyle?.text,
-                toast?.styles?.text,
-              ]}
-            >
-              {resolveValue(toast.message, toast)}
-            </Text>
+            {typeof resolvedValue === 'string' ? (
+              <Text
+                style={[
+                  {
+                    color: isDarkMode ? colors.textLight : colors.textDark,
+                    padding: 4,
+                    flex: 1,
+                  },
+                  defaultStyle?.text,
+                  toast?.styles?.text,
+                ]}
+              >
+                {resolvedValue}
+              </Text>
+            ) : (
+              resolvedValue
+            )}
           </View>
         )}
       </AnimatedPressable>
