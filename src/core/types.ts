@@ -50,6 +50,7 @@ export interface Toast {
   visible: boolean;
   height?: number;
   width?: number;
+  maxWidth?: number;
   styles?: {
     pressable?: ViewStyle;
     view?: ViewStyle;

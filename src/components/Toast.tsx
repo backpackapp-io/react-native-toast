@@ -34,6 +34,7 @@ import { toast as toasting } from '../headless';
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 const DEFAULT_TOAST_HEIGHT = 50;
+const MAX_WIDTH = 360;
 
 type Props = {
   toast: ToastType;
@@ -92,8 +93,9 @@ export const Toast: FC<Props> = ({
   const [toastHeight, setToastHeight] = useState<number>(
     toast?.height ? toast.height : DEFAULT_TOAST_HEIGHT
   );
+  const maxWidth = toast?.maxWidth ? toast.maxWidth : MAX_WIDTH;
   const [toastWidth, setToastWidth] = useState<number>(
-    toast?.width ? toast.width : width - 32 > 360 ? 360 : width - 32
+    toast?.width ? toast.width : width - 32 > maxWidth ? maxWidth : width - 32
   );
 
   const startingY = useMemo(
@@ -218,10 +220,11 @@ export const Toast: FC<Props> = ({
   }, [toast.height]);
 
   useEffect(() => {
+    const maxWidth = toast?.maxWidth ? toast.maxWidth : MAX_WIDTH;
     setToastWidth(
-      toast?.width ? toast.width : width - 32 > 360 ? 360 : width - 32
+      toast?.width ? toast.width : width - 32 > maxWidth ? maxWidth : width - 32
     );
-  }, [toast.width, width]);
+  }, [toast.width, toast.maxWidth, width]);
 
   useEffect(() => {
     opacity.value = withTiming(toast.visible ? 1 : 0, {
