@@ -189,7 +189,7 @@ export default function App() {
                   if (Math.random() > 0.5) {
                     resolve({
                       username: 'Nick',
-                      email: 'nick@backpackapp.io',
+                      email: 'nick@google.com',
                     });
                   } else {
                     reject('Username is undefined');

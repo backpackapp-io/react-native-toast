@@ -24,7 +24,7 @@ I know what you might be thinking (*jeez, another toast library?*). Trust me her
 - Callbacks for onPress, onShow, and onHide
 
 # Documentation
-View the full documentation [here](https://docs.backpackapp.io/react-native-toast/)
+View the full documentation [here](https://nickdebaise.github.io/packages/react-native-toast/)
 
 # Getting Started
 
