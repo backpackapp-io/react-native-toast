@@ -23,21 +23,21 @@ jobs:
       - name: Checkout Deployment Repository
         uses: actions/checkout@v3
         with:
-          repository: backpackapp-io/docs-deployment
+          repository: nickdebaise/nickdebaise.github.io
           path: deployment-repo
-          token: ${{ secrets.GIT_TOKEN }}  # The PAT with access to the deployment repo
+          token: ${{ secrets.GIT_TOKEN }}
 
-      - name: Copy Build to Deployment Repo
+      - name: Copy Build to GH Pages
         run: |
-          rm -rf deployment-repo/hosting/react-native-toast
-          mkdir -p deployment-repo/hosting/react-native-toast
-          cp -R website/build/* deployment-repo/hosting/react-native-toast/
+          rm -rf deployment-repo/packages/react-native-toast
+          mkdir -p deployment-repo/packages/react-native-toast
+          cp -R website/build/* deployment-repo/packages/react-native-toast/
 
-      - name: Commit and Push Changes to Deployment Repo
+      - name: Commit and Push
         run: |
           cd deployment-repo
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git add hosting/react-native-toast
+          git add packages/react-native-toast
           git commit -m "Update react-native-toast docs from $GITHUB_REPOSITORY@$GITHUB_SHA" || echo "No changes to commit"
           git push origin main

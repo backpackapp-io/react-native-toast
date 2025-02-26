@@ -6,8 +6,8 @@ const config: Config = {
   tagline: 'Powerful toasts for React-Native',
   favicon: 'img/favicon.ico',
 
-  url: 'https://docs.backpackapp.io',
-  baseUrl: '/react-native-toast/',
+  url: 'https://nickdebaise.github.io',
+  baseUrl: '/packages/react-native-toast/',
   projectName: 'react-native-toast',
   organizationName: 'backpackapp',
 

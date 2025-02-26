@@ -171,5 +171,7 @@
       ]
     ]
   },
-  "dependencies": {}
+  "dependencies": {
+    "@backpackapp-io/react-native-toast": "^0.13.0"
+  }
 }
