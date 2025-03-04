@@ -80,10 +80,12 @@ const config: Config = {
     },
     algolia: {
       appId: 'EUH7S3OU5L',
-
       apiKey: '9e23f541ed9dd307b8bd9c9edc9c95f7',
-
       indexName: 'backpackapp',
+      contextualSearch: true,
+      searchPagePath: 'search',
+      externalUrlRegex:
+        'https://nickdebaise.github.io/packages/react-native-toast/.*',
     },
   },
 };
