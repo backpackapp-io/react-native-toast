@@ -79,9 +79,9 @@ const config: Config = {
       darkTheme: prismThemes.dracula,
     },
     algolia: {
-      appId: 'EUH7S3OU5L',
-      apiKey: '9e23f541ed9dd307b8bd9c9edc9c95f7',
-      indexName: 'backpackapp',
+      appId: 'JS3PODTEKQ',
+      apiKey: 'a9b9bd8771557c6030f93d2cdad963fa',
+      indexName: 'nickdebaiseio',
       contextualSearch: true,
       searchPagePath: 'search',
       externalUrlRegex:
