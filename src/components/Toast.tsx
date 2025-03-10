@@ -220,11 +220,10 @@ export const Toast: FC<Props> = ({
   }, [toast.height]);
 
   useEffect(() => {
-    const maxWidth = toast?.maxWidth ? toast.maxWidth : MAX_WIDTH;
     setToastWidth(
       toast?.width ? toast.width : width - 32 > maxWidth ? maxWidth : width - 32
     );
-  }, [toast.width, toast.maxWidth, width]);
+  }, [toast.width, maxWidth, width]);
 
   useEffect(() => {
     opacity.value = withTiming(toast.visible ? 1 : 0, {
