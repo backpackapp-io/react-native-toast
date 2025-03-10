@@ -309,6 +309,17 @@ toast('my toast', {
 where `AutoWidthStyles` holds the actual styles for auto width.
 
 
+## Maximum Width
+You can set a maximum width for the toast by using the `maxWidth` option. This is useful when you want to limit the width of the toast to a certain value, regardless of the content size.
+*Note* If you provide a width to the toast, it will override the `maxWidth` option.
+```js
+toast('This toast has a maximum width', {
+  duration: 4000,
+  position: ToastPosition.TOP,
+  maxWidth: 100, // <-- Add here
+})
+```
+
 <br />
 
 ## All toast() Options
@@ -329,5 +340,5 @@ where `AutoWidthStyles` holds the actual styles for auto width.
 | `providerKey`   | string   | 'DEFAULT' | Provider key for the toast.                                                                  |
 | `accessibilityMessage`| string   |           | Accessibility message for screen readers.                                                    |
 | `styles`        | object   |           | Styles for the toast.                                                                        |
-
+| `maxWidth` | number |           | Maximum width of the toast.                                                                   |
 

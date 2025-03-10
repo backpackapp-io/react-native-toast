@@ -81,6 +81,7 @@ export type ToastOptions = Partial<
     | 'isSwipeable'
     | 'animationConfig'
     | 'animationType'
+    | 'maxWidth'
   >
 >;
 
