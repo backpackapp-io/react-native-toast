@@ -74,20 +74,7 @@ export const Toast: FC<Props> = ({
 }) => {
   const insets = useSafeAreaInsets();
   const { width, height } = useWindowDimensions();
-
-  useVisibilityChange(
-    () => {
-      onToastShow?.(toast);
-    },
-    () => {
-      onToastHide?.(toast);
-    },
-    toast.visible
-  );
-
   const isSystemDarkMode = useColorScheme() === 'dark';
-  const isDarkMode =
-    overrideDarkMode !== undefined ? overrideDarkMode : isSystemDarkMode;
 
   const [toastHeight, setToastHeight] = useState<number>(
     toast?.height ? toast.height : DEFAULT_TOAST_HEIGHT
@@ -95,6 +82,9 @@ export const Toast: FC<Props> = ({
   const [toastWidth, setToastWidth] = useState<number>(
     toast?.width ? toast.width : width - 32 > 360 ? 360 : width - 32
   );
+
+  const isDarkMode =
+    overrideDarkMode !== undefined ? overrideDarkMode : isSystemDarkMode;
 
   const startingY = useMemo(
     () =>
@@ -109,6 +99,7 @@ export const Toast: FC<Props> = ({
   const offsetY = useSharedValue(startingY);
 
   const onPress = () => onToastPress?.(toast);
+
   const dismiss = useCallback((id: string) => {
     toasting.dismiss(id);
   }, []);
@@ -212,6 +203,16 @@ export const Toast: FC<Props> = ({
     toast.isSwipeable,
     toast.animationConfig,
   ]);
+
+  useVisibilityChange(
+    () => {
+      onToastShow?.(toast);
+    },
+    () => {
+      onToastHide?.(toast);
+    },
+    toast.visible
+  );
 
   useEffect(() => {
     setToastHeight(toast?.height ? toast.height : DEFAULT_TOAST_HEIGHT);

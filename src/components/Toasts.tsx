@@ -60,8 +60,8 @@ export const Toasts: FunctionComponent<Props> = ({
         left: insets.left + (extraInsets?.left ?? 0),
         right: insets.right + (extraInsets?.right ?? 0),
         bottom: insets.bottom + (extraInsets?.bottom ?? 0) + 16,
+        pointerEvents: 'box-none',
       }}
-      pointerEvents={'box-none'}
     >
       {toasts.map((t) => (
         <Toast
