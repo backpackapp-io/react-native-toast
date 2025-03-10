@@ -50,6 +50,7 @@ export interface Toast {
   visible: boolean;
   height?: number;
   width?: number;
+  maxWidth?: number;
   styles?: {
     pressable?: ViewStyle;
     view?: ViewStyle;
@@ -80,6 +81,7 @@ export type ToastOptions = Partial<
     | 'isSwipeable'
     | 'animationConfig'
     | 'animationType'
+    | 'maxWidth'
   >
 >;
 
