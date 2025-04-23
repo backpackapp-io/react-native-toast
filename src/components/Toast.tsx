@@ -34,6 +34,7 @@ import { toast as toasting } from '../headless';
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 const DEFAULT_TOAST_HEIGHT = 50;
+const MAX_WIDTH = 360;
 
 type Props = {
   toast: ToastType;
@@ -79,8 +80,9 @@ export const Toast: FC<Props> = ({
   const [toastHeight, setToastHeight] = useState<number>(
     toast?.height ? toast.height : DEFAULT_TOAST_HEIGHT
   );
+  const maxWidth = toast?.maxWidth ? toast.maxWidth : MAX_WIDTH;
   const [toastWidth, setToastWidth] = useState<number>(
-    toast?.width ? toast.width : width - 32 > 360 ? 360 : width - 32
+    toast?.width ? toast.width : width - 32 > maxWidth ? maxWidth : width - 32
   );
 
   const isDarkMode =
@@ -220,9 +222,9 @@ export const Toast: FC<Props> = ({
 
   useEffect(() => {
     setToastWidth(
-      toast?.width ? toast.width : width - 32 > 360 ? 360 : width - 32
+      toast?.width ? toast.width : width - 32 > maxWidth ? maxWidth : width - 32
     );
-  }, [toast.width, width]);
+  }, [toast.width, maxWidth, width]);
 
   useEffect(() => {
     opacity.value = withTiming(toast.visible ? 1 : 0, {
@@ -252,6 +254,8 @@ export const Toast: FC<Props> = ({
       ],
     };
   });
+
+  const resolvedValue = resolveValue(toast.message, toast);
 
   return (
     <GestureDetector key={toast.id} gesture={composedGesture}>
@@ -343,19 +347,23 @@ export const Toast: FC<Props> = ({
             ) : (
               toast.icon
             )}
-            <Text
-              style={[
-                {
-                  color: isDarkMode ? colors.textLight : colors.textDark,
-                  padding: 4,
-                  flex: 1,
-                },
-                defaultStyle?.text,
-                toast?.styles?.text,
-              ]}
-            >
-              {resolveValue(toast.message, toast)}
-            </Text>
+            {typeof resolvedValue === 'string' ? (
+              <Text
+                style={[
+                  {
+                    color: isDarkMode ? colors.textLight : colors.textDark,
+                    padding: 4,
+                    flex: 1,
+                  },
+                  defaultStyle?.text,
+                  toast?.styles?.text,
+                ]}
+              >
+                {resolvedValue}
+              </Text>
+            ) : (
+              resolvedValue
+            )}
           </View>
         )}
       </AnimatedPressable>
