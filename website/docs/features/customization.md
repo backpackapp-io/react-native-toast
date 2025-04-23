@@ -43,7 +43,7 @@ toast('Top Position with Extra Insets', {
 
 ## Styling Customization
 
-You can customize the toast style by passing the `styles` option to the `toast` function or by supplying a defaultStyle to the `<Toasts />` component.
+You can customize the toast style by passing the `styles` option to the `toast` function or by supplying a defaultStyle to the `<Toasts />` component. The `text` style is not applied if you pass a custom message component to the `toast` function.
 ```
 styles = {
   view?: ViewStyle;
