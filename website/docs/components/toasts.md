@@ -133,6 +133,12 @@ useEffect(() => {
 }, [isModalVisible]);
 ```
 
+### fixAndroidInsets
+`boolean` *Defaults to true*
+
+Fix for Android bottom inset bug: https://github.com/facebook/react-native/issues/47080
+
+
 
 
 ## Example
