@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
+import { DismissReason } from '../core/types';
 
 export const useVisibilityChange = (
   onShow: () => void,
-  onHide: () => void,
-  visible: boolean
+  onHide: (reason?: DismissReason) => void,
+  visible: boolean,
+  dismissReason?: DismissReason
 ) => {
   const [mounted, setMounted] = useState(false);
 
@@ -15,9 +17,9 @@ export const useVisibilityChange = (
 
     if (mounted && !visible) {
       setMounted(false);
-      onHide();
+      onHide(dismissReason);
     }
-  }, [visible, mounted, onShow, onHide]);
+  }, [visible, mounted, dismissReason, onShow, onHide]);
 
   return undefined;
 };

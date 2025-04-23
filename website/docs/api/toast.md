@@ -114,6 +114,114 @@ toast('Hello World', {
 });
 ```
 
+### Toast Handlers and Dismiss Reasons
+
+You can add individual handlers to each toast for greater control over behavior and responses.
+
+```js
+import { DismissReason } from "@backpackapp-io/react-native-toast";
+
+const id = toast('Hello World', {
+  // Handler for when toast is pressed
+  onPress: (toast) => {
+    console.log('Toast pressed!', toast.id);
+    // Access component-specific methods or state here
+    navigation.navigate('Details', { id: toast.id });
+  },
+
+  // Handler for when toast appears
+  onShow: (toast) => {
+    console.log('Toast shown!', toast.id);
+    analytics.logEvent('toast_shown', { id: toast.id });
+  },
+
+  // Handler for when toast is dismissed with reason
+  onHide: (toast, reason) => {
+    console.log(`Toast ${toast.id} dismissed because: ${reason}`);
+
+    // Handle different dismiss reasons
+    switch(reason) {
+      case DismissReason.TIMEOUT:
+        console.log('Toast timed out');
+        break;
+      case DismissReason.SWIPE:
+        console.log('User swiped toast away');
+        break;
+      case DismissReason.PROGRAMMATIC:
+        console.log('Toast was programmatically dismissed');
+        break;
+      case DismissReason.TAP:
+        console.log('User tapped to dismiss toast');
+        break;
+    }
+  }
+});
+```
+
+#### Dismiss Reasons
+
+When a toast is dismissed, you can now determine why it was dismissed:
+
+| Reason | Description |
+|--------|-------------|
+| `DismissReason.TIMEOUT` | The toast was dismissed because its duration elapsed |
+| `DismissReason.SWIPE` | The toast was dismissed because the user swiped it away |
+| `DismissReason.PROGRAMMATIC` | The toast was dismissed programmatically via `toast.dismiss()` |
+| `DismissReason.TAP` | The toast was dismissed because the user tapped it |
+
+#### Individual vs Global Handlers
+
+You can use both individual handlers (attached to each toast) and global handlers (provided to the `<Toasts/>` component):
+
+```js
+// Individual handler (specific to this toast)
+toast('Hello', {
+  onPress: (toast) => {
+    // This runs only for this specific toast
+    console.log('This specific toast was pressed');
+  }
+});
+
+// In your app component
+<Toasts
+  onToastPress={(toast) => {
+    // This runs for ALL toasts
+    console.log('A toast was pressed:', toast.id);
+  }}
+/>
+```
+
+When both are provided, both handlers will be executed when the event occurs.
+
+#### Usage with Component-Specific Logic
+
+Individual handlers are especially useful when you need to access component-specific state, hooks, or navigation:
+
+```js
+const OrderConfirmationScreen = () => {
+  const navigation = useNavigation();
+  const { orderId } = useRoute().params;
+  const { mutate: cancelOrder } = useCancelOrderMutation();
+
+  const showUndoToast = () => {
+    toast('Order placed!', {
+      onPress: () => {
+        // Access component-specific state and functions
+        cancelOrder(orderId);
+        navigation.navigate('OrderCanceled');
+      },
+      duration: 5000,
+    });
+  };
+
+  return (
+    <View>
+      <Button title="Place Order" onPress={showUndoToast} />
+    </View>
+  );
+};
+```
+
 
 
 ### Loading
@@ -326,22 +434,24 @@ where `AutoWidthStyles` holds the actual styles for auto width.
 
 ## All toast() Options
 
-| Name                   | Type     | Default   | Description                                                                                                 |
-|------------------------|----------|-----------|-------------------------------------------------------------------------------------------------------------|
-| `duration`             | number   | 3000      | Duration in milliseconds. Set to `Infinity` to keep the toast open until dismissed manually.                |
-| `position`             | enum     | 1         | Position of the toast. Can be `ToastPosition.{TOP, BOTTOM, TOP_LEFT, BOTTOM_LEFT, TOP_RIGHT, BOTTOM_RIGHT}` |
-| `id`                   | string   |           | Unique id for the toast.                                                                                    |
-| `icon`                 | Element  |           | Icon to display on the left of the toast.                                                                   |
-| `animationType`        | string   | 'timing'  | Animation type. Can be 'timing' or 'spring'.                                                                |
-| `animationConfig`      | object   |           | Animation configuration.                                                                                    |
-| `customToast`          | function |           | Custom toast component.                                                                                     |
-| `width`                | number   |           | Width of the toast.                                                                                         |
-| `onPress`              | function | | Function called when individual toasts are pressed |
-| `height`               | number   |           | Height of the toast.                                                                                        |
-| `disableShadow`        | boolean  | false     | Disable shadow on the toast.                                                                                |
-| `isSwipeable`          | boolean  | true      | Disable/Enable swipe to dismiss the toast.                                                                  |
-| `providerKey`          | string   | 'DEFAULT' | Provider key for the toast.                                                                                 |
-| `accessibilityMessage` | string   |           | Accessibility message for screen readers.                                                                   |
-| `styles`               | object   |           | Styles for the toast.                                                                                       |
+| Name                   | Type         | Default   | Description                                                                                                 |
+|------------------------|--------------|-----------|-------------------------------------------------------------------------------------------------------------|
+| `duration`             | number       | 3000      | Duration in milliseconds. Set to `Infinity` to keep the toast open until dismissed manually.                |
+| `position`             | enum         | 1         | Position of the toast. Can be `ToastPosition.{TOP, BOTTOM, TOP_LEFT, BOTTOM_LEFT, TOP_RIGHT, BOTTOM_RIGHT}` |
+| `id`                   | string       |           | Unique id for the toast.                                                                                    |
+| `icon`                 | Element      |           | Icon to display on the left of the toast.                                                                   |
+| `animationType`        | string       | 'timing'  | Animation type. Can be 'timing' or 'spring'.                                                                |
+| `animationConfig`      | object       |           | Animation configuration.                                                                                    |
+| `customToast`          | function     |           | Custom toast component.                                                                                     |
+| `width`                | number       |           | Width of the toast.                                                                                         |
+| `height`               | number       |           | Height of the toast.                                                                                        |
+| `disableShadow`        | boolean      | false     | Disable shadow on the toast.                                                                                |
+| `isSwipeable`          | boolean      | true      | Disable/Enable swipe to dismiss the toast.                                                                  |
+| `providerKey`          | string       | 'DEFAULT' | Provider key for the toast.                                                                                 |
+| `accessibilityMessage` | string       |           | Accessibility message for screen readers.                                                                   |
+| `styles`               | object       |           | Styles for the toast.                                                                                       |
+| `onShow` | function     | | Function called when this specific toast is shown |
+| `onHide` | function     | | Function called when this specific toast is hidden, with dismiss reason |
+| `onPress` | function     | | Function called when this specific toast is pressed |
 
 

@@ -92,10 +92,14 @@ describe('<Toast />', () => {
         toast={{ ...defaultProps.toast, visible: false }}
       />
     );
-    expect(onToastHide).toHaveBeenCalledWith({
-      ...defaultProps.toast,
-      visible: false,
-    });
+    expect(onToastHide).toHaveBeenCalledTimes(1);
+    expect(onToastHide).toHaveBeenCalledWith(
+      {
+        ...defaultProps.toast,
+        visible: false,
+      },
+      undefined
+    );
   });
 
   it('handles press events', () => {

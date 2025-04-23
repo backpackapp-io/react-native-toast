@@ -14,6 +14,7 @@ import {
   useSafeAreaFrame,
 } from 'react-native-safe-area-context';
 import {
+  DismissReason,
   ExtraInsets,
   ToastAnimationConfig,
   ToastAnimationType,
@@ -25,7 +26,7 @@ type Props = {
   overrideDarkMode?: boolean;
   extraInsets?: ExtraInsets;
   onToastShow?: (toast: T) => void;
-  onToastHide?: (toast: T) => void;
+  onToastHide?: (toast: T, reason?: DismissReason) => void;
   onToastPress?: (toast: T) => void;
   providerKey?: string;
   preventScreenReaderFromHiding?: boolean;

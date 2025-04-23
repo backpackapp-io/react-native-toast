@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import type { DefaultToastOptions, Toast, ToastType } from './types';
+import { DefaultToastOptions, DismissReason, Toast, ToastType } from './types';
 
 const TOAST_LIMIT = 20;
 
@@ -29,10 +29,12 @@ export type Action =
   | {
       type: ActionType.DISMISS_TOAST;
       toastId?: string;
+      reason: DismissReason;
     }
   | {
       type: ActionType.REMOVE_TOAST;
       toastId?: string;
+      reason?: DismissReason;
     }
   | {
       type: ActionType.START_PAUSE;
@@ -50,7 +52,7 @@ interface State {
 
 const toastTimeouts = new Map<Toast['id'], ReturnType<typeof setTimeout>>();
 
-const addToRemoveQueue = (toastId: string) => {
+const addToRemoveQueue = (toastId: string, reason: DismissReason) => {
   if (toastTimeouts.has(toastId)) {
     return;
   }
@@ -60,6 +62,7 @@ const addToRemoveQueue = (toastId: string) => {
     dispatch({
       type: ActionType.REMOVE_TOAST,
       toastId: toastId,
+      reason,
     });
   }, 1000);
 
@@ -101,14 +104,14 @@ export const reducer = (state: State, action: Action): State => {
         : reducer(state, { type: ActionType.ADD_TOAST, toast });
 
     case ActionType.DISMISS_TOAST:
-      const { toastId } = action;
+      const { toastId, reason } = action;
 
       // ! Side effects ! - This could be execrated into a dismissToast() action, but I'll keep it here for simplicity
       if (toastId) {
-        addToRemoveQueue(toastId);
+        addToRemoveQueue(toastId, reason);
       } else {
         state.toasts.forEach((toast) => {
-          addToRemoveQueue(toast.id);
+          addToRemoveQueue(toast.id, reason);
         });
       }
 
@@ -119,6 +122,7 @@ export const reducer = (state: State, action: Action): State => {
             ? {
                 ...t,
                 visible: false,
+                dismissReason: reason,
               }
             : t
         ),
