@@ -1,5 +1,6 @@
 import {
   DefaultToastOptions,
+  DismissReason,
   Element,
   resolveValue,
   Toast,
@@ -55,10 +56,14 @@ toast.error = createHandler('error');
 toast.success = createHandler('success');
 toast.loading = createHandler('loading');
 
-toast.dismiss = (toastId?: string) => {
+toast.dismiss = (
+  toastId?: string,
+  reason: DismissReason = DismissReason.PROGRAMMATIC
+) => {
   dispatch({
     type: ActionType.DISMISS_TOAST,
     toastId,
+    reason,
   });
 };
 

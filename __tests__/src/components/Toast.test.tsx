@@ -7,6 +7,7 @@ import {
   Toast as ToastType,
   ToastType as ToastingType,
   resolveValue,
+  DismissReason,
 } from '../../../src/core/types';
 import { toast as toasting } from '../../../src/headless';
 import { View, Text } from 'react-native';
@@ -92,10 +93,14 @@ describe('<Toast />', () => {
         toast={{ ...defaultProps.toast, visible: false }}
       />
     );
-    expect(onToastHide).toHaveBeenCalledWith({
-      ...defaultProps.toast,
-      visible: false,
-    });
+    expect(onToastHide).toHaveBeenCalledTimes(1);
+    expect(onToastHide).toHaveBeenCalledWith(
+      {
+        ...defaultProps.toast,
+        visible: false,
+      },
+      DismissReason.PROGRAMMATIC
+    );
   });
 
   it('handles press events', () => {
