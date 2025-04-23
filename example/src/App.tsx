@@ -13,6 +13,12 @@ import {
   View,
 } from 'react-native';
 import Modal from 'react-native-modal';
+import { Toasts } from '../../src/components/Toasts';
+import { toast } from '../../src/headless';
+import { ToastPosition } from '../../src/core/types';
+import { colors } from '../../src/utils';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const LoadingMessage = ({ msg }: { msg: string }) => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -30,13 +36,6 @@ const LoadingMessage = ({ msg }: { msg: string }) => {
     </View>
   );
 };
-
-import { Toasts } from '../../src/components/Toasts';
-import { toast } from '../../src/headless';
-import { ToastPosition } from '../../src/core/types';
-import { colors } from '../../src/utils';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 export default function App() {
   const { width: screenWidth } = useWindowDimensions();

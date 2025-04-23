@@ -22,6 +22,10 @@ toast('Bottom Position', {
   position: ToastPosition.BOTTOM,
 });
 
+toast('Bottom Right Position', {
+  position: ToastPosition.BOTTOM_RIGHT,
+});
+
 ```
 
 ### Extra Insets

@@ -86,23 +86,71 @@ export const Toast: FC<Props> = ({
   const isDarkMode =
     overrideDarkMode !== undefined ? overrideDarkMode : isSystemDarkMode;
 
-  const startingY = useMemo(
-    () =>
-      toast.position === ToastPosition.TOP
-        ? -(toast.height || DEFAULT_TOAST_HEIGHT) - insets.top - 50
-        : height - insets.bottom - Platform.select({ ios: 0, default: 32 }),
-    [height, toast.position, insets.bottom, insets.top, toast.height]
-  );
+  const getStartingPosition = useMemo(() => {
+    let leftPosition = (width - toastWidth) / 2; // Default to center
+
+    if (
+      toast.position === ToastPosition.TOP_LEFT ||
+      toast.position === ToastPosition.BOTTOM_LEFT
+    ) {
+      leftPosition = insets.left + 16 + (extraInsets?.left ?? 0);
+    }
+
+    if (
+      toast.position === ToastPosition.TOP_RIGHT ||
+      toast.position === ToastPosition.BOTTOM_RIGHT
+    ) {
+      leftPosition =
+        width - toastWidth - insets.right - 16 - (extraInsets?.right ?? 0);
+    }
+
+    let startY = 0;
+
+    if (
+      toast.position === ToastPosition.TOP ||
+      toast.position === ToastPosition.TOP_LEFT ||
+      toast.position === ToastPosition.TOP_RIGHT
+    ) {
+      startY = -(toast.height || DEFAULT_TOAST_HEIGHT) - insets.top - 50;
+    } else {
+      startY =
+        height - insets.bottom - Platform.select({ ios: 16, default: 32 });
+    }
+
+    return { startY, leftPosition };
+  }, [
+    height,
+    width,
+    toastWidth,
+    toast.position,
+    toast.height,
+    insets,
+    extraInsets,
+  ]);
+
+  const { startY, leftPosition } = getStartingPosition;
 
   const opacity = useSharedValue(0);
-  const position = useSharedValue(startingY);
-  const offsetY = useSharedValue(startingY);
+  const position = useSharedValue(startY);
+  const offsetY = useSharedValue(startY);
 
   const onPress = () => onToastPress?.(toast);
 
   const dismiss = useCallback((id: string) => {
     toasting.dismiss(id);
   }, []);
+
+  const getSwipeDirection = useCallback(() => {
+    if (
+      toast.position === ToastPosition.TOP ||
+      toast.position === ToastPosition.TOP_LEFT ||
+      toast.position === ToastPosition.TOP_RIGHT
+    ) {
+      return Directions.UP;
+    } else {
+      return Directions.DOWN;
+    }
+  }, [toast.position]);
 
   const setPosition = useCallback(() => {
     let timingConfig: WithTimingConfig = { duration: 300 };
@@ -120,29 +168,35 @@ export const Toast: FC<Props> = ({
     }
 
     const useSpringAnimation = toast.animationType === 'spring';
-
     const animation = useSpringAnimation ? withSpring : withTiming;
 
-    if (toast.position === ToastPosition.TOP) {
+    if (
+      toast.position === ToastPosition.TOP ||
+      toast.position === ToastPosition.TOP_LEFT ||
+      toast.position === ToastPosition.TOP_RIGHT
+    ) {
       offsetY.value = animation(
-        toast.visible ? offset : startingY,
+        toast.visible ? offset : startY,
         useSpringAnimation ? springConfig : timingConfig
       );
       position.value = animation(
-        toast.visible ? offset : startingY,
+        toast.visible ? offset : startY,
         useSpringAnimation ? springConfig : timingConfig
       );
     } else {
       let kbHeight = keyboardVisible ? keyboardHeight : 0;
       const val = toast.visible
-        ? startingY -
+        ? startY -
           toastHeight -
           offset -
           kbHeight -
           insets.bottom -
           (extraInsets?.bottom ?? 0) -
-          24
-        : startingY;
+          Platform.select({
+            ios: 32,
+            default: 24,
+          })
+        : startY;
 
       offsetY.value = animation(
         val,
@@ -161,7 +215,7 @@ export const Toast: FC<Props> = ({
     toastHeight,
     insets.bottom,
     position,
-    startingY,
+    startY,
     toast.position,
     offsetY,
     extraInsets,
@@ -179,11 +233,9 @@ export const Toast: FC<Props> = ({
       });
 
     const flingGesture = Gesture.Fling()
-      .direction(
-        toast.position === ToastPosition.TOP ? Directions.UP : Directions.DOWN
-      )
+      .direction(getSwipeDirection())
       .onEnd(() => {
-        offsetY.value = withTiming(startingY, {
+        offsetY.value = withTiming(startY, {
           duration: toast?.animationConfig?.flingPositionReturnDuration ?? 40,
         });
         runOnJS(dismiss)(toast.id);
@@ -194,14 +246,14 @@ export const Toast: FC<Props> = ({
       : panGesture;
   }, [
     offsetY,
-    startingY,
+    startY,
     position,
     setPosition,
-    toast.position,
     toast.id,
     dismiss,
     toast.isSwipeable,
     toast.animationConfig,
+    getSwipeDirection,
   ]);
 
   useVisibilityChange(
@@ -271,7 +323,7 @@ export const Toast: FC<Props> = ({
               : undefined,
             borderRadius: 8,
             position: 'absolute',
-            left: (width - toastWidth) / 2,
+            left: leftPosition,
             zIndex: toast.visible ? 9999 : undefined,
             alignItems: 'center',
             justifyContent: 'center',

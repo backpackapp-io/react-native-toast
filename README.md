@@ -16,7 +16,7 @@ I know what you might be thinking (*jeez, another toast library?*). Trust me her
 - **Multiple toasts, multiple options**. Want a toast on the top, bottom, different colors, or different types at the same time? Got it.
 - **Keyboard handling** (both iOS and Android). Move those toasts out of the way and into view when the user opens the keyboard
 - **Swipe to dismiss**
-- **Positional toasts** (top & bottom)
+- **Positional toasts** (top, bottom, top-left, top-right, bottom-left, bottom-right)
 - **Customizable** (custom styles, dimensions, duration, and even create your own component to be used in the toast)
 - Add support for **promises** <-- Really! Call `toast.promise(my_promise)` and watch react-native-toast work its magic, automatically updating the toast with a custom message on success -- or an error message on reject.
 - Runs on **web**
