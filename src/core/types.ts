@@ -5,6 +5,10 @@ export type ToastType = 'success' | 'error' | 'loading' | 'blank';
 export enum ToastPosition {
   TOP = 1,
   BOTTOM = 2,
+  TOP_LEFT = 3,
+  TOP_RIGHT = 4,
+  BOTTOM_LEFT = 5,
+  BOTTOM_RIGHT = 6,
 }
 
 export type Element = JSX.Element | string | null;

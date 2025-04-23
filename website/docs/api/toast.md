@@ -309,36 +309,25 @@ toast('my toast', {
 where `AutoWidthStyles` holds the actual styles for auto width.
 
 
-## Maximum Width
-You can set a maximum width for the toast by using the `maxWidth` option. This is useful when you want to limit the width of the toast to a certain value, regardless of the content size.
-*Note* If you provide a width to the toast, it will override the `maxWidth` option.
-```js
-toast('This toast has a maximum width', {
-  duration: 4000,
-  position: ToastPosition.TOP,
-  maxWidth: 100, // <-- Add here
-})
-```
-
 <br />
 
 ## All toast() Options
 
-| Name            | Type     | Default   | Description                                                                                  |
-|-----------------|----------|-----------|----------------------------------------------------------------------------------------------|
-| `duration`      | number   | 3000      | Duration in milliseconds. Set to `Infinity` to keep the toast open until dismissed manually. |
-| `position`      | enum     | 1         | Position of the toast. Can be ToastPosition.TOP or ToastPosition.BOTTOM.                     |
-| `id`            | string   |           | Unique id for the toast.                                                                     |
-| `icon`          | Element  |           | Icon to display on the left of the toast.                                                    |
-| `animationType` | string   | 'timing'  | Animation type. Can be 'timing' or 'spring'.                                                 |
-| `animationConfig`| object   |           | Animation configuration.                                                                     |
-| `customToast`   | function |           | Custom toast component.                                                                      |
-| `width`         | number   |           | Width of the toast.                                                                          |
-| `height`        | number   |           | Height of the toast.                                                                         |
-| `disableShadow` | boolean  | false     | Disable shadow on the toast.                                                                 |
-| `isSwipeable`   | boolean  | true      | Disable/Enable swipe to dismiss the toast.                                                   |
-| `providerKey`   | string   | 'DEFAULT' | Provider key for the toast.                                                                  |
-| `accessibilityMessage`| string   |           | Accessibility message for screen readers.                                                    |
-| `styles`        | object   |           | Styles for the toast.                                                                        |
-| `maxWidth` | number |           | Maximum width of the toast.                                                                   |
+| Name            | Type     | Default   | Description                                                                                                 |
+|-----------------|----------|-----------|-------------------------------------------------------------------------------------------------------------|
+| `duration`      | number   | 3000      | Duration in milliseconds. Set to `Infinity` to keep the toast open until dismissed manually.                |
+| `position`      | enum     | 1         | Position of the toast. Can be `ToastPosition.{TOP, BOTTOM, TOP_LEFT, BOTTOM_LEFT, TOP_RIGHT, BOTTOM_RIGHT}` |
+| `id`            | string   |           | Unique id for the toast.                                                                                    |
+| `icon`          | Element  |           | Icon to display on the left of the toast.                                                                   |
+| `animationType` | string   | 'timing'  | Animation type. Can be 'timing' or 'spring'.                                                                |
+| `animationConfig`| object   |           | Animation configuration.                                                                                    |
+| `customToast`   | function |           | Custom toast component.                                                                                     |
+| `width`         | number   |           | Width of the toast.                                                                                         |
+| `height`        | number   |           | Height of the toast.                                                                                        |
+| `disableShadow` | boolean  | false     | Disable shadow on the toast.                                                                                |
+| `isSwipeable`   | boolean  | true      | Disable/Enable swipe to dismiss the toast.                                                                  |
+| `providerKey`   | string   | 'DEFAULT' | Provider key for the toast.                                                                                 |
+| `accessibilityMessage`| string   |           | Accessibility message for screen readers.                                                                   |
+| `styles`        | object   |           | Styles for the toast.                                                                                       |
+
 
