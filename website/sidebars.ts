@@ -33,6 +33,7 @@ const sidebars: SidebarsConfig = {
         'features/animations',
         'features/accessibility',
         'features/customization',
+        'features/toast-handlers',
       ],
     },
   ],

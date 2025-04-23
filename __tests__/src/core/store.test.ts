@@ -4,8 +4,12 @@ import {
   reducer,
   useStore,
 } from '../../../src/core/store';
-import { renderHook, act } from '@testing-library/react-native';
-import { ToastPosition, ToastType } from '../../../src/core/types';
+import { act, renderHook } from '@testing-library/react-native';
+import {
+  DismissReason,
+  ToastPosition,
+  ToastType,
+} from '../../../src/core/types';
 
 describe('Toast Store', () => {
   const initialState = { toasts: [], pausedAt: undefined };
@@ -76,6 +80,7 @@ describe('Toast Store', () => {
       const updatedState = reducer(stateWithToast, {
         type: ActionType.DISMISS_TOAST,
         toastId: '1',
+        reason: DismissReason.TIMEOUT,
       });
 
       expect(updatedState.toasts[0]?.visible).toBe(false);

@@ -27,7 +27,7 @@ import {
   GestureDetector,
 } from 'react-native-gesture-handler';
 
-import type { ExtraInsets, Toast as ToastType } from '../core/types';
+import { DismissReason, ExtraInsets, Toast as ToastType } from '../core/types';
 import { resolveValue, Toast as T, ToastPosition } from '../core/types';
 import { colors, ConstructShadow, useVisibilityChange } from '../utils';
 import { toast as toasting } from '../headless';
@@ -45,7 +45,7 @@ type Props = {
   customRenderer?: (toast: ToastType) => React.ReactNode;
   overrideDarkMode?: boolean;
   onToastShow?: (toast: T) => void;
-  onToastHide?: (toast: T) => void;
+  onToastHide?: (toast: T, reason?: DismissReason) => void;
   onToastPress?: (toast: T) => void;
   extraInsets?: ExtraInsets;
   keyboardVisible?: boolean;
@@ -136,10 +136,18 @@ export const Toast: FC<Props> = ({
   const position = useSharedValue(startY);
   const offsetY = useSharedValue(startY);
 
-  const onPress = () => onToastPress?.(toast);
+  const onPress = useCallback(() => {
+    if (toast.onPress) {
+      toast.onPress(toast);
+    }
 
-  const dismiss = useCallback((id: string) => {
-    toasting.dismiss(id);
+    if (onToastPress) {
+      onToastPress(toast);
+    }
+  }, [toast, onToastPress]);
+
+  const dismiss = useCallback((id: string, reason: DismissReason) => {
+    toasting.dismiss(id, reason);
   }, []);
 
   const getSwipeDirection = useCallback(() => {
@@ -240,7 +248,7 @@ export const Toast: FC<Props> = ({
         offsetY.value = withTiming(startY, {
           duration: toast?.animationConfig?.flingPositionReturnDuration ?? 40,
         });
-        runOnJS(dismiss)(toast.id);
+        runOnJS(dismiss)(toast.id, DismissReason.SWIPE);
       });
 
     return toast.isSwipeable
@@ -260,12 +268,19 @@ export const Toast: FC<Props> = ({
 
   useVisibilityChange(
     () => {
+      if (toast.onShow) {
+        toast.onShow(toast);
+      }
       onToastShow?.(toast);
     },
-    () => {
-      onToastHide?.(toast);
+    (reason) => {
+      if (toast.onHide) {
+        toast.onHide(toast, reason || DismissReason.PROGRAMMATIC);
+      }
+      onToastHide?.(toast, reason || DismissReason.PROGRAMMATIC);
     },
-    toast.visible
+    toast.visible,
+    toast.dismissReason
   );
 
   useEffect(() => {

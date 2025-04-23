@@ -13,6 +13,13 @@ export enum ToastPosition {
 
 export type Element = JSX.Element | string | null;
 
+export enum DismissReason {
+  TIMEOUT = 'timeout',
+  SWIPE = 'swipe',
+  PROGRAMMATIC = 'programmatic',
+  TAP = 'tap',
+}
+
 export interface IconTheme {
   primary: string;
   secondary: string;
@@ -55,6 +62,10 @@ export interface Toast {
   height?: number;
   width?: number;
   maxWidth?: number;
+  onPress?: (toast: Toast) => void;
+  onHide?: (toast: Toast, reason: DismissReason) => void;
+  onShow?: (toast: Toast) => void;
+  dismissReason?: DismissReason;
   styles?: {
     pressable?: ViewStyle;
     view?: ViewStyle;
@@ -86,6 +97,9 @@ export type ToastOptions = Partial<
     | 'animationConfig'
     | 'animationType'
     | 'maxWidth'
+    | 'onPress'
+    | 'onHide'
+    | 'onShow'
   >
 >;
 

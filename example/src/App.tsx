@@ -134,6 +134,38 @@ export default function App() {
           <Pressable
             style={{ marginTop: 16 }}
             onPress={() => {
+              toast(Math.floor(Math.random() * 1000).toString(), {
+                position,
+                duration,
+                height,
+                width,
+                providerKey: 'PERSISTS',
+                onPress: (toast) => {
+                  console.log('Toast pressed: ', toast);
+                },
+                onShow: (toast) => {
+                  console.log('Toast shown: ', toast);
+                },
+                onHide: (toast, reason) => {
+                  console.log('Toast hidden: ', toast, reason);
+                },
+              });
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 16,
+                fontWeight: 'bold',
+                color: isDarkMode ? colors.textDark : colors.textLight,
+              }}
+            >
+              Toast With Handlers
+            </Text>
+          </Pressable>
+
+          <Pressable
+            style={{ marginTop: 16 }}
+            onPress={() => {
               const id = toast.success('Success!', {
                 position,
                 duration,
@@ -294,8 +326,8 @@ export default function App() {
           onToastShow={(t) => {
             console.log('SHOW: ', t);
           }}
-          onToastHide={(t) => {
-            console.log('HIDE: ', t);
+          onToastHide={(t, reason) => {
+            console.log('HIDE: ', t, reason);
           }}
           onToastPress={(t) => {
             console.log('PRESS: ', t);
