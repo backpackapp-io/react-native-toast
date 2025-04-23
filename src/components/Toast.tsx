@@ -136,7 +136,15 @@ export const Toast: FC<Props> = ({
   const position = useSharedValue(startY);
   const offsetY = useSharedValue(startY);
 
-  const onPress = () => onToastPress?.(toast);
+  const onPress = useCallback(() => {
+    if (toast.onPress) {
+      toast.onPress(toast);
+    }
+
+    if (onToastPress) {
+      onToastPress(toast);
+    }
+  }, [toast, onToastPress]);
 
   const dismiss = useCallback((id: string) => {
     toasting.dismiss(id);

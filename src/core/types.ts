@@ -55,6 +55,7 @@ export interface Toast {
   height?: number;
   width?: number;
   maxWidth?: number;
+  onPress?: (toast: Toast) => void;
   styles?: {
     pressable?: ViewStyle;
     view?: ViewStyle;
@@ -86,6 +87,7 @@ export type ToastOptions = Partial<
     | 'animationConfig'
     | 'animationType'
     | 'maxWidth'
+    | 'onPress'
   >
 >;
 

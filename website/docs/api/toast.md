@@ -103,6 +103,19 @@ toast(Math.floor(Math.random() * 1000).toString(), {
 ```
 
 
+### onPress
+You can add a function to be called when the toast is pressed. This is useful for performing an action.
+
+```js
+toast('Hello World', {
+  onPress: () => {
+    console.log('Toast pressed!');
+  },
+});
+```
+
+
+
 ### Loading
 
 ```js
@@ -313,21 +326,22 @@ where `AutoWidthStyles` holds the actual styles for auto width.
 
 ## All toast() Options
 
-| Name            | Type     | Default   | Description                                                                                                 |
-|-----------------|----------|-----------|-------------------------------------------------------------------------------------------------------------|
-| `duration`      | number   | 3000      | Duration in milliseconds. Set to `Infinity` to keep the toast open until dismissed manually.                |
-| `position`      | enum     | 1         | Position of the toast. Can be `ToastPosition.{TOP, BOTTOM, TOP_LEFT, BOTTOM_LEFT, TOP_RIGHT, BOTTOM_RIGHT}` |
-| `id`            | string   |           | Unique id for the toast.                                                                                    |
-| `icon`          | Element  |           | Icon to display on the left of the toast.                                                                   |
-| `animationType` | string   | 'timing'  | Animation type. Can be 'timing' or 'spring'.                                                                |
-| `animationConfig`| object   |           | Animation configuration.                                                                                    |
-| `customToast`   | function |           | Custom toast component.                                                                                     |
-| `width`         | number   |           | Width of the toast.                                                                                         |
-| `height`        | number   |           | Height of the toast.                                                                                        |
-| `disableShadow` | boolean  | false     | Disable shadow on the toast.                                                                                |
-| `isSwipeable`   | boolean  | true      | Disable/Enable swipe to dismiss the toast.                                                                  |
-| `providerKey`   | string   | 'DEFAULT' | Provider key for the toast.                                                                                 |
-| `accessibilityMessage`| string   |           | Accessibility message for screen readers.                                                                   |
-| `styles`        | object   |           | Styles for the toast.                                                                                       |
+| Name                   | Type     | Default   | Description                                                                                                 |
+|------------------------|----------|-----------|-------------------------------------------------------------------------------------------------------------|
+| `duration`             | number   | 3000      | Duration in milliseconds. Set to `Infinity` to keep the toast open until dismissed manually.                |
+| `position`             | enum     | 1         | Position of the toast. Can be `ToastPosition.{TOP, BOTTOM, TOP_LEFT, BOTTOM_LEFT, TOP_RIGHT, BOTTOM_RIGHT}` |
+| `id`                   | string   |           | Unique id for the toast.                                                                                    |
+| `icon`                 | Element  |           | Icon to display on the left of the toast.                                                                   |
+| `animationType`        | string   | 'timing'  | Animation type. Can be 'timing' or 'spring'.                                                                |
+| `animationConfig`      | object   |           | Animation configuration.                                                                                    |
+| `customToast`          | function |           | Custom toast component.                                                                                     |
+| `width`                | number   |           | Width of the toast.                                                                                         |
+| `onPress`              | function | | Function called when individual toasts are pressed |
+| `height`               | number   |           | Height of the toast.                                                                                        |
+| `disableShadow`        | boolean  | false     | Disable shadow on the toast.                                                                                |
+| `isSwipeable`          | boolean  | true      | Disable/Enable swipe to dismiss the toast.                                                                  |
+| `providerKey`          | string   | 'DEFAULT' | Provider key for the toast.                                                                                 |
+| `accessibilityMessage` | string   |           | Accessibility message for screen readers.                                                                   |
+| `styles`               | object   |           | Styles for the toast.                                                                                       |
 
 
