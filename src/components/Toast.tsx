@@ -277,7 +277,7 @@ export const Toast: FC<Props> = ({
       if (toast.onHide) {
         toast.onHide(toast, reason || DismissReason.PROGRAMMATIC);
       }
-      onToastHide?.(toast, reason);
+      onToastHide?.(toast, reason || DismissReason.PROGRAMMATIC);
     },
     toast.visible,
     toast.dismissReason

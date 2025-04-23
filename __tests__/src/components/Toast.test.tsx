@@ -7,6 +7,7 @@ import {
   Toast as ToastType,
   ToastType as ToastingType,
   resolveValue,
+  DismissReason,
 } from '../../../src/core/types';
 import { toast as toasting } from '../../../src/headless';
 import { View, Text } from 'react-native';
@@ -98,7 +99,7 @@ describe('<Toast />', () => {
         ...defaultProps.toast,
         visible: false,
       },
-      undefined
+      DismissReason.PROGRAMMATIC
     );
   });
 
