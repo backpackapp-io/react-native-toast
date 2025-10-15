@@ -28,6 +28,13 @@ Set the global animation config for all toasts. This can be overridden by the to
 <Toasts globalAnimationConfig={{duration: 500, flingPositionReturnDuration: 200, easing: Easing.elastic(1)}} />
 ```
 
+### globalLimit
+`number | undefined`
+
+Set the global limit for the number of toasts that can be shown at once. When this limit is reached, the oldest toast will be removed to make room for the new one.
+
+
+
 ### overrideDarkMode
 `boolean | undefined`
 

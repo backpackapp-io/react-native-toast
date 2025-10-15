@@ -81,7 +81,7 @@ export const reducer = (state: State, action: Action): State => {
     case ActionType.ADD_TOAST:
       return {
         ...state,
-        toasts: [action.toast, ...state.toasts].slice(0, TOAST_LIMIT),
+        toasts: [action.toast, ...state.toasts],
       };
 
     case ActionType.UPDATE_TOAST:
@@ -181,6 +181,7 @@ const defaultTimeouts: {
 
 export const useStore = (toastOptions: DefaultToastOptions = {}): State => {
   const [state, setState] = useState<State>(memoryState);
+
   useEffect(() => {
     listeners.push(setState);
     return () => {
@@ -191,6 +192,8 @@ export const useStore = (toastOptions: DefaultToastOptions = {}): State => {
     };
   }, [state]);
 
+  const limit = toastOptions.limit ?? TOAST_LIMIT;
+
   const mergedToasts = state.toasts
     .filter(
       (t) =>
@@ -198,6 +201,7 @@ export const useStore = (toastOptions: DefaultToastOptions = {}): State => {
         t.providerKey === toastOptions?.providerKey ||
         t.providerKey === 'PERSISTS'
     )
+    .slice(0, limit)
     .map((t) => ({
       ...toastOptions,
       ...toastOptions[t.type],

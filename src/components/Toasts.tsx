@@ -38,6 +38,7 @@ type Props = {
   };
   globalAnimationType?: ToastAnimationType;
   globalAnimationConfig?: ToastAnimationConfig;
+  globalLimit?: number;
   fixAndroidInsets?: boolean;
 };
 
@@ -52,9 +53,10 @@ export const Toasts: FunctionComponent<Props> = ({
   defaultStyle,
   globalAnimationType,
   globalAnimationConfig,
+  globalLimit,
   fixAndroidInsets = true,
 }) => {
-  const { toasts, handlers } = useToaster({ providerKey });
+  const { toasts, handlers } = useToaster({ providerKey, limit: globalLimit });
   const { startPause, endPause } = handlers;
   const insets = useSafeAreaInsets();
   const safeAreaFrame = useSafeAreaFrame();

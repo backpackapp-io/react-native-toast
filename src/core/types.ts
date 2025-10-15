@@ -62,6 +62,7 @@ export interface Toast {
   height?: number;
   width?: number;
   maxWidth?: number;
+  limit?: number;
   onPress?: (toast: Toast) => void;
   onHide?: (toast: Toast, reason: DismissReason) => void;
   onShow?: (toast: Toast) => void;
@@ -90,6 +91,7 @@ export type ToastOptions = Partial<
     | 'styles'
     | 'height'
     | 'width'
+    | 'limit'
     | 'customToast'
     | 'disableShadow'
     | 'providerKey'
