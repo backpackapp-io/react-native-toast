@@ -49,6 +49,10 @@ export default function App() {
     screenWidth - 32 > 360 ? 360 : screenWidth - 32
   );
   const [duration, setDuration] = useState(4000);
+  const [animationType, setAnimationType] = useState<
+    'timing' | 'spring' | 'fade'
+  >('timing');
+  const [useGlobalDefaults, setUseGlobalDefaults] = useState(false);
 
   const toggleModal = useCallback(() => {
     setModalVisible(!isModalVisible);
@@ -108,14 +112,80 @@ export default function App() {
             text={'Toast Duration:'}
           />
 
+          <ToggleSwitch
+            isDarkMode={isDarkMode}
+            value={useGlobalDefaults}
+            setValue={setUseGlobalDefaults}
+            text={'Use Global Defaults?'}
+          />
+
+          <View
+            style={{
+              width: 200,
+              marginTop: 32,
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 14,
+                fontWeight: 'normal',
+                color: isDarkMode ? colors.textDark : colors.textLight,
+              }}
+            >
+              Animation:
+            </Text>
+            <View style={{ flexDirection: 'row', gap: 8 }}>
+              <Pressable
+                onPress={() => setAnimationType('timing')}
+                style={{
+                  paddingHorizontal: 8,
+                  paddingVertical: 4,
+                  borderRadius: 4,
+                  backgroundColor:
+                    animationType === 'timing' ? '#007AFF' : '#666',
+                }}
+              >
+                <Text style={{ color: 'white', fontSize: 12 }}>Timing</Text>
+              </Pressable>
+              <Pressable
+                onPress={() => setAnimationType('spring')}
+                style={{
+                  paddingHorizontal: 8,
+                  paddingVertical: 4,
+                  borderRadius: 4,
+                  backgroundColor:
+                    animationType === 'spring' ? '#007AFF' : '#666',
+                }}
+              >
+                <Text style={{ color: 'white', fontSize: 12 }}>Spring</Text>
+              </Pressable>
+              <Pressable
+                onPress={() => setAnimationType('fade')}
+                style={{
+                  paddingHorizontal: 8,
+                  paddingVertical: 4,
+                  borderRadius: 4,
+                  backgroundColor:
+                    animationType === 'fade' ? '#007AFF' : '#666',
+                }}
+              >
+                <Text style={{ color: 'white', fontSize: 12 }}>Fade</Text>
+              </Pressable>
+            </View>
+          </View>
+
           <Pressable
             style={{ marginTop: 64 }}
             onPress={() => {
               toast(Math.floor(Math.random() * 1000).toString(), {
-                position,
-                duration,
+                position: useGlobalDefaults ? undefined : position,
+                duration: useGlobalDefaults ? undefined : duration,
                 height,
                 width,
+                animationType: useGlobalDefaults ? undefined : animationType,
                 providerKey: 'PERSISTS',
               });
             }}
@@ -135,10 +205,11 @@ export default function App() {
             style={{ marginTop: 16 }}
             onPress={() => {
               toast(Math.floor(Math.random() * 1000).toString(), {
-                position,
-                duration,
+                position: useGlobalDefaults ? undefined : position,
+                duration: useGlobalDefaults ? undefined : duration,
                 height,
                 width,
+                animationType: useGlobalDefaults ? undefined : animationType,
                 providerKey: 'PERSISTS',
                 onPress: (toast) => {
                   console.log('Toast pressed: ', toast);
@@ -167,10 +238,11 @@ export default function App() {
             style={{ marginTop: 16 }}
             onPress={() => {
               const id = toast.success('Success!', {
-                position,
-                duration,
+                position: useGlobalDefaults ? undefined : position,
+                duration: useGlobalDefaults ? undefined : duration,
                 height,
                 width,
+                animationType: useGlobalDefaults ? undefined : animationType,
               });
 
               setTimeout(() => {
@@ -192,12 +264,14 @@ export default function App() {
           </Pressable>
 
           <Pressable
+            style={{ marginTop: 16 }}
             onPress={() => {
               toast.loading(<LoadingMessage msg={'Loading...'} />, {
-                position,
-                duration,
+                position: useGlobalDefaults ? undefined : position,
+                duration: useGlobalDefaults ? undefined : duration,
                 height,
                 width,
+                animationType: useGlobalDefaults ? undefined : animationType,
               });
             }}
           >
@@ -249,10 +323,11 @@ export default function App() {
                   error: (err) => err.toString(),
                 },
                 {
-                  position,
-                  duration,
+                  position: useGlobalDefaults ? undefined : position,
+                  duration: useGlobalDefaults ? undefined : duration,
                   height,
                   width,
+                  animationType: useGlobalDefaults ? undefined : animationType,
                   animationConfig: {
                     stiffness: 300,
                     duration: 200,
@@ -288,10 +363,11 @@ export default function App() {
               style={{ marginTop: 64 }}
               onPress={() => {
                 toast(Math.floor(Math.random() * 1000).toString(), {
-                  position,
-                  duration,
+                  position: useGlobalDefaults ? undefined : position,
+                  duration: useGlobalDefaults ? undefined : duration,
                   height,
                   width,
+                  animationType: useGlobalDefaults ? undefined : animationType,
                   providerKey: 'PERSISTS',
                 });
               }}
@@ -319,6 +395,11 @@ export default function App() {
                 console.log('PRESS: ', t);
               }}
               overrideDarkMode={isDarkMode}
+              defaultPosition={useGlobalDefaults ? position : undefined}
+              defaultDuration={useGlobalDefaults ? duration : undefined}
+              globalAnimationType={
+                useGlobalDefaults ? animationType : undefined
+              }
             />
           </View>
         </Modal>
@@ -333,6 +414,9 @@ export default function App() {
             console.log('PRESS: ', t);
           }}
           overrideDarkMode={isDarkMode}
+          defaultPosition={useGlobalDefaults ? position : undefined}
+          defaultDuration={useGlobalDefaults ? duration : undefined}
+          globalAnimationType={useGlobalDefaults ? animationType : undefined}
         />
       </GestureHandlerRootView>
     </SafeAreaProvider>
