@@ -198,7 +198,7 @@ export const useStore = (toastOptions: DefaultToastOptions = {}): State => {
     };
   }, [state]);
 
-  const limit = toastOptions.limit ?? TOAST_LIMIT;
+  const limit = toastOptions?.limit ?? TOAST_LIMIT;
 
   const mergedToasts = state.toasts
     .filter(
