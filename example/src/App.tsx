@@ -180,6 +180,25 @@ export default function App() {
           <Pressable
             style={{ marginTop: 64 }}
             onPress={() => {
+              toast('Test Global Defaults', {
+                providerKey: 'PERSISTS',
+              });
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 16,
+                fontWeight: 'bold',
+                color: isDarkMode ? colors.textDark : colors.textLight,
+              }}
+            >
+              Simple Toast (No Options)
+            </Text>
+          </Pressable>
+
+          <Pressable
+            style={{ marginTop: 16 }}
+            onPress={() => {
               toast(Math.floor(Math.random() * 1000).toString(), {
                 position: useGlobalDefaults ? undefined : position,
                 duration: useGlobalDefaults ? undefined : duration,
@@ -395,11 +414,11 @@ export default function App() {
                 console.log('PRESS: ', t);
               }}
               overrideDarkMode={isDarkMode}
-              defaultPosition={useGlobalDefaults ? position : undefined}
-              defaultDuration={useGlobalDefaults ? duration : undefined}
-              globalAnimationType={
-                useGlobalDefaults ? animationType : undefined
+              defaultPosition={
+                useGlobalDefaults ? ToastPosition.BOTTOM : undefined
               }
+              defaultDuration={useGlobalDefaults ? 5000 : undefined}
+              globalAnimationType={'fade'}
             />
           </View>
         </Modal>

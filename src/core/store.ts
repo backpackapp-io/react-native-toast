@@ -207,6 +207,18 @@ export const useStore = (toastOptions: DefaultToastOptions = {}): State => {
         toastOptions[t.type]?.duration ||
         toastOptions?.duration ||
         defaultTimeouts[t.type],
+      position:
+        t.position !== undefined
+          ? t.position
+          : toastOptions[t.type]?.position !== undefined
+          ? toastOptions[t.type]?.position
+          : toastOptions?.position,
+      animationType:
+        t.animationType !== undefined
+          ? t.animationType
+          : toastOptions[t.type]?.animationType !== undefined
+          ? toastOptions[t.type]?.animationType
+          : toastOptions?.animationType,
       styles: {
         ...(t?.styles ?? {}),
       },

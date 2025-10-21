@@ -62,6 +62,8 @@ export const Toasts: FunctionComponent<Props> = ({
   const { toasts, handlers } = useToaster({
     providerKey,
     duration: defaultDuration,
+    position: defaultPosition,
+    animationType: globalAnimationType,
   });
   const { startPause, endPause } = handlers;
   const insets = useSafeAreaInsets();
@@ -98,8 +100,6 @@ export const Toasts: FunctionComponent<Props> = ({
           key={t.id}
           toast={{
             ...t,
-            position: t.position || defaultPosition,
-            animationType: t.animationType || globalAnimationType || 'timing',
             animationConfig: t.animationConfig ||
               globalAnimationConfig || { duration: 300 },
           }}
