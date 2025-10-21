@@ -177,6 +177,34 @@ export const Toast: FC<Props> = ({
       springConfig = spring;
     }
 
+    // For fade animation, position the toast at its final location without slide animation
+    if (toast.animationType === 'fade') {
+      if (
+        toast.position === ToastPosition.TOP ||
+        toast.position === ToastPosition.TOP_LEFT ||
+        toast.position === ToastPosition.TOP_RIGHT
+      ) {
+        offsetY.value = offset;
+        position.value = offset;
+      } else {
+        let kbHeight = keyboardVisible ? keyboardHeight : 0;
+        const val =
+          startY -
+          toastHeight -
+          offset -
+          kbHeight -
+          insets.bottom -
+          (extraInsets?.bottom ?? 0) -
+          Platform.select({
+            ios: 32,
+            default: 24,
+          });
+        offsetY.value = val;
+        position.value = val;
+      }
+      return;
+    }
+
     const useSpringAnimation = toast.animationType === 'spring';
     const animation = useSpringAnimation ? withSpring : withTiming;
 

@@ -18,6 +18,7 @@ import {
   ExtraInsets,
   ToastAnimationConfig,
   ToastAnimationType,
+  ToastPosition,
 } from '../core/types';
 import { useScreenReader } from '../utils';
 import { useKeyboard } from '../utils';
@@ -38,6 +39,8 @@ type Props = {
   };
   globalAnimationType?: ToastAnimationType;
   globalAnimationConfig?: ToastAnimationConfig;
+  defaultPosition?: ToastPosition;
+  defaultDuration?: number;
   fixAndroidInsets?: boolean;
 };
 
@@ -52,9 +55,14 @@ export const Toasts: FunctionComponent<Props> = ({
   defaultStyle,
   globalAnimationType,
   globalAnimationConfig,
+  defaultPosition,
+  defaultDuration,
   fixAndroidInsets = true,
 }) => {
-  const { toasts, handlers } = useToaster({ providerKey });
+  const { toasts, handlers } = useToaster({
+    providerKey,
+    duration: defaultDuration,
+  });
   const { startPause, endPause } = handlers;
   const insets = useSafeAreaInsets();
   const safeAreaFrame = useSafeAreaFrame();
@@ -90,6 +98,7 @@ export const Toasts: FunctionComponent<Props> = ({
           key={t.id}
           toast={{
             ...t,
+            position: t.position || defaultPosition,
             animationType: t.animationType || globalAnimationType || 'timing',
             animationConfig: t.animationConfig ||
               globalAnimationConfig || { duration: 300 },
@@ -99,6 +108,7 @@ export const Toasts: FunctionComponent<Props> = ({
           updateHeight={handlers.updateHeight}
           offset={handlers.calculateOffset(t, {
             reverseOrder: true,
+            defaultPosition,
           })}
           overrideDarkMode={overrideDarkMode}
           onToastHide={onToastHide}

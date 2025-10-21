@@ -13,7 +13,7 @@ Include the `<Toasts />` component in the root of your app.
 ## Props
 
 ### globalAnimationType
-`'timing' | 'spring'`
+`'timing' | 'spring' | 'fade'`
 
 Set the global animation type for all toasts. This can be overridden by the toast options.
 ```js
@@ -26,6 +26,46 @@ Set the global animation type for all toasts. This can be overridden by the toas
 Set the global animation config for all toasts. This can be overridden by the toast options.
 ```js
 <Toasts globalAnimationConfig={{duration: 500, flingPositionReturnDuration: 200, easing: Easing.elastic(1)}} />
+```
+
+### defaultPosition
+`ToastPosition | undefined`
+
+Set the default position for all toasts rendered in this component. Individual toasts can override this by specifying their own position. If not specified, toasts will use their individual position settings or fall back to the library default.
+
+Available positions: `ToastPosition.TOP`, `ToastPosition.BOTTOM`, `ToastPosition.TOP_LEFT`, `ToastPosition.TOP_RIGHT`, `ToastPosition.BOTTOM_LEFT`, `ToastPosition.BOTTOM_RIGHT`
+
+```js
+import { ToastPosition } from '@backpackapp-io/react-native-toast';
+
+<Toasts defaultPosition={ToastPosition.BOTTOM} />
+```
+
+Now all toasts will appear at the bottom by default, unless they specify their own position:
+```js
+// This toast will appear at BOTTOM (using default)
+toast("Hello!");
+
+// This toast will appear at TOP (overriding default)
+toast("World!", { position: ToastPosition.TOP });
+```
+
+### defaultDuration
+`number | undefined`
+
+Set the default duration (in milliseconds) for all toasts rendered in this component. Individual toasts can override this by specifying their own duration.
+
+```js
+<Toasts defaultDuration={5000} />
+```
+
+Now all toasts will display for 5 seconds by default:
+```js
+// This toast will display for 5000ms (using default)
+toast("Hello!");
+
+// This toast will display for 2000ms (overriding default)
+toast("Quick message", { duration: 2000 });
 ```
 
 ### overrideDarkMode
@@ -143,12 +183,16 @@ Fix for Android bottom inset bug: https://github.com/facebook/react-native/issue
 
 ## Example
 ```js
+import { Toasts, ToastPosition } from '@backpackapp-io/react-native-toast';
+
 <Toasts
   onToastPress={(t) => {
     console.log(`Toast ${t.id} was pressed.`)
   }}
   overrideDarkMode={isAppDarkMode}
-  globalAnimationType="spring"
-  globalAnimationConfig={{duration: 500, flingPositionReturnDuration: 200, stiffness: 50, damping: 10}}
+  globalAnimationType="fade"
+  globalAnimationConfig={{duration: 500}}
+  defaultPosition={ToastPosition.BOTTOM}
+  defaultDuration={4000}
 />
 ```
