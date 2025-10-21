@@ -5,6 +5,7 @@ import { Toasts } from '../../../src/components/Toasts';
 import { toast } from '../../../src/headless';
 import { jest } from '@jest/globals';
 import * as hooks from '../../../src/utils/useScreenReader';
+import { ToastPosition } from '../../../src/core/types';
 
 jest.mock('react-native-reanimated', () => {
   const Reanimated = require('react-native-reanimated/mock');
@@ -62,5 +63,76 @@ describe('<Toasts />', () => {
     });
 
     expect(queryByTestId('toast-view')).toBeNull();
+  });
+
+  it('applies defaultDuration to toasts without explicit duration', () => {
+    const { getByText } = render(<Toasts defaultDuration={5000} />);
+
+    act(() => {
+      toast('Default Duration Toast', { id: 'duration-test' });
+    });
+
+    const toastElement = getByText('Default Duration Toast');
+    expect(toastElement).toBeTruthy();
+  });
+
+  it('allows individual toasts to override defaultDuration', () => {
+    const { getByText } = render(<Toasts defaultDuration={5000} />);
+
+    act(() => {
+      toast('Override Duration Toast', { id: 'override-test', duration: 2000 });
+    });
+
+    const toastElement = getByText('Override Duration Toast');
+    expect(toastElement).toBeTruthy();
+  });
+
+  it('applies fade animation type from globalAnimationType prop', () => {
+    const { getByText } = render(<Toasts globalAnimationType="fade" />);
+
+    act(() => {
+      toast('Fade Animation Toast');
+    });
+
+    expect(getByText('Fade Animation Toast')).toBeTruthy();
+  });
+
+  it('allows individual toasts to override globalAnimationType', () => {
+    const { getByText } = render(<Toasts globalAnimationType="fade" />);
+
+    act(() => {
+      toast('Spring Animation Toast', { animationType: 'spring' });
+    });
+
+    expect(getByText('Spring Animation Toast')).toBeTruthy();
+  });
+
+  it('applies defaultPosition to toasts without explicit position', () => {
+    const { getByText } = render(
+      <Toasts defaultPosition={ToastPosition.BOTTOM} />
+    );
+
+    act(() => {
+      toast('Bottom Toast', { id: 'position-test' });
+    });
+
+    const toastElement = getByText('Bottom Toast');
+    expect(toastElement).toBeTruthy();
+  });
+
+  it('allows individual toasts to override defaultPosition', () => {
+    const { getByText } = render(
+      <Toasts defaultPosition={ToastPosition.BOTTOM} />
+    );
+
+    act(() => {
+      toast('Top Toast', {
+        id: 'override-position-test',
+        position: ToastPosition.TOP,
+      });
+    });
+
+    const toastElement = getByText('Top Toast');
+    expect(toastElement).toBeTruthy();
   });
 });

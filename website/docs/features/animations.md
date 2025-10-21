@@ -7,18 +7,29 @@ slug: /features/animations
 
 ## Animation Types
 
-You can choose two different types of enter/exit animations
+You can choose three different types of enter/exit animations
 
-- `timing` - This is the default animation type. It uses Reanimated withTiming function to animate the component.
-- `spring` - This animation type uses Reanimated withSpring function to animate the component.
+- `timing` - This is the default animation type. It uses Reanimated withTiming function to animate the component with a slide + fade animation.
+- `spring` - This animation type uses Reanimated withSpring function to animate the component with a slide + fade animation.
+- `fade` - This animation type uses only opacity (fade in/out) without any slide animation. The toast appears and disappears in place.
 
 ```js
 toast('Spring Animation', {
   animationType: 'spring',
 });
 
+toast('Fade Animation', {
+  animationType: 'fade',
+});
+
 toast('Default Timing Animation');
 ```
+
+### When to use each animation type
+
+- **timing**: Best for smooth, predictable slide-in animations (default)
+- **spring**: Best for bouncy, physics-based slide-in animations that feel more natural
+- **fade**: Best for subtle, non-intrusive notifications that don't need motion. Great for center-positioned toasts or when you want minimal visual distraction.
 
 ## Animation Config
 

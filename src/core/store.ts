@@ -1,5 +1,11 @@
 import { useEffect, useState } from 'react';
-import { DefaultToastOptions, DismissReason, Toast, ToastType } from './types';
+import {
+  DefaultToastOptions,
+  DismissReason,
+  Toast,
+  ToastPosition,
+  ToastType,
+} from './types';
 
 const TOAST_LIMIT = 20;
 
@@ -211,6 +217,18 @@ export const useStore = (toastOptions: DefaultToastOptions = {}): State => {
         toastOptions[t.type]?.duration ||
         toastOptions?.duration ||
         defaultTimeouts[t.type],
+      position:
+        t.position !== undefined
+          ? t.position
+          : toastOptions[t.type]?.position !== undefined
+          ? toastOptions[t.type]?.position
+          : toastOptions?.position ?? ToastPosition.TOP,
+      animationType:
+        t.animationType !== undefined
+          ? t.animationType
+          : toastOptions[t.type]?.animationType !== undefined
+          ? toastOptions[t.type]?.animationType
+          : toastOptions?.animationType ?? 'timing',
       styles: {
         ...(t?.styles ?? {}),
       },

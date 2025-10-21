@@ -5,7 +5,6 @@ import {
   resolveValue,
   Toast,
   ToastOptions,
-  ToastPosition,
   ToastType,
   ValueOrFunction,
 } from './types';
@@ -27,7 +26,7 @@ const createToast = (
   type,
   message,
   pauseDuration: 0,
-  position: ToastPosition.TOP,
+  position: opts?.position,
   providerKey: 'DEFAULT',
   isSwipeable: true,
   animationType: opts?.animationType,

@@ -37,6 +37,59 @@ const LoadingMessage = ({ msg }: { msg: string }) => {
   );
 };
 
+const Accordion: FunctionComponent<{
+  title: string;
+  children: React.ReactNode;
+  isDarkMode: boolean;
+  defaultOpen?: boolean;
+}> = ({ title, children, isDarkMode, defaultOpen = false }) => {
+  const [isOpen, setIsOpen] = useState(defaultOpen);
+
+  return (
+    <View
+      style={{
+        width: '100%',
+        marginBottom: 16,
+        backgroundColor: isDarkMode ? '#2a2a2a' : '#ffffff',
+        borderRadius: 12,
+        overflow: 'hidden',
+        borderWidth: 1,
+        borderColor: isDarkMode ? '#3a3a3a' : '#e0e0e0',
+      }}
+    >
+      <Pressable
+        onPress={() => setIsOpen(!isOpen)}
+        style={{
+          padding: 16,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          backgroundColor: isDarkMode ? '#333' : '#f5f5f5',
+        }}
+      >
+        <Text
+          style={{
+            fontSize: 16,
+            fontWeight: 'bold',
+            color: isDarkMode ? colors.textDark : colors.textLight,
+          }}
+        >
+          {title}
+        </Text>
+        <Text
+          style={{
+            fontSize: 20,
+            color: isDarkMode ? colors.textDark : colors.textLight,
+          }}
+        >
+          {isOpen ? '−' : '+'}
+        </Text>
+      </Pressable>
+      {isOpen && <View style={{ padding: 16 }}>{children}</View>}
+    </View>
+  );
+};
+
 export default function App() {
   const { width: screenWidth } = useWindowDimensions();
   const isSystemDarkMode = useColorScheme() === 'dark';
@@ -49,6 +102,10 @@ export default function App() {
     screenWidth - 32 > 360 ? 360 : screenWidth - 32
   );
   const [duration, setDuration] = useState(4000);
+  const [animationType, setAnimationType] = useState<
+    'timing' | 'spring' | 'fade'
+  >('timing');
+  const [useGlobalDefaults, setUseGlobalDefaults] = useState(false);
 
   const toggleModal = useCallback(() => {
     setModalVisible(!isModalVisible);
@@ -58,220 +115,475 @@ export default function App() {
     <SafeAreaProvider>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <ScrollView
-          scrollEnabled={false}
           keyboardDismissMode={'interactive'}
           contentContainerStyle={{
-            flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
+            paddingVertical: 32,
+            paddingHorizontal: 16,
             backgroundColor: isDarkMode ? '#181821' : '#f6f6f6',
+            marginTop: 48,
           }}
         >
-          <ToggleSwitch
-            isDarkMode={isDarkMode}
-            value={isDarkMode}
-            setValue={setIsUserDarkMode}
-            text={'Dark Mode?'}
-          />
-          <ToggleSwitch
-            isDarkMode={isDarkMode}
-            value={ToastPosition.TOP === position}
-            setValue={(val) =>
-              setPosition(val ? ToastPosition.TOP : ToastPosition.BOTTOM)
-            }
-            text={'Top Position?'}
-          />
+          <Text
+            style={{
+              fontSize: 24,
+              fontWeight: 'bold',
+              color: isDarkMode ? colors.textDark : colors.textLight,
+              textAlign: 'center',
+              marginBottom: 8,
+            }}
+          >
+            React Native Toast Demo
+          </Text>
 
-          <NumericInput
-            isDarkMode={isDarkMode}
-            value={height.toString()}
-            setValue={(text) => {
-              setHeight(parseInt(text, 10) ? parseInt(text, 10) : 0);
+          <View
+            style={{
+              alignItems: 'center',
+              marginBottom: 24,
             }}
-            text={'Toast Height:'}
-          />
+          >
+            <ToggleSwitch
+              isDarkMode={isDarkMode}
+              value={isDarkMode}
+              setValue={setIsUserDarkMode}
+              text={'Dark Mode'}
+            />
+          </View>
 
-          <NumericInput
-            isDarkMode={isDarkMode}
-            value={width.toString()}
-            setValue={(text) => {
-              setWidth(parseInt(text, 10) ? parseInt(text, 10) : 0);
-            }}
-            text={'Toast Width:'}
-          />
-          <NumericInput
-            isDarkMode={isDarkMode}
-            value={duration.toString()}
-            setValue={(text) => {
-              setDuration(parseInt(text, 10) ? parseInt(text, 10) : 0);
-            }}
-            text={'Toast Duration:'}
-          />
+          {/* Settings Section */}
+          <Accordion title="⚙️ Toast Settings" isDarkMode={isDarkMode}>
+            <ToggleSwitch
+              isDarkMode={isDarkMode}
+              value={ToastPosition.TOP === position}
+              setValue={(val) =>
+                setPosition(val ? ToastPosition.TOP : ToastPosition.BOTTOM)
+              }
+              text={'Top Position?'}
+            />
 
-          <Pressable
-            style={{ marginTop: 64 }}
-            onPress={() => {
-              toast(Math.floor(Math.random() * 1000).toString(), {
-                position,
-                duration,
-                height,
-                width,
-                providerKey: 'PERSISTS',
-              });
-            }}
+            <NumericInput
+              isDarkMode={isDarkMode}
+              value={height.toString()}
+              setValue={(text) => {
+                setHeight(parseInt(text, 10) ? parseInt(text, 10) : 0);
+              }}
+              text={'Toast Height:'}
+            />
+
+            <NumericInput
+              isDarkMode={isDarkMode}
+              value={width.toString()}
+              setValue={(text) => {
+                setWidth(parseInt(text, 10) ? parseInt(text, 10) : 0);
+              }}
+              text={'Toast Width:'}
+            />
+            <NumericInput
+              isDarkMode={isDarkMode}
+              value={duration.toString()}
+              setValue={(text) => {
+                setDuration(parseInt(text, 10) ? parseInt(text, 10) : 0);
+              }}
+              text={'Toast Duration:'}
+            />
+
+            <ToggleSwitch
+              isDarkMode={isDarkMode}
+              value={useGlobalDefaults}
+              setValue={setUseGlobalDefaults}
+              text={'Use Global Defaults?'}
+            />
+
+            <View
+              style={{
+                width: '100%',
+                marginTop: 16,
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 14,
+                  fontWeight: 'normal',
+                  color: isDarkMode ? colors.textDark : colors.textLight,
+                }}
+              >
+                Animation:
+              </Text>
+              <View style={{ flexDirection: 'row', gap: 8 }}>
+                <Pressable
+                  onPress={() => setAnimationType('timing')}
+                  style={{
+                    paddingHorizontal: 8,
+                    paddingVertical: 4,
+                    borderRadius: 4,
+                    backgroundColor:
+                      animationType === 'timing' ? '#007AFF' : '#666',
+                  }}
+                >
+                  <Text style={{ color: 'white', fontSize: 12 }}>Timing</Text>
+                </Pressable>
+                <Pressable
+                  onPress={() => setAnimationType('spring')}
+                  style={{
+                    paddingHorizontal: 8,
+                    paddingVertical: 4,
+                    borderRadius: 4,
+                    backgroundColor:
+                      animationType === 'spring' ? '#007AFF' : '#666',
+                  }}
+                >
+                  <Text style={{ color: 'white', fontSize: 12 }}>Spring</Text>
+                </Pressable>
+                <Pressable
+                  onPress={() => setAnimationType('fade')}
+                  style={{
+                    paddingHorizontal: 8,
+                    paddingVertical: 4,
+                    borderRadius: 4,
+                    backgroundColor:
+                      animationType === 'fade' ? '#007AFF' : '#666',
+                  }}
+                >
+                  <Text style={{ color: 'white', fontSize: 12 }}>Fade</Text>
+                </Pressable>
+              </View>
+            </View>
+          </Accordion>
+
+          {/* Global Defaults Test Section */}
+          <Accordion
+            title="🧪 Global Defaults Test"
+            isDarkMode={isDarkMode}
+            defaultOpen={true}
           >
             <Text
               style={{
-                fontSize: 16,
-                fontWeight: 'bold',
-                color: isDarkMode ? colors.textDark : colors.textLight,
+                fontSize: 10,
+                color: isDarkMode ? '#999' : '#666',
+                marginBottom: 12,
+                textAlign: 'center',
               }}
             >
-              Normal Toast
+              Hardcoded: BOTTOM, 5000ms, FADE
             </Text>
-          </Pressable>
 
-          <Pressable
-            style={{ marginTop: 16 }}
-            onPress={() => {
-              toast(Math.floor(Math.random() * 1000).toString(), {
-                position,
-                duration,
-                height,
-                width,
-                providerKey: 'PERSISTS',
-                onPress: (toast) => {
-                  console.log('Toast pressed: ', toast);
-                },
-                onShow: (toast) => {
-                  console.log('Toast shown: ', toast);
-                },
-                onHide: (toast, reason) => {
-                  console.log('Toast hidden: ', toast, reason);
-                },
-              });
-            }}
-          >
-            <Text
+            <Pressable
               style={{
-                fontSize: 16,
-                fontWeight: 'bold',
-                color: isDarkMode ? colors.textDark : colors.textLight,
+                backgroundColor: '#007AFF',
+                padding: 12,
+                borderRadius: 6,
+                marginBottom: 8,
               }}
-            >
-              Toast With Handlers
-            </Text>
-          </Pressable>
-
-          <Pressable
-            style={{ marginTop: 16 }}
-            onPress={() => {
-              const id = toast.success('Success!', {
-                position,
-                duration,
-                height,
-                width,
-              });
-
-              setTimeout(() => {
-                toast.success('Updated success!', {
-                  id,
+              onPress={() => {
+                toast('Uses ALL global defaults', {
+                  providerKey: 'PERSISTS',
                 });
-              }, 1500);
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 16,
-                fontWeight: 'bold',
-                color: isDarkMode ? colors.textDark : colors.textLight,
               }}
             >
-              Success Toast
-            </Text>
-          </Pressable>
+              <Text style={{ color: 'white', textAlign: 'center' }}>
+                1. No Options (Should use globals)
+              </Text>
+            </Pressable>
 
-          <Pressable
-            onPress={() => {
-              toast.loading(<LoadingMessage msg={'Loading...'} />, {
-                position,
-                duration,
-                height,
-                width,
-              });
-            }}
-          >
-            <Text
+            <Pressable
               style={{
-                fontSize: 16,
-                fontWeight: 'bold',
-                color: isDarkMode ? colors.textDark : colors.textLight,
+                backgroundColor: '#34C759',
+                padding: 12,
+                borderRadius: 6,
+                marginBottom: 8,
+              }}
+              onPress={() => {
+                toast('Overrides position to TOP', {
+                  providerKey: 'PERSISTS',
+                  position: ToastPosition.TOP,
+                  duration: 1500,
+                  animationType: 'spring',
+                });
               }}
             >
-              Loading Toast
-            </Text>
-          </Pressable>
+              <Text style={{ color: 'white', textAlign: 'center' }}>
+                2. Override Pos, Type, Duration
+              </Text>
+            </Pressable>
 
-          <Pressable
-            style={{ marginTop: 16 }}
-            onPress={() => {
-              const sleep = new Promise((resolve, reject) => {
-                setTimeout(() => {
-                  if (Math.random() > 0.5) {
-                    resolve({
-                      username: 'Nick',
-                      email: 'nick@google.com',
-                    });
-                  } else {
-                    reject('Username is undefined');
-                  }
-                }, 2500);
-              });
+            <Pressable
+              style={{
+                backgroundColor: '#FF9500',
+                padding: 12,
+                borderRadius: 6,
+              }}
+              onPress={() => {
+                toast('Overrides duration to 1000ms', {
+                  providerKey: 'PERSISTS',
+                  duration: 1000,
+                });
+              }}
+            >
+              <Text style={{ color: 'white', textAlign: 'center' }}>
+                3. Override Duration (1000ms)
+              </Text>
+            </Pressable>
+          </Accordion>
 
-              toast.promise(
-                sleep,
-                {
-                  loading: (
-                    <View
-                      style={{ flexDirection: 'row', alignItems: 'center' }}
-                    >
-                      <ActivityIndicator style={{ marginRight: 16 }} />
-                      <Text
-                        style={{
-                          color: 'white',
-                        }}
-                      >
-                        Loading
-                      </Text>
-                    </View>
-                  ),
-                  success: (data: any) => 'Welcome ' + data.username,
-                  error: (err) => err.toString(),
-                },
-                {
-                  position,
-                  duration,
+          {/* Basic Toasts Section */}
+          <Accordion title="🔵 Basic Toasts" isDarkMode={isDarkMode}>
+            <Pressable
+              style={{
+                backgroundColor: '#007AFF',
+                padding: 12,
+                borderRadius: 6,
+                marginBottom: 12,
+              }}
+              onPress={() => {
+                toast(Math.floor(Math.random() * 1000).toString(), {
+                  position: useGlobalDefaults ? undefined : position,
+                  duration: useGlobalDefaults ? undefined : duration,
                   height,
                   width,
-                  animationConfig: {
-                    stiffness: 300,
-                    duration: 200,
-                  },
-                }
-              );
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 16,
-                fontWeight: 'bold',
-                color: isDarkMode ? colors.textDark : colors.textLight,
+                  animationType: useGlobalDefaults ? undefined : animationType,
+                  providerKey: 'PERSISTS',
+                });
               }}
             >
-              Promise Toast
-            </Text>
-          </Pressable>
-          <Button title={'Toggle Modal'} onPress={toggleModal} />
+              <Text
+                style={{
+                  fontSize: 14,
+                  fontWeight: '600',
+                  color: 'white',
+                  textAlign: 'center',
+                }}
+              >
+                Normal Toast
+              </Text>
+            </Pressable>
+
+            <Pressable
+              style={{
+                backgroundColor: '#34C759',
+                padding: 12,
+                borderRadius: 6,
+                marginBottom: 12,
+              }}
+              onPress={() => {
+                const id = toast.success('Success!', {
+                  position: useGlobalDefaults ? undefined : position,
+                  duration: useGlobalDefaults ? undefined : duration,
+                  height,
+                  width,
+                  animationType: useGlobalDefaults ? undefined : animationType,
+                });
+
+                setTimeout(() => {
+                  toast.success('Updated success!', {
+                    id,
+                  });
+                }, 1500);
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 14,
+                  fontWeight: '600',
+                  color: 'white',
+                  textAlign: 'center',
+                }}
+              >
+                Success Toast
+              </Text>
+            </Pressable>
+
+            <Pressable
+              style={{
+                backgroundColor: '#FF3B30',
+                padding: 12,
+                borderRadius: 6,
+                marginBottom: 12,
+              }}
+              onPress={() => {
+                toast.error('Error!', {
+                  position: useGlobalDefaults ? undefined : position,
+                  duration: useGlobalDefaults ? undefined : duration,
+                  height,
+                  width,
+                  animationType: useGlobalDefaults ? undefined : animationType,
+                });
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 14,
+                  fontWeight: '600',
+                  color: 'white',
+                  textAlign: 'center',
+                }}
+              >
+                Error Toast
+              </Text>
+            </Pressable>
+
+            <Pressable
+              style={{
+                backgroundColor: '#FF9500',
+                padding: 12,
+                borderRadius: 6,
+              }}
+              onPress={() => {
+                toast.loading(<LoadingMessage msg={'Loading...'} />, {
+                  position: useGlobalDefaults ? undefined : position,
+                  duration: useGlobalDefaults ? undefined : duration,
+                  height,
+                  width,
+                  animationType: useGlobalDefaults ? undefined : animationType,
+                });
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 14,
+                  fontWeight: '600',
+                  color: 'white',
+                  textAlign: 'center',
+                }}
+              >
+                Loading Toast
+              </Text>
+            </Pressable>
+          </Accordion>
+
+          {/* Advanced Toasts Section */}
+          <Accordion title="⚡ Advanced Toasts" isDarkMode={isDarkMode}>
+            <Pressable
+              style={{
+                backgroundColor: '#5856D6',
+                padding: 12,
+                borderRadius: 6,
+                marginBottom: 12,
+              }}
+              onPress={() => {
+                toast(Math.floor(Math.random() * 1000).toString(), {
+                  position: useGlobalDefaults ? undefined : position,
+                  duration: useGlobalDefaults ? undefined : duration,
+                  height,
+                  width,
+                  animationType: useGlobalDefaults ? undefined : animationType,
+                  providerKey: 'PERSISTS',
+                  onPress: (toast) => {
+                    console.log('Toast pressed: ', toast);
+                  },
+                  onShow: (toast) => {
+                    console.log('Toast shown: ', toast);
+                  },
+                  onHide: (toast, reason) => {
+                    console.log('Toast hidden: ', toast, reason);
+                  },
+                });
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 14,
+                  fontWeight: '600',
+                  color: 'white',
+                  textAlign: 'center',
+                }}
+              >
+                Toast With Handlers
+              </Text>
+            </Pressable>
+
+            <Pressable
+              style={{
+                backgroundColor: '#FF2D55',
+                padding: 12,
+                borderRadius: 6,
+              }}
+              onPress={() => {
+                const sleep = new Promise((resolve, reject) => {
+                  setTimeout(() => {
+                    if (Math.random() > 0.5) {
+                      resolve({
+                        username: 'Nick',
+                        email: 'nick@google.com',
+                      });
+                    } else {
+                      reject('Username is undefined');
+                    }
+                  }, 2500);
+                });
+
+                toast.promise(
+                  sleep,
+                  {
+                    loading: (
+                      <View
+                        style={{ flexDirection: 'row', alignItems: 'center' }}
+                      >
+                        <ActivityIndicator style={{ marginRight: 16 }} />
+                        <Text
+                          style={{
+                            color: 'white',
+                          }}
+                        >
+                          Loading
+                        </Text>
+                      </View>
+                    ),
+                    success: (data: any) => 'Welcome ' + data.username,
+                    error: (err) => err.toString(),
+                  },
+                  {
+                    position: useGlobalDefaults ? undefined : position,
+                    duration: useGlobalDefaults ? undefined : duration,
+                    height,
+                    width,
+                    animationType: useGlobalDefaults
+                      ? undefined
+                      : animationType,
+                    animationConfig: {
+                      stiffness: 300,
+                      duration: 200,
+                    },
+                  }
+                );
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 14,
+                  fontWeight: '600',
+                  color: 'white',
+                  textAlign: 'center',
+                }}
+              >
+                Promise Toast
+              </Text>
+            </Pressable>
+          </Accordion>
+
+          {/* Modal Demo Section */}
+          <Accordion title="📱 Modal Demo" isDarkMode={isDarkMode}>
+            <Pressable
+              style={{
+                backgroundColor: '#32ADE6',
+                padding: 12,
+                borderRadius: 6,
+              }}
+              onPress={toggleModal}
+            >
+              <Text
+                style={{
+                  fontSize: 14,
+                  fontWeight: '600',
+                  color: 'white',
+                  textAlign: 'center',
+                }}
+              >
+                Toggle Modal
+              </Text>
+            </Pressable>
+          </Accordion>
         </ScrollView>
         <Modal style={{ padding: 0, margin: 0 }} isVisible={isModalVisible}>
           <View
@@ -288,10 +600,11 @@ export default function App() {
               style={{ marginTop: 64 }}
               onPress={() => {
                 toast(Math.floor(Math.random() * 1000).toString(), {
-                  position,
-                  duration,
+                  position: useGlobalDefaults ? undefined : position,
+                  duration: useGlobalDefaults ? undefined : duration,
                   height,
                   width,
+                  animationType: useGlobalDefaults ? undefined : animationType,
                   providerKey: 'PERSISTS',
                 });
               }}
@@ -319,6 +632,11 @@ export default function App() {
                 console.log('PRESS: ', t);
               }}
               overrideDarkMode={isDarkMode}
+              defaultPosition={
+                useGlobalDefaults ? ToastPosition.BOTTOM : undefined
+              }
+              defaultDuration={useGlobalDefaults ? 5000 : undefined}
+              globalAnimationType={'fade'}
             />
           </View>
         </Modal>
@@ -333,6 +651,9 @@ export default function App() {
             console.log('PRESS: ', t);
           }}
           overrideDarkMode={isDarkMode}
+          defaultPosition={ToastPosition.BOTTOM}
+          defaultDuration={5000}
+          globalAnimationType={'fade'}
         />
       </GestureHandlerRootView>
     </SafeAreaProvider>

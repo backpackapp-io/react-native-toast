@@ -24,7 +24,7 @@ export interface IconTheme {
   primary: string;
   secondary: string;
 }
-export type ToastAnimationType = 'spring' | 'timing';
+export type ToastAnimationType = 'spring' | 'timing' | 'fade';
 
 export type ToastAnimationConfig =
   | (WithSpringConfig & WithTimingConfig) & {
