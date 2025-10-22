@@ -32,7 +32,7 @@ describe('<Toasts />', () => {
   afterEach(() => {
     jest.clearAllMocks();
     act(() => {
-      toast.dismiss();
+      toast.remove();
     });
   });
 
