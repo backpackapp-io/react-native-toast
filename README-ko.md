@@ -1,6 +1,8 @@
 # React Native Toast
 [![runs with expo](https://img.shields.io/badge/Runs%20with%20Expo-4630EB.svg?style=flat-square&logo=EXPO&labelColor=f3f3f3&logoColor=000)](https://expo.io/) [![GitHub license](https://img.shields.io/github/license/backpackapp-io/react-native-toast)](https://github.com/backpackapp-io/react-native-toast/blob/master/LICENSE) [![npm](https://img.shields.io/badge/types-included-blue?style=flat-square)](https://www.npmjs.com/package/@backpackapp-io/react-native-toast)
 
+[English](./README.md) · 한국어
+
 **React Native Toast**는 [react-hot-toast](https://react-hot-toast.com/docs)를 기반으로 구축된 React Native용 토스트(Toast) 라이브러리입니다.  
 iOS, Android, Web 환경에서 모두 작동하며, 다중 토스트 표시, 키보드 대응, 스와이프 닫기, 위치 지정, 그리고 Promise 기반 처리와 같은 기능을 제공합니다.
 
