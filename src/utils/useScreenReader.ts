@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react';
-import { AccessibilityInfo } from 'react-native';
+import { AccessibilityInfo, Platform } from 'react-native';
 
 export const useScreenReader = () => {
   const [isScreenReaderEnabled, setIsScreenReaderEnabled] = useState(false);
   useEffect(() => {
     AccessibilityInfo.isScreenReaderEnabled()
-      .then(setIsScreenReaderEnabled)
+      .then((isEnabled) => {
+        if (Platform.OS !== 'web') {
+          setIsScreenReaderEnabled(isEnabled);
+        }
+      })
       .catch(() => {
         setIsScreenReaderEnabled(false);
       });
