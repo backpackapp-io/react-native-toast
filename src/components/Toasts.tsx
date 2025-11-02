@@ -40,6 +40,7 @@ type Props = {
   };
   globalAnimationType?: ToastAnimationType;
   globalAnimationConfig?: ToastAnimationConfig;
+  globalLimit?: number;
   defaultPosition?: ToastPosition;
   defaultDuration?: number;
   fixAndroidInsets?: boolean;
@@ -59,6 +60,7 @@ export const Toasts: FunctionComponent<Props> = ({
   globalAnimationConfig,
   defaultPosition,
   defaultDuration,
+  globalLimit,
   fixAndroidInsets = true,
 }) => {
   const { toasts, handlers } = useToaster({
@@ -66,6 +68,7 @@ export const Toasts: FunctionComponent<Props> = ({
     duration: defaultDuration,
     position: defaultPosition,
     animationType: globalAnimationType,
+    limit: globalLimit,
   });
   const { startPause, endPause } = handlers;
   const insets = useSafeAreaInsets();
