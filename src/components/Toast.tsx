@@ -374,7 +374,10 @@ export const Toast: FC<Props> = ({
             zIndex: toast.visible ? 9999 : undefined,
             alignItems: 'center',
             justifyContent: 'center',
-            pointerEvents: 'auto',
+            pointerEvents: Platform.select({
+              web: 'auto',
+              default: undefined,
+            }),
           },
           style,
           !toast.disableShadow && ConstructShadow('#181821', 0.15, false),

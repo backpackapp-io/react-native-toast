@@ -25,6 +25,7 @@ import { useKeyboard } from '../utils';
 
 type Props = {
   overrideDarkMode?: boolean;
+  overrideScreenReaderEnabled?: boolean;
   extraInsets?: ExtraInsets;
   onToastShow?: (toast: T) => void;
   onToastHide?: (toast: T, reason?: DismissReason) => void;
@@ -46,6 +47,7 @@ type Props = {
 
 export const Toasts: FunctionComponent<Props> = ({
   overrideDarkMode,
+  overrideScreenReaderEnabled,
   extraInsets,
   onToastHide,
   onToastPress,
@@ -69,7 +71,7 @@ export const Toasts: FunctionComponent<Props> = ({
   const insets = useSafeAreaInsets();
   const safeAreaFrame = useSafeAreaFrame();
   const dimensions = useWindowDimensions();
-  const isScreenReaderEnabled = useScreenReader();
+  const isScreenReaderEnabled = useScreenReader(overrideScreenReaderEnabled);
   const { keyboardShown: keyboardVisible, keyboardHeight } = useKeyboard();
 
   // Fix for Android bottom inset bug: https://github.com/facebook/react-native/issues/47080
@@ -92,7 +94,10 @@ export const Toasts: FunctionComponent<Props> = ({
         left: insets.left + (extraInsets?.left ?? 0),
         right: insets.right + (extraInsets?.right ?? 0),
         bottom: insets.bottom + bugFixDelta + (extraInsets?.bottom ?? 0) + 16,
-        pointerEvents: 'none',
+        pointerEvents: Platform.select({
+          web: 'none',
+          default: 'box-none',
+        }),
       }}
     >
       {toasts.map((t) => (

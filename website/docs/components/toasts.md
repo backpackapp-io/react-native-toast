@@ -73,6 +73,24 @@ toast("Quick message", { duration: 2000 });
 
 Override the system dark mode. If a value is supplied (I.e. `true` or `false`), then the toast components will use that value for the dark mode. For example, if `overrideDarkMode = {false}`, dark mode will be disabled, regardless of the system's preferences.
 
+### overrideScreenReaderEnabled
+`boolean | undefined`
+
+Override the detected screen reader state. When set, this forces the component to behave as if the screen reader is enabled or disabled, regardless of the actual device state.
+
+- `true`: Component behaves as if screen reader is enabled (toasts will be hidden unless `preventScreenReaderFromHiding` is also `true`)
+- `false`: Component behaves as if screen reader is disabled (toasts will always be shown)
+- `undefined` (default): Auto-detect screen reader state from the device
+
+This is useful for testing or forcing specific behavior in your app.
+
+```js
+// Force toasts to show even if screen reader is enabled
+<Toasts overrideScreenReaderEnabled={false} />
+```
+
+See the [Accessibility](/features/accessibility#overriding-screen-reader-detection) section for more details.
+
 ### extraInsets
 `object`
 
