@@ -32,7 +32,7 @@ describe('<Toasts />', () => {
   afterEach(() => {
     jest.clearAllMocks();
     act(() => {
-      toast.dismiss();
+      toast.remove();
     });
   });
 
@@ -134,5 +134,19 @@ describe('<Toasts />', () => {
 
     const toastElement = getByText('Top Toast');
     expect(toastElement).toBeTruthy();
+  });
+
+  it('applies toast limit from globalLimit prop', () => {
+    const { getByText, queryByText } = render(<Toasts globalLimit={2} />);
+
+    act(() => {
+      toast('Toast 1', { id: '1' });
+      toast('Toast 2', { id: '2' });
+      toast('Toast 3', { id: '3' });
+    });
+
+    expect(getByText('Toast 2')).toBeTruthy();
+    expect(getByText('Toast 3')).toBeTruthy();
+    expect(queryByText('Toast 1')).toBeNull();
   });
 });
